@@ -1,199 +1,139 @@
-// src/components/Dashboard.js
-// import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-// import styled from 'styled-components';
-// import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import {
+  Box, CssBaseline, Drawer, AppBar, Toolbar, Typography, Divider, List,
+  ListItem, ListItemIcon, ListItemText, IconButton
+} from '@mui/material';
+import {
+  AccountCircle, ShoppingCart, Subscriptions, BarChart,
+  ChevronLeft, ChevronRight
+} from '@mui/icons-material';
+import ProductAddEdit from './ProductAddEdit'; // Make sure the path is correct
+import milkImage from '../../images/milk.jpg';
 
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { createTheme } from '@mui/material/styles';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
-import { AppProvider } from '@toolpad/core/AppProvider';
-import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+const drawerWidthExpanded = 300; // Expanded sidebar width
+const drawerWidthCollapsed = 70; // Collapsed sidebar width
+const appBarHeight = 70; // Title bar height
 
-const NAVIGATION = [
-    {
-      kind: 'header',
-      title: 'Main items',
-    },
-    {
-      segment: 'dashboard',
-      title: 'User Details',
-      icon: <AccountCircleIcon />,
-    },
-    {
-      segment: 'products',
-      title: 'Product Details',
-      icon: <ShoppingCartIcon />,
-    },
-    {
-        segment: 'subscription',
-        title: 'Subscription Details',
-        icon: <SubscriptionsIcon />,
-      },
-    {
-      kind: 'divider',
-    },
-    {
-      kind: 'header',
-      title: 'Analytics',
-    },
-    {
-      segment: 'reports',
-      title: 'Reports',
-      icon: <BarChartIcon />,
-      children: [
-        {
-          segment: 'sales',
-          title: 'Sales',
-          icon: <DescriptionIcon />,
-        },
-        {
-          segment: 'traffic',
-          title: 'Traffic',
-          icon: <DescriptionIcon />,
-        },
-      ],
-    },
-    {
-      segment: 'integrations',
-      title: 'Integrations',
-      icon: <LayersIcon />,
-    },
-  ];
-  
-  const demoTheme = createTheme({
-    cssVariables: {
-      colorSchemeSelector: 'data-toolpad-color-scheme',
-    },
-    colorSchemes: { light: true, dark: true },
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 600,
-        lg: 1200,
-        xl: 1536,
-      },
-    },
-  });
-  
-// function Dashboard() {
-//   const [products, setProducts] = useState([]);
-//   const navigate = useNavigate();
+function Dashboard() {
+  const [selectedMenu, setSelectedMenu] = useState('');
+  const [isExpanded, setIsExpanded] = useState(true); // State for sidebar expansion
 
-//   useEffect(() => {
-//     const fetchProducts = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:5005/api/products', {
-//           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-//         });
-//         setProducts(response.data);
-//       } catch (error) {
-//         console.error('Failed to fetch products:', error);
-//       }
-//     };
+  // Toggle function for expanding/collapsing the sidebar
+  const handleToggleDrawer = () => {
+    setIsExpanded(!isExpanded);
+  };
 
-//     fetchProducts();
-//   }, []);
+  const handleMenuClick = (menu) => {
+    setSelectedMenu(menu); // Update the selected menu
+  };
 
-//   return (
-//     <DashboardWrapper>
-//       {/* Sidebar with buttons */}
-//       <Title>Welcome to Admin Dashboard</Title>
-//       <Sidebar>
-//         <SidebarButton onClick={() => navigate('/user-details')}>User Details</SidebarButton>
-//         <SidebarButton onClick={() => navigate('/products-crud')}>Product Details</SidebarButton>
-//         <SidebarButton onClick={() => navigate('/subscriptions-crud')}>Subscription Details</SidebarButton>
-//       </Sidebar>
+  const renderContent = () => {
+    switch (selectedMenu) {
+      case 'Product Details':
+        return <ProductAddEdit />;
+      case 'User Details':
+        return <Typography variant="h6">User Details Content</Typography>;
+      case 'Subscription Details':
+        return <Typography variant="h6">Subscription Details Content</Typography>;
+      case 'Reports':
+        return <Typography variant="h6">Reports Content</Typography>;
+      default:
+        return <Typography variant="h6">Please select an option from the sidebar</Typography>;
+    }
+  };
 
-//       {/* Main Content */}
-//       <MainContent>
-//         {/* <Title>Welcome to Admin Dashboard</Title> */}
-        
-//         <ProductList>
-//           {products.map((product) => (
-//             <ProductItem key={product.id}>
-//               {product.name} - {product.price}
-//             </ProductItem>
-//           ))}
-//         </ProductList>
-//       </MainContent>
-//     </DashboardWrapper>
-//   );
+  return (
+    <Box component="main"
+    sx={{
+      flexGrow: 1,
+      bgcolor: 'background.default',
+      p: 3,
+      ml: `${isExpanded ? drawerWidthExpanded : drawerWidthCollapsed}px`,
+      mt: `${appBarHeight}px`,
+      backgroundImage: `url(${milkImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }}>
+      <CssBaseline />
 
-// }
-
-// export default Dashboard;
-
-
-  
-  function DemoPageContent({ pathname }) {
-    return (
-      <Box
+      {/* Title Bar */}
+      <AppBar
+        position="fixed"
         sx={{
-          py: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
+          width: `calc(100% - ${isExpanded ? drawerWidthExpanded : drawerWidthCollapsed}px)`,
+          ml: `${isExpanded ? drawerWidthExpanded : drawerWidthCollapsed}px`,
+          height: `${appBarHeight}px`,
+          backgroundColor: '#DA23C9',
         }}
       >
-        <Typography>Dashboard content for {pathname}</Typography>
-      </Box>
-    );
-  }
-  
-  DemoPageContent.propTypes = {
-    pathname: PropTypes.string.isRequired,
-  };
-  
-  function Dashboard(props) {
-    const { window } = props;
-  
-    const [pathname, setPathname] = React.useState('/dashboard');
-  
-    const router = React.useMemo(() => {
-      return {
-        pathname,
-        searchParams: new URLSearchParams(),
-        navigate: (path) => setPathname(String(path)),
-      };
-    }, [pathname]);
-  
-    // Remove this const when copying and pasting into your project.
-    const demoWindow = window !== undefined ? window() : undefined;
-  
-    return (
-      // preview-start
-      <AppProvider
-        navigation={NAVIGATION}
-        router={router}
-        theme={demoTheme}
-        window={demoWindow}
+        <Toolbar sx={{ minHeight: `${appBarHeight}px` }}>
+          <Typography variant="h6" noWrap component="div">
+            Admin Dashboard
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      {/* Sidebar */}
+      <Drawer
+        sx={{
+          width: isExpanded ? drawerWidthExpanded : drawerWidthCollapsed,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: isExpanded ? drawerWidthExpanded : drawerWidthCollapsed,
+            boxSizing: 'border-box',
+            overflowX: 'hidden',
+            transition: 'width 0.3s',
+          },
+        }}
+        variant="permanent"
+        anchor="left"
       >
-        <DashboardLayout>
-          <DemoPageContent pathname={pathname} />
-        </DashboardLayout>
-      </AppProvider>
-      // preview-end
-    );
-  }
-  
-  Dashboard.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * Remove this when copying and pasting into your project.
-     */
-    window: PropTypes.func,
-  };
-  
-  export default Dashboard;
+        <Toolbar sx={{ minHeight: `${appBarHeight}px`, display: 'flex', justifyContent: 'flex-end' }}>
+          <IconButton onClick={handleToggleDrawer}>
+            {isExpanded ? <ChevronLeft /> : <ChevronRight />}
+          </IconButton>
+        </Toolbar>
+        <Divider />
+        <List>
+          <ListItem button onClick={() => handleMenuClick('User Details')} key="User Details">
+            <ListItemIcon><AccountCircle /></ListItemIcon>
+            {isExpanded && <ListItemText primary="User Details" />}
+          </ListItem>
+          <ListItem button onClick={() => handleMenuClick('Product Details')} key="Product Details">
+            <ListItemIcon><ShoppingCart /></ListItemIcon>
+            {isExpanded && <ListItemText primary="Product Details" />}
+          </ListItem>
+          <ListItem button onClick={() => handleMenuClick('Subscription Details')} key="Subscription Details">
+            <ListItemIcon><Subscriptions /></ListItemIcon>
+            {isExpanded && <ListItemText primary="Subscription Details" />}
+          </ListItem>
+          <Divider />
+          <ListItem button onClick={() => handleMenuClick('Reports')} key="Reports">
+            <ListItemIcon><BarChart /></ListItemIcon>
+            {isExpanded && <ListItemText primary="Reports" />}
+          </ListItem>
+        </List>
+      </Drawer>
+
+      {/* Main Content */}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          bgcolor: 'transparent',
+          p: 3,
+          ml: `${isExpanded ? drawerWidthExpanded : drawerWidthCollapsed}px`,
+          mt: `${appBarHeight}px`,
+          backgroundColor: 'rgba(255, 255, 255, 0.7)', // Optional: semi-transparent background for main content
+        }}
+      >
+        <Toolbar />
+
+        {/* Render selected content here */}
+        {renderContent()}
+      </Box>
+    </Box>
+  );
+}
+
+export default Dashboard;
