@@ -10,7 +10,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ProductList from './components/ProductList';
 import SubscriptionList from './components/SubscriptionList';
-
+import Dashboard from './components/Dashboard';
+import AdminDashboard from './components/admin-components/AdminDashboard'
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,6 +37,9 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/products" element={<ProductList />} />
             <Route path="/subscriptions" element={<SubscriptionList />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
           </Routes>
         </MainContent>
         <Footer />

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+
 const FormWrapper = styled.div`
   max-width: 400px;
   margin: 0 auto;
@@ -47,7 +48,15 @@ function Login() {
         password,
       });
       localStorage.setItem('token', response.data.token);
-      navigate('/dashboard');
+      // Extract user role from response (assuming response contains role)
+      const userRole = response.data.user.role;
+      // console.log("response",response)
+      // Navigate based on user role
+      if (userRole === 'admin') {
+        navigate('/admin-dashboard'); // Admin-specific page
+      } else {
+        navigate('/dashboard'); // Regular user dashboard
+      }
     } catch (error) {
       console.error('Login failed:', error.response.data);
     }
