@@ -120,9 +120,10 @@ const ProductAddEdit = () => {
   return (
     <div>
       <Button
+        variant="outlined"
         color="primary"
         startIcon={<AddIcon />}
-        onClick={() => { setCurrentProduct(null); setOpenForm(true); }} // Open form for adding a new product
+        onClick={() => {setCurrentProduct(null); setOpenForm(true); }} // Open form for adding a new product
       >
         Add Product
       </Button>
@@ -132,7 +133,7 @@ const ProductAddEdit = () => {
         onSave={handleAddProduct}
         product={currentProduct}
       />
-      <Box sx={{ height: 400, width: '100%'}}>
+      <Box sx={{ height: 500, width: '100%'}}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -140,7 +141,7 @@ const ProductAddEdit = () => {
           rowModesModel={rowModesModel}
           onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
           getRowId={(row) => row.id}
-          style={{ height: 400, width: '100%' }} 
+          style={{ height: 500, width: '100%' }} 
         />
       </Box>
     </div>

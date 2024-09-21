@@ -11,7 +11,7 @@ const ProductForm = ({ open, onClose, onSave, product }) => {
     imageUrl: '',
   });
 
-  // Update productData when the product prop changes
+  // Update productData when the product prop changes or reset when product is null (adding a new product)
   useEffect(() => {
     if (product) {
       setProductData({
@@ -20,6 +20,15 @@ const ProductForm = ({ open, onClose, onSave, product }) => {
         price: product.price,
         category: product.category,
         imageUrl: product.imageUrl,
+      });
+    } else {
+      // Reset the form when product is null (for adding a new product)
+      setProductData({
+        name: '',
+        description: '',
+        price: '',
+        category: '',
+        imageUrl: '',
       });
     }
   }, [product]);
@@ -36,13 +45,13 @@ const ProductForm = ({ open, onClose, onSave, product }) => {
   };
 
   const handleSaveClick = () => {
-    onSave(productData);  
+    onSave(productData);
     onClose(); // Optionally close the dialog after saving
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add / Edit Product</DialogTitle>
+      <DialogTitle>{product ? 'Edit Product' : 'Add Product'}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus

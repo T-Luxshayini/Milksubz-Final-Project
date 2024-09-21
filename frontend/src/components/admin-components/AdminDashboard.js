@@ -10,13 +10,13 @@ import {
 import ProductAddEdit from './ProductAddEdit'; // Make sure the path is correct
 import milkImage from '../../images/milk.jpg';
 
-const drawerWidthExpanded = 300; // Expanded sidebar width
-const drawerWidthCollapsed = 70; // Collapsed sidebar width
-const appBarHeight = 70; // Title bar height
+const drawerWidthExpanded = 300; 
+const drawerWidthCollapsed = 70; 
+const appBarHeight = 70; 
 
 function Dashboard() {
   const [selectedMenu, setSelectedMenu] = useState('');
-  const [isExpanded, setIsExpanded] = useState(true); // State for sidebar expansion
+  const [isExpanded, setIsExpanded] = useState(false); // State for sidebar expansion
 
   // Toggle function for expanding/collapsing the sidebar
   const handleToggleDrawer = () => {
@@ -45,11 +45,10 @@ function Dashboard() {
   return (
     <Box component="main"
     sx={{
-      flexGrow: 1,
+      flexGrow: 0,
       bgcolor: 'background.default',
-      p: 3,
+      p: 5,
       ml: `${isExpanded ? drawerWidthExpanded : drawerWidthCollapsed}px`,
-      mt: `${appBarHeight}px`,
       backgroundImage: `url(${milkImage})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
@@ -119,12 +118,11 @@ function Dashboard() {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
           bgcolor: 'transparent',
-          p: 3,
-          ml: `${isExpanded ? drawerWidthExpanded : drawerWidthCollapsed}px`,
-          mt: `${appBarHeight}px`,
-          backgroundColor: 'rgba(255, 255, 255, 0.7)', // Optional: semi-transparent background for main content
+          p: 2,
+          borderRadius: 1,
+          mb:`50px`,
+          backgroundColor: 'rgba(255, 255, 255, 0.7)', 
         }}
       >
         <Toolbar />
