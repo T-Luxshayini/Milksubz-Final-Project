@@ -4,17 +4,18 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import axios from 'axios'; // for making API requests
-import ProductForm from './Forms/ProductForm'; // Import the new form component
+import axios from 'axios'; 
+import ProductForm from './Forms/ProductForm';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
-
 
 const ProductAddEdit = () => {
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
-  const [openForm, setOpenForm] = useState(false); // State to manage form visibility
+  const [openForm, setOpenForm] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(null); // State for the currently edited product
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fetch Products
+  // Fetch Products once on mount
   useEffect(() => {
     axios.get(`http://localhost:5005/api/products`)
       .then((response) => {
@@ -29,37 +30,62 @@ const ProductAddEdit = () => {
       });
   }, []);
 
-  const handleAddProduct = (newProduct) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/api/products`, newProduct)
-      .then((response) => {
-        setRows((oldRows) => [...oldRows, { ...response.data, id: response.data._id }]);
-        setOpenForm(false); // Close the form after saving
-      })
-      .catch((error) => {
-        console.error('Error adding product:', error);
-      });
-  };
+  const handleAddProduct = async (newProduct) => {
+    if (isSubmitting) return;
 
-  const handleEditProduct = (id, updatedProduct) => {
-    axios.patch(`/api/products/${id}`, updatedProduct)
-      .then((response) => {
+    setIsSubmitting(true);
+    const token = localStorage.getItem('token');
+
+    try {
+      if (currentProduct) {
+        //console.log("exist product");
+        const response = await axios.patch(`http://localhost:5005/api/products/${currentProduct.id}`, newProduct, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setRows((oldRows) =>
-          oldRows.map((row) => (row.id === id ? { ...response.data, id: response.data._id } : row))
+          oldRows.map((row) => (row.id === currentProduct.id ? { ...response.data, id: response.data._id } : row))
         );
-      })
-      .catch((error) => {
-        console.error('Error updating product:', error);
-      });
+      } else {
+        // Adding a new product
+        const response = await axios.post(`http://localhost:5005/api/products`, newProduct, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const addedProduct = { ...response.data, id: response.data._id };
+        setRows((prevRows) => [...prevRows, addedProduct]);
+      }
+
+      setOpenForm(false);
+      setCurrentProduct(null); // Reset current product after save
+    } catch (error) {
+      console.error('Error saving product:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleDeleteProduct = (id) => {
-    axios.delete(`/api/products/${id}`)
-      .then(() => {
-        setRows((oldRows) => oldRows.filter((row) => row.id !== id));
-      })
-      .catch((error) => {
-        console.error('Error deleting product:', error);
+  const handleEditProduct = (id) => {
+    const productToEdit = rows.find(row => row.id === id);
+    console.log(productToEdit);
+    setCurrentProduct(productToEdit);
+    setOpenForm(true); // Open form for editing
+  };
+
+  const handleDeleteProduct = async (id) => {
+    const token = localStorage.getItem('token');
+
+    try {
+      await axios.delete(`http://localhost:5005/api/products/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
+
+      setRows((oldRows) => oldRows.filter((row) => row.id !== id));
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
   };
 
   const columns = [
@@ -85,7 +111,7 @@ const ProductAddEdit = () => {
       headerName: 'Actions',
       width: 150,
       getActions: (params) => [
-        <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => handleEditProduct(params.id, params.row)} />,
+        <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => handleEditProduct(params.id)} />,
         <GridActionsCellItem icon={<DeleteIcon />} label="Delete" onClick={() => handleDeleteProduct(params.id)} />,
       ],
     },
@@ -96,7 +122,7 @@ const ProductAddEdit = () => {
       <Button
         color="primary"
         startIcon={<AddIcon />}
-        onClick={() => setOpenForm(true)} // Open form on button click
+        onClick={() => { setCurrentProduct(null); setOpenForm(true); }} // Open form for adding a new product
       >
         Add Product
       </Button>
@@ -104,8 +130,9 @@ const ProductAddEdit = () => {
         open={openForm}
         onClose={() => setOpenForm(false)}
         onSave={handleAddProduct}
+        product={currentProduct}
       />
-      <Box sx={{ height: 400, width: '100%' }}>
+      <Box sx={{ height: 400, width: '100%'}}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -113,6 +140,7 @@ const ProductAddEdit = () => {
           rowModesModel={rowModesModel}
           onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
           getRowId={(row) => row.id}
+          style={{ height: 400, width: '100%' }} 
         />
       </Box>
     </div>

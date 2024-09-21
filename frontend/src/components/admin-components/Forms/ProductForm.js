@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { uploadImage } from '../../../utils/imageupload'; // Adjust the path if needed
 
-const ProductForm = ({ open, onClose, onSave }) => {
+const ProductForm = ({ open, onClose, onSave, product }) => {
   const [productData, setProductData] = useState({
     name: '',
     description: '',
@@ -10,6 +10,19 @@ const ProductForm = ({ open, onClose, onSave }) => {
     category: '',
     imageUrl: '',
   });
+
+  // Update productData when the product prop changes
+  useEffect(() => {
+    if (product) {
+      setProductData({
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        category: product.category,
+        imageUrl: product.imageUrl,
+      });
+    }
+  }, [product]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -23,19 +36,13 @@ const ProductForm = ({ open, onClose, onSave }) => {
   };
 
   const handleSaveClick = () => {
-    onSave(productData);
-    setProductData({
-      name: '',
-      description: '',
-      price: '',
-      category: '',
-      imageUrl: '',
-    });
+    onSave(productData);  
+    onClose(); // Optionally close the dialog after saving
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add Product</DialogTitle>
+      <DialogTitle>Add / Edit Product</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
