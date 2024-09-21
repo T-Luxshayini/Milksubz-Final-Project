@@ -23,6 +23,13 @@ const ProductItem = styled.li`
   border-radius: 5px;
 `;
 
+const ProductImage = styled.img`
+  width: 200px;
+  height: auto;
+  border-radius: 5px;
+  margin-top: 10px;
+`;
+
 function Dashboard() {
   const [products, setProducts] = useState([]);
 
@@ -51,6 +58,8 @@ function Dashboard() {
             <h3>{product.name}</h3>
             <p>{product.description}</p>
             <p>Price: Rs{product.price}</p>
+            <p>Category: {product.category}</p>
+            <ProductImage src={product.imageUrl} alt={product.name} />
           </ProductItem>
         ))}
       </ProductList>

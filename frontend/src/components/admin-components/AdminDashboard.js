@@ -70,6 +70,7 @@ function Dashboard() {
             Admin Dashboard
           </Typography>
         </Toolbar>
+        
       </AppBar>
 
       {/* Sidebar */}

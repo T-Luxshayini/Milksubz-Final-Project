@@ -114,7 +114,7 @@ const ProductAddEdit = () => {
         <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => handleEditProduct(params.id)} />,
         <GridActionsCellItem icon={<DeleteIcon />} label="Delete" onClick={() => handleDeleteProduct(params.id)} />,
       ],
-    },
+    }
   ];
 
   return (

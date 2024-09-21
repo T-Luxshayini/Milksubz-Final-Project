@@ -41,7 +41,8 @@ function ProductList() {
             <h3>{product.name}</h3>
             <p>{product.description}</p>
             <p>Price: ${product.price}</p>
-            {/* Add subscription button or form here */}
+            <p>{product.category}</p>
+            <p>{product.imageUrl}</p>
           </ProductCard>
         ))}
       </ProductGrid>
