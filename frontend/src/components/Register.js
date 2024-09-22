@@ -35,6 +35,8 @@ const Button = styled.button`
 `;
 
 function Register() {
+  const [firstName, setFirstName] = useState(''); 
+  const [lastName, setLastName] = useState(''); 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,6 +46,8 @@ function Register() {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5005/api/auth/register', {
+        firstName, 
+        lastName,
         username,
         email,
         password,
@@ -58,6 +62,20 @@ function Register() {
     <FormWrapper>
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
+      <Input
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+        <Input
+          type="text"
+          placeholder="Last Name"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
         <Input
           type="text"
           placeholder="Username"
