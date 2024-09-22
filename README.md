@@ -1,5 +1,5 @@
 # Milksubz-Final-Project
-Platform for Milk products 
+Platform for Milk products
 
 #Frontend
 npm install cloudinary-core
@@ -18,5 +18,7 @@ npm install react-router-dom
 
 #backend
 npm init
+
 npm install nodemon
+
 npm install express mongoose bcryptjs jsonwebtoken dotenv cors body-parser
