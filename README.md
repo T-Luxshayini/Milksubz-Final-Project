@@ -2,6 +2,7 @@
 Platform for Milk products
 
 #Frontend
+
 npm install cloudinary-core
 
 npm install bootstrap
@@ -17,6 +18,7 @@ npm install axios
 npm install react-router-dom
 
 #backend
+
 npm init
 
 npm install nodemon
