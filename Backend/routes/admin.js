@@ -17,20 +17,31 @@ router.get('/users', auth, adminAuth, async (req, res) => {
   }
 });
 
-// Update user role
-router.patch('/users/:id/role', auth, adminAuth, async (req, res) => {
+// Delete user by ID (admin only)
+router.delete('/users/:id', auth, adminAuth, async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { role: req.body.role },
-      { new: true }
-    ).select('-password');
-    if (!user) return res.status(404).json({ error: 'User not found' });
-    res.json(user);
+    const userId = req.params.id;
+    const user = await User.findByIdAndDelete(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ message: 'User deleted successfully' });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ message: 'Error deleting user' });
   }
 });
+
+
+// // Delete user by ID (admin only)
+// router.delete('/users/:id', verifyAdmin, async (req, res) => {
+//   try {
+//     const userId = req.params.id;
+//     await User.findByIdAndDelete(userId);
+//     res.json({ message: 'User deleted successfully' });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error deleting user' });
+//   }
+// });
 
 // Get dashboard statistics
 router.get('/dashboard', auth, adminAuth, async (req, res) => {

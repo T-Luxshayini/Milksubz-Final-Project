@@ -9,6 +9,7 @@ import {
 } from '@mui/icons-material';
 import ProductAddEdit from './ProductAddEdit'; // Make sure the path is correct
 import milkImage from '../../images/milk.jpg';
+import UserDetails from './UserDetails';
 
 const drawerWidthExpanded = 300; 
 const drawerWidthCollapsed = 70; 
@@ -32,7 +33,7 @@ function Dashboard() {
       case 'Product Details':
         return <ProductAddEdit />;
       case 'User Details':
-        return <Typography variant="h6">User Details Content</Typography>;
+        return <UserDetails/>;
       case 'Subscription Details':
         return <Typography variant="h6">Subscription Details Content</Typography>;
       case 'Reports':

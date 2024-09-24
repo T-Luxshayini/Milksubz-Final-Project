@@ -38,7 +38,7 @@ const ProductAddEdit = () => {
 
     try {
       if (currentProduct) {
-        //console.log("exist product");
+        // console.log("exist product");
         const response = await axios.patch(`http://localhost:5005/api/products/${currentProduct.id}`, newProduct, {
           headers: {
             Authorization: `Bearer ${token}`,
