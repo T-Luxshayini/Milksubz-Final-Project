@@ -1,7 +1,7 @@
-// src/components/ProductList.js
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ProductGrid = styled.div`
   display: grid;
@@ -16,8 +16,19 @@ const ProductCard = styled.div`
   text-align: center;
 `;
 
+const Button = styled.button`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
 function ProductList() {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,6 +43,19 @@ function ProductList() {
     fetchProducts();
   }, []);
 
+  const handleAddToCart = (product) => {
+    // Add the product to the cart (localStorage or state management)
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push(product);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${product.name} added to cart!`);
+  };
+
+  const handleBuyNow = (product) => {
+    // Redirect to the payment page
+    navigate('/payment', { state: { product } });
+  };
+
   return (
     <div>
       <h2>Our Products</h2>
@@ -40,9 +64,13 @@ function ProductList() {
           <ProductCard key={product._id}>
             <h3>{product.name}</h3>
             <p>{product.description}</p>
-            <p>Price: ${product.price}</p>
+            <p>Price: Rs{product.price}</p>
             <p>{product.category}</p>
-            <p>{product.imageUrl}</p>
+            <img src={product.imageUrl} alt={product.name} width="150" />
+            <div>
+              <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
+              <Button onClick={() => handleBuyNow(product)}>Buy Now</Button>
+            </div>
           </ProductCard>
         ))}
       </ProductGrid>

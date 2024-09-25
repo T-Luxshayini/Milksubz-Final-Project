@@ -1,44 +1,39 @@
-// src/components/Dashboard.js
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const DashboardWrapper = styled.div`
-  padding: 20px;
+const ProductGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 `;
 
-const Title = styled.h1`
-  color: #1e90ff;
-`;
-
-const ProductList = styled.ul`
-  list-style-type: none;
-  padding: 0;
-`;
-
-const ProductItem = styled.li`
-  background-color: #f0f8ff;
-  margin: 10px 0;
+const ProductCard = styled.div`
+  border: 1px solid #ddd;
+  border-radius: 5px;
   padding: 10px;
-  border-radius: 5px;
+  text-align: center;
 `;
 
-const ProductImage = styled.img`
-  width: 200px;
-  height: auto;
+const Button = styled.button`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
   border-radius: 5px;
-  margin-top: 10px;
+  cursor: pointer;
 `;
 
-function Dashboard() {
+function ProductList() {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5005/api/products', {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        });
+        const response = await axios.get('http://localhost:5005/api/products');
         setProducts(response.data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -48,23 +43,39 @@ function Dashboard() {
     fetchProducts();
   }, []);
 
+  const handleAddToCart = (product) => {
+    // Add the product to the cart (localStorage or state management)
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push(product);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${product.name} added to cart!`);
+  };
+
+  const handleBuyNow = (product) => {
+    // Redirect to the payment page
+    navigate('/payment', { state: { product } });
+  };
+
   return (
-    <DashboardWrapper>
-      <Title>Welcome to Your Dashboard</Title>
-      <h2>Available Products:</h2>
-      <ProductList>
+    <div>
+      <h2>Our Products</h2>
+      <ProductGrid>
         {products.map((product) => (
-          <ProductItem key={product._id}>
+          <ProductCard key={product._id}>
             <h3>{product.name}</h3>
             <p>{product.description}</p>
             <p>Price: Rs{product.price}</p>
-            <p>Category: {product.category}</p>
-            <ProductImage src={product.imageUrl} alt={product.name} />
-          </ProductItem>
+            <p>{product.category}</p>
+            <img src={product.imageUrl} alt={product.name} width="150" />
+            <div>
+              <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
+              <Button onClick={() => handleBuyNow(product)}>Buy Now</Button>
+            </div>
+          </ProductCard>
         ))}
-      </ProductList>
-    </DashboardWrapper>
+      </ProductGrid>
+    </div>
   );
 }
 
-export default Dashboard;
+export default ProductList;

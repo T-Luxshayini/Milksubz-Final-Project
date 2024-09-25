@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import LandingPage from './components/LandingPage';
-import Home from './components/Home';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
@@ -11,7 +11,9 @@ import Register from './components/Register';
 import ProductList from './components/ProductList';
 import SubscriptionList from './components/SubscriptionList';
 import Dashboard from './components/Dashboard';
-import AdminDashboard from './components/admin-components/AdminDashboard'
+import AdminDashboard from './components/admin-components/AdminDashboard';
+import CartPage from './components/CartPage'; // New Cart Page
+import PaymentPage from './components/PaymentPage'; // New Payment Page
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,7 +32,7 @@ function App() {
         <Header />
         <MainContent>
           <Routes>
-          <Route path="/home" element={<Home />} />
+          
             <Route path="/" element={<LandingPage />} />
             
             <Route path="/login" element={<Login />} />
@@ -39,7 +41,8 @@ function App() {
             <Route path="/subscriptions" element={<SubscriptionList />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
-
+            <Route path="/cart" element={<CartPage />} /> {/* Add Cart Route */}
+            <Route path="/payment" element={<PaymentPage />} /> {/* Add Payment Route */}
           </Routes>
         </MainContent>
         <Footer />

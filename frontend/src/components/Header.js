@@ -35,10 +35,12 @@ const NavLink = styled(Link)`
 function Header() {
   return (
     <HeaderContainer>
-      <Logo to="/">Fresh Dairy Delights</Logo>
+      <Logo to="/">MilkSubz</Logo>
       <Nav>
+      <NavLink to="/">Home</NavLink> {/* Home link added */}
         <NavLink to="/products">Products</NavLink>
-        <NavLink to="/subscriptions">My Subscriptions</NavLink>
+        <NavLink to="/cart">Cart</NavLink> {/* New Cart link */}
+        <NavLink to="/payment">Payment</NavLink> {/* New Payment link */}
         <NavLink to="/login">Login</NavLink>
         <NavLink to="/register">Register</NavLink>
       </Nav>
