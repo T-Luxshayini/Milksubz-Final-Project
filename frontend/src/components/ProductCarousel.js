@@ -5,15 +5,17 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const CarouselContainer = styled.div`
-  margin: 50px auto;
-  max-width: 80%;
+   margin: 20px auto; /* Adjusted margin for more compact spacing */
+  max-width: 500px; /* Limit the width of the carousel */
   background-color: #f8f9fa;
-  padding: 20px;
+  height: 550px;
+  padding: 10px; /* Reduced padding for a smaller appearance */
   border-radius: 8px;
+  overflow: hidden; /* Prevent overflow of images */
 `;
 
 const ProductImage = styled.img`
-  width: 100%;
+  width: 100px;
   height: auto;
   border-radius: 8px;
 `;

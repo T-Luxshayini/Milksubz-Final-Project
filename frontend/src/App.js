@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import LandingPage from './components/LandingPage';
 
 import Header from './components/Header';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import Login from './components/Login';
 import Register from './components/Register';
 import ProductList from './components/ProductList';
@@ -45,7 +45,7 @@ function App() {
             <Route path="/payment" element={<PaymentPage />} /> {/* Add Payment Route */}
           </Routes>
         </MainContent>
-        <Footer />
+        {/* <Footer /> */}
       </AppContainer>
     </Router>
   );
