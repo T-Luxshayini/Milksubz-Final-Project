@@ -40,7 +40,7 @@ function Header() {
       <NavLink to="/">Home</NavLink> {/* Home link added */}
         <NavLink to="/products">Products</NavLink>
         <NavLink to="/cart">Cart</NavLink> {/* New Cart link */}
-        <NavLink to="/payment">Payment</NavLink> {/* New Payment link */}
+        <NavLink to="/payment-history">Payment</NavLink> {/* New Payment link */}
         <NavLink to="/login">Login</NavLink>
         <NavLink to="/register">Register</NavLink>
       </Nav>

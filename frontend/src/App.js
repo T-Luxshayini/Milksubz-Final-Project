@@ -14,6 +14,8 @@ import Dashboard from './components/Dashboard';
 import AdminDashboard from './components/admin-components/AdminDashboard';
 import CartPage from './components/CartPage'; // New Cart Page
 import PaymentPage from './components/PaymentPage'; // New Payment Page
+import OrderPage from './components/OrderPage';
+import PaymentHistoryPage from './components/PaymentHistoryPage'; // New Payment History Page
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -42,7 +44,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/cart" element={<CartPage />} /> {/* Add Cart Route */}
+            <Route path="/order" element={<OrderPage />} />
             <Route path="/payment" element={<PaymentPage />} /> {/* Add Payment Route */}
+            <Route path="/payment-history" element={<PaymentHistoryPage />} />
           </Routes>
         </MainContent>
         {/* <Footer /> */}
