@@ -1,40 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { useNavigate } from 'react-router-dom';
 
-const CarouselContainer = styled.div`
-  margin: 50px auto;
-  max-width: 80%;
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
+const PageWrapper = styled.div`
+  background-image: url('/path/to/your/background-image.jpg'); /* Add your image path */
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  padding: 50px;
 `;
 
-const ProductImage = styled.img`
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
+const ProductGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 `;
 
-const ProductInfo = styled.div`
-  text-align: center;
+const ProductCard = styled.div`
+  border: 1px solid #ddd;
+  border-radius: 5px;
   padding: 10px;
+  text-align: center;
+  background-color: white; /* Add background color to make content stand out */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const ProductName = styled.h3`
-  margin: 10px 0;
-  color: #333;
+const Button = styled.button`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
 `;
 
-const ProductPrice = styled.p`
-  color: #007bff;
-  font-size: 1.2em;
-`;
-
-const ProductCarousel = () => {
+function ProductList() {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -49,34 +53,37 @@ const ProductCarousel = () => {
     fetchProducts();
   }, []);
 
-  if (!products || products.length === 0) {
-    return <p>Loading products...</p>; // Handle empty or undefined products
-  }
+  const handleAddToCart = (product) => {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push(product);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${product.name} added to cart!`);
+  };
+
+  const handleBuyNow = (product) => {
+    navigate('/payment', { state: { product } });
+  };
 
   return (
-    <CarouselContainer>
-      <Carousel
-        showThumbs={false}
-        infiniteLoop={true}
-        autoPlay={true}
-        interval={3000}
-        stopOnHover={true}
-        showStatus={false}
-        showArrows={true}
-      >
+    <PageWrapper>
+      <h2>Our Products</h2>
+      <ProductGrid>
         {products.map((product) => (
-          <div key={product._id}>
-            <ProductImage src={product.imageUrl} alt={product.name} />
-            <ProductInfo>
-              <ProductName>{product.name}</ProductName>
-              <ProductPrice>Rs {product.price}</ProductPrice>
-              <p>{product.description}</p>
-            </ProductInfo>
-          </div>
+          <ProductCard key={product._id}>
+            <h3>{product.name}</h3>
+            <p>{product.description}</p>
+            <p>Price: Rs{product.price}</p>
+            <p>{product.category}</p>
+            <img src={product.imageUrl} alt={product.name} width="150" />
+            <div>
+              <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
+              <Button onClick={() => handleBuyNow(product)}>Buy Now</Button>
+            </div>
+          </ProductCard>
         ))}
-      </Carousel>
-    </CarouselContainer>
+      </ProductGrid>
+    </PageWrapper>
   );
-};
+}
 
-export default ProductCarousel;
+export default ProductList;

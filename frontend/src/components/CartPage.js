@@ -35,7 +35,7 @@ function CartPage() {
         cart.map((item, index) => (
           <CartItem key={index}>
             <h3>{item.name}</h3>
-            <p>Price: ${item.price}</p>
+            <p>Price: Rs{item.price}</p>
             <p>{item.description}</p>
           </CartItem>
         ))
