@@ -13,6 +13,8 @@ function PaymentHistoryPage() {
               <p>Product: {payment.name}</p>
               <p>Quantity: {payment.quantity}</p>
               <p>Total Price: Rs {payment.totalPrice}</p>
+              <p><strong>Address:</strong> {payment.address}</p>
+              <p><strong>Phone Number:</strong> {payment.phoneNumber}</p>
               <p>Date: {payment.date}</p>
             </li>
           ))}

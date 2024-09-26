@@ -11,7 +11,8 @@ import ProductAddEdit from './ProductAddEdit'; // Make sure the path is correct
 import milkImage from '../../images/milk.jpg';
 import UserDetails from './UserDetails';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import AdminOrders from './AdminOrders';
 const drawerWidthExpanded = 300; 
 const drawerWidthCollapsed = 70; 
 const appBarHeight = 70; 
@@ -43,8 +44,11 @@ function Dashboard() {
         return <ProductAddEdit />;
       case 'User Details':
         return <UserDetails />;
-      case 'Subscription Details':
-        return <Typography variant="h6">Subscription Details Content</Typography>;
+        case 'Order Details':
+        return <AdminOrders/>;
+        case 'Subscription Details':
+          return <Typography variant="h6">Subscription Details Content</Typography>;
+      
       case 'Reports':
         return <Typography variant="h6">Reports Content</Typography>;
       default:
@@ -113,6 +117,10 @@ function Dashboard() {
             <ListItem button onClick={() => handleMenuClick('Product Details')} key="Product Details">
               <ListItemIcon><ShoppingCart /></ListItemIcon>
               {isExpanded && <ListItemText primary="Product Details" />}
+            </ListItem>
+            <ListItem button onClick={() => handleMenuClick('Order Details')} key="Order Details">
+              <ListItemIcon><ListAltIcon /></ListItemIcon>
+              {isExpanded && <ListItemText primary="Order Details" />}
             </ListItem>
             <ListItem button onClick={() => handleMenuClick('Subscription Details')} key="Subscription Details">
               <ListItemIcon><Subscriptions /></ListItemIcon>

@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
 const subscriptionRoutes = require('./routes/subscription');
 const adminRoutes = require('./routes/admin');
+const orderRoutes = require('./routes/order'); 
 
 // Load environment variables
 dotenv.config();
@@ -32,6 +33,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/orders', orderRoutes); // Add the order routes
 
 const PORT = process.env.PORT || 5005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
