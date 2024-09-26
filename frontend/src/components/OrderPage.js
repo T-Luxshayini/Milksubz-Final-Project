@@ -4,12 +4,25 @@ import styled from 'styled-components';
 
 const OrderWrapper = styled.div`
   padding: 20px;
+  display: flex;
+  justify-content: center; /* Center the card */
+  background-color: #f8f9fa; /* Light background for contrast */
+`;
+
+const Card = styled.div`
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 20px;
+  width: 300px; /* Set a fixed width for the card */
+  margin: 10px;
 `;
 
 const OrderItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 20px; /* Spacing between order items */
 `;
 
 const OrderDetails = styled.div`
@@ -22,6 +35,12 @@ const QuantityButton = styled.button`
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s;
+  
+  &:hover {
+    background-color: #ccc; /* Darken on hover */
+  }
 `;
 
 const Button = styled.button`
@@ -31,6 +50,12 @@ const Button = styled.button`
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
+  width: 100%; /* Full width button */
+  transition: background-color 0.3s;
+  
+  &:hover {
+    background-color: #0056b3; /* Darken on hover */
+  }
 `;
 
 function OrderPage() {
@@ -56,21 +81,23 @@ function OrderPage() {
 
   return (
     <OrderWrapper>
-      <h2>Order Details</h2>
-      <OrderItem>
-        <img src={item.imageUrl} alt={item.name} width="60" />
-        <OrderDetails>
-          <h3>{item.name}</h3>
-          <p>{item.description}</p>
-          <p>Price: Rs {item.price}</p>
-          <div>
-            <QuantityButton onClick={() => handleQuantityChange(-1)}>-</QuantityButton>
-            <span>{quantity}</span>
-            <QuantityButton onClick={() => handleQuantityChange(1)}>+</QuantityButton>
-          </div>
-        </OrderDetails>
-      </OrderItem>
-      <Button onClick={handleBuyNow}>Buy Now</Button>
+      <Card>
+        {/* <h2>Order Details</h2> */}
+        <OrderItem>
+          <img src={item.imageUrl} alt={item.name} width="60" />
+          <OrderDetails>
+            <h3>{item.name}</h3>
+            <p>{item.description}</p>
+            <p>Price: Rs {item.price}</p>
+            <div>
+              <QuantityButton onClick={() => handleQuantityChange(-1)}>-</QuantityButton>
+              <span>{quantity}</span>
+              <QuantityButton onClick={() => handleQuantityChange(1)}>+</QuantityButton>
+            </div>
+          </OrderDetails>
+        </OrderItem>
+        <Button onClick={handleBuyNow}>Buy Now</Button>
+      </Card>
     </OrderWrapper>
   );
 }

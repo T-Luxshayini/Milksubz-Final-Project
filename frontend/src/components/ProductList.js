@@ -77,7 +77,7 @@ function ProductList() {
             <img src={product.imageUrl} alt={product.name} width="150" />
             <div>
               <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
-              <Button onClick={() => handleBuyNow(product)}>Buy Now</Button>
+              {/* <Button onClick={() => handleBuyNow(product)}>Buy Now</Button> */}
             </div>
           </ProductCard>
         ))}

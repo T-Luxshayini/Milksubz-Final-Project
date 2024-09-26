@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 // Wrapper for the whole cart page with background image and centered content
 const CartWrapper = styled.div`
@@ -8,7 +10,7 @@ const CartWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: url(${require('/home/uki-jaffna/Documents/Finalproject/Milksubz-Final-Project/frontend/src/images/milk.jpg')}); /* Ensure you give the correct relative path */
+  background-image: url(${require('/home/uki-jaffna/Documents/Finalproject/Milksubz-Final-Project/frontend/src/images/milk.jpg')});
   background-size: cover;
   background-position: center;
   padding: 20px;
@@ -16,11 +18,12 @@ const CartWrapper = styled.div`
 
 // Expanding the size of the cart container
 const CartContainer = styled.div`
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
   border-radius: 10px;
   padding: 40px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  max-width: 800px; /* Expanded the width of the cart */
+  max-width: 800px;
   width: 100%;
 `;
 
@@ -72,23 +75,37 @@ const CartPrice = styled.p`
   margin-left: 10px;
 `;
 
-// Buy Now button styling
-const Button = styled.button`
-  background-color: #007bff;
-  color: white;
+// Delete button styling
+const DeleteButton = styled.button`
+  background-color: transparent; /* Make the button transparent */
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-left: 10px; /* Add some space between the price and icon */
 `;
 
+// Buy Now button styling
+// const Button = styled.button`
+//   background-color: #007bff;
+//   color: white;
+//   border: none;
+//   padding: 10px 15px;
+//   border-radius: 5px;
+//   cursor: pointer;
+//   margin-top: 20px;
+// `;
+
 function CartPage() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   const navigate = useNavigate();
 
   const handleItemClick = (item) => {
-    navigate('/order', { state: { item } }); // Navigate to the order page with the item details
+    navigate('/order', { state: { item } });
+  };
+
+  const handleDeleteItem = (itemToDelete) => {
+    const updatedCart = cart.filter(item => item.name !== itemToDelete.name);
+    setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update localStorage
   };
 
   return (
@@ -113,13 +130,16 @@ function CartPage() {
                 <QuantityButton>+</QuantityButton>
               </CartQuantity>
               <CartPrice>Rs {item.price}</CartPrice>
+              <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
+                <FontAwesomeIcon icon={faTrashAlt} color="red" />
+              </DeleteButton>
             </CartItem>
           ))
         ) : (
           <p>Your cart is empty</p>
         )}
 
-        {cart.length > 0 && <Button onClick={() => navigate('/order')}>Proceed to Checkout</Button>}
+        {/* {cart.length > 0 && <Button onClick={() => navigate('/order')}>Proceed to Checkout</Button>} */}
       </CartContainer>
     </CartWrapper>
   );

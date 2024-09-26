@@ -33,6 +33,7 @@ const UserDetails = () => {
 
   const columns = [
     { field: '_id', headerName: 'ID', width: 100 }, // Use _id here for display
+    { field: 'username', headerName: 'Username', width: 150 }, // Add username column
     { field: 'firstName', headerName: 'First Name', width: 150 },
     { field: 'lastName', headerName: 'Last Name', width: 150 },
     { field: 'email', headerName: 'Email', width: 200 },

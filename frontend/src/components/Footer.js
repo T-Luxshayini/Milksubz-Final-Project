@@ -77,7 +77,7 @@ function Footer() {
         
         <FooterSection>
           <FooterTitle>Contact Us</FooterTitle>
-          <p>Address: 123, Dairy Street, Colombo, Sri Lanka</p>
+          <p>Address: 123, Dairy Street, Jaffna, Sri Lanka</p>
           <p>Phone: +94 77 123 4567</p>
           <p>Email: support@milksubz.com</p>
         </FooterSection>

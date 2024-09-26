@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import backgroundImage from '/home/uki-jaffna/Documents/Finalproject/Milksubz-Final-Project/frontend/src/images/milkbg.jpg'; 
 import Footer from './Footer';
-import ProductCarousel from './ProductCarousel';
+// import ProductCarousel from './ProductCarousel';
 const LandingPageWrapper = styled.div`
   background-image: url(${backgroundImage});
   background-size: cover;
@@ -18,16 +18,16 @@ const LandingPageWrapper = styled.div`
   color: white;
 `;
 
-const Title = styled.h1`
-  font-size: 4em;
+const Title = styled.h4`
+  font-size: 2.5em;
   font-weight: bold;
   margin-bottom: 20px;
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 `;
 
-const Subtitle = styled.h2`
-  font-size: 2em;
+const Subtitle = styled.h5`
+  font-size: 1.5em;
   margin-bottom: 40px;
   color: #fff;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
@@ -44,7 +44,7 @@ const CTAButton = styled(Link)`
   color: white;
   text-decoration: none;
   border-radius: 5px;
-  font-size: 1.5em;
+  font-size: 1em;
   font-weight: bold;
   transition: background-color 0.3s;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
@@ -83,7 +83,7 @@ function LandingPage() {
         <CTAButton to="/products">View Products</CTAButton>
         <CTAButton to="/register">Subscribe Now</CTAButton>
       </ButtonGroup>
-      <ProductCarousel />
+      {/* <ProductCarousel /> */}
       <InfoSection>
         <InfoTitle>About MilkSubz</InfoTitle>
         <InfoParagraph>
