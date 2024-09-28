@@ -7,7 +7,7 @@ const PaymentHistoryWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: url(${require('/home/uki-jaffna/Documents/Finalproject/Milksubz-Final-Project/frontend/src/images/milk.jpg')}); /* Ensure you give the correct relative path */
+  background-image: url(${require('/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milk.jpg')}); /* Ensure you give the correct relative path */
   background-size: cover;
   background-position: center;
   padding: 20px;

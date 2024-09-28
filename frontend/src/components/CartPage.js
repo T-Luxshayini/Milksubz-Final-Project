@@ -10,7 +10,7 @@ const CartWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: url(${require('/home/uki-jaffna/Documents/Finalproject/Milksubz-Final-Project/frontend/src/images/milk.jpg')});
+  background-image: url(${require('/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milk.jpg')});
   background-size: cover;
   background-position: center;
   padding: 20px;
