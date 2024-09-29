@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Snackbar from '@mui/material/Snackbar';
+import Button from '@mui/material/Button';
 
 const ProductGrid = styled.div`
   display: grid;
@@ -20,6 +22,7 @@ const ProductCard = styled.div`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transform: scale(1.05);
   }
+
   h3 {
     margin: 10px 0 5px 0;
   }
@@ -29,19 +32,16 @@ const ProductCard = styled.div`
   }
 `;
 
-
-const Button = styled.button`
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
+const StyledButton = styled(Button)`
+  background-color: #007bff !important;
+  color: white !important;
   margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
 `;
 
 function ProductList() {
   const [products, setProducts] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,38 +58,49 @@ function ProductList() {
   }, []);
 
   const handleAddToCart = (product) => {
-    // Add the product to the cart (localStorage or state management)
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart.push(product);
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`${product.name} added to cart!`);
+    setSnackbarMessage(`${product.name} added to cart successfully ✅`);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   const handleBuyNow = (product) => {
-    // Redirect to the payment page
     navigate('/payment', { state: { product } });
   };
 
   return (
     <div>
-     
       <h2>Our Products</h2>
       <ProductGrid>
         {products.map((product) => (
           <ProductCard key={product._id}>
-            <img src={product.imageUrl} alt={product.name} width="200"/>
+            <img src={product.imageUrl} alt={product.name} width="200" />
             <h3>{product.name}</h3>
             <p>{product.description}</p>
             <p>Rs {product.price}.00</p>
             <p>{product.category}</p>
             
             <div>
-              <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
-              {/* <Button onClick={() => handleBuyNow(product)}>Buy Now</Button> */}
+              <StyledButton variant="contained" onClick={() => handleAddToCart(product)}>
+                Add to Cart
+              </StyledButton>
+              {/* <StyledButton variant="contained" onClick={() => handleBuyNow(product)}>Buy Now</StyledButton> */}
             </div>
           </ProductCard>
         ))}
       </ProductGrid>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={1200}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      />
     </div>
   );
 }
