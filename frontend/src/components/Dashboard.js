@@ -14,10 +14,18 @@ const ProductCard = styled.div`
   border-radius: 5px;
   padding: 10px;
   text-align: center;
-  transition: box-shadow 0.3s ease;
-  
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
   &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+  }
+  h3 {
+    margin: 10px 0 5px 0;
+  }
+
+  p {
+    margin: 5px 0;
   }
 `;
 
@@ -69,11 +77,12 @@ function ProductList() {
       <ProductGrid>
         {products.map((product) => (
           <ProductCard key={product._id}>
+            <img src={product.imageUrl} alt={product.name} width="200"/>
             <h3>{product.name}</h3>
             <p>{product.description}</p>
             <p>Rs {product.price}.00</p>
             <p>{product.category}</p>
-            <img src={product.imageUrl} alt={product.name} width="150" />
+            
             <div>
               <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
               {/* <Button onClick={() => handleBuyNow(product)}>Buy Now</Button> */}
