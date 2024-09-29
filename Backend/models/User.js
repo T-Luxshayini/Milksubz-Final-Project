@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true }, 
   lastName: { type: String, required: true }, 
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
+  // isActive: { type: Boolean, default: true }, // Active by default
+  // createdAt: { type: Date, default: Date.now }
 });
 
 userSchema.pre('save', async function(next) {

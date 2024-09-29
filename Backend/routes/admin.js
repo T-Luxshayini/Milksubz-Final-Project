@@ -47,6 +47,23 @@ router.put('/users/:id/role', auth, adminAuth, async (req, res) => {
     res.status(500).json({ message: 'Error updating role' });
   }
 });
+/// Route to update user status (active/disabled)
+// router.put('/users/:id/status', auth, adminAuth, async (req, res) => {
+//   const userId = req.params.id;
+//   const { isActive } = req.body;
+
+//   try {
+//     // Update the user's status in the database
+//     const user = await User.findByIdAndUpdate(userId, { isActive }, { new: true });
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+//     res.json({ message: 'User status updated successfully', user });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error updating user status' });
+//   }
+// });
+
 
 // // Delete user by ID (admin only)
 // router.delete('/users/:id', verifyAdmin, async (req, res) => {
