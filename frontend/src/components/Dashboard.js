@@ -14,7 +14,13 @@ const ProductCard = styled.div`
   border-radius: 5px;
   padding: 10px;
   text-align: center;
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
 `;
+
 
 const Button = styled.button`
   background-color: #007bff;
@@ -65,7 +71,7 @@ function ProductList() {
           <ProductCard key={product._id}>
             <h3>{product.name}</h3>
             <p>{product.description}</p>
-            <p>Price: Rs{product.price}</p>
+            <p>Rs {product.price}.00</p>
             <p>{product.category}</p>
             <img src={product.imageUrl} alt={product.name} width="150" />
             <div>
