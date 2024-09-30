@@ -52,7 +52,7 @@ const productRoutes = require('./routes/products');
 const subscriptionRoutes = require('./routes/subscription');
 const adminRoutes = require('./routes/admin');
 const orderRoutes = require('./routes/order'); 
-const payhereRoutes = require('./routes/payhere'); // Import the new payment routes
+// const payhereRoutes = require('./routes/PayHere'); // Import the new payment routes
 
 
 // Load environment variables
@@ -78,7 +78,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/payhere', payhereRoutes);
+// app.use('/api/payhere', payhereRoutes);
 const PORT = process.env.PORT || 5005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

@@ -4,8 +4,8 @@ import {
   ListItem, ListItemIcon, ListItemText, IconButton, Button
 } from '@mui/material';
 import {
-  AccountCircle, ShoppingCart, Subscriptions, BarChart,
-  ChevronLeft, ChevronRight
+  AccountCircle, Subscriptions, BarChart,
+  ChevronLeft, ChevronRight, Storefront // Imported Storefront icon
 } from '@mui/icons-material';
 import ProductAddEdit from './ProductAddEdit'; // Make sure the path is correct
 import milkImage from '../../images/milk.jpg';
@@ -45,11 +45,10 @@ function Dashboard() {
         return <ProductAddEdit />;
       case 'User Details':
         return <UserDetails />;
-        case 'Order Details':
+      case 'Order Details':
         return <AdminOrders/>;
-        case 'Subscription Details':
-          return <SubscriptionDetails/>;
-      
+      case 'Subscription Details':
+        return <SubscriptionDetails/>;
       case 'Reports':
         return <Typography variant="h6">Reports Content</Typography>;
       default:
@@ -116,7 +115,7 @@ function Dashboard() {
               {isExpanded && <ListItemText primary="User Details" />}
             </ListItem>
             <ListItem button onClick={() => handleMenuClick('Product Details')} key="Product Details">
-              <ListItemIcon><ShoppingCart /></ListItemIcon>
+              <ListItemIcon><Storefront /></ListItemIcon> {/* Changed icon to Storefront */}
               {isExpanded && <ListItemText primary="Product Details" />}
             </ListItem>
             <ListItem button onClick={() => handleMenuClick('Order Details')} key="Order Details">
