@@ -81,7 +81,7 @@ function LandingPage() {
       <Subtitle>Delivering fresh milk and dairy products right to your doorstep</Subtitle>
       <ButtonGroup>
         <CTAButton to="/products">View Products</CTAButton>
-        <CTAButton to="/register">Subscribe Now</CTAButton>
+        <CTAButton to="/subscriptions">Subscribe Now</CTAButton>
       </ButtonGroup>
       {/* <ProductCarousel /> */}
       <InfoSection>

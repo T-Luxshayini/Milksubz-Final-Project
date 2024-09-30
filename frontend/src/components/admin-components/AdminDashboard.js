@@ -13,6 +13,7 @@ import UserDetails from './UserDetails';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AdminOrders from './AdminOrders';
+import SubscriptionDetails from './SubscriptionDetails';
 const drawerWidthExpanded = 300; 
 const drawerWidthCollapsed = 70; 
 const appBarHeight = 70; 
@@ -47,7 +48,7 @@ function Dashboard() {
         case 'Order Details':
         return <AdminOrders/>;
         case 'Subscription Details':
-          return <Typography variant="h6">Subscription Details Content</Typography>;
+          return <SubscriptionDetails/>;
       
       case 'Reports':
         return <Typography variant="h6">Reports Content</Typography>;

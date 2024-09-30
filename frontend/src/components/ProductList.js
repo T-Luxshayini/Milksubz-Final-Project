@@ -85,6 +85,7 @@ function ProductList() {
             <p>Rs {product.price}.00</p>
             <p>{product.category}</p>
             
+            
             <div>
               <StyledButton variant="contained" onClick={() => handleAddToCart(product)}>
                 Add to Cart
