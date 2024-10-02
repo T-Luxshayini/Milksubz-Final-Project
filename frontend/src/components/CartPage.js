@@ -1,3 +1,5 @@
+
+
 // import React, { useState } from 'react';
 // import styled from 'styled-components';
 // import { useNavigate } from 'react-router-dom';
@@ -10,7 +12,7 @@
 //   justify-content: center;
 //   align-items: center;
 //   min-height: 100vh;
-//   background-image: url(${require('/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milk.jpg')});
+//   background-image: url(${require('../images/milk.jpg')});
 //   background-size: cover;
 //   background-position: center;
 //   padding: 20px;
@@ -83,16 +85,16 @@
 //   margin-left: 10px; /* Add some space between the price and icon */
 // `;
 
-// // Buy Now button styling
-// // const Button = styled.button`
-// //   background-color: #007bff;
-// //   color: white;
-// //   border: none;
-// //   padding: 10px 15px;
-// //   border-radius: 5px;
-// //   cursor: pointer;
-// //   margin-top: 20px;
-// // `;
+// // Proceed to Checkout button styling
+// const CheckoutButton = styled.button`
+//   background-color: #007bff;
+//   color: white;
+//   border: none;
+//   padding: 10px 15px;
+//   border-radius: 5px;
+//   cursor: pointer;
+//   margin-top: 20px;
+// `;
 
 // function CartPage() {
 //   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
@@ -108,6 +110,14 @@
 //     localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update localStorage
 //   };
 
+//   const calculateTotal = () => {
+//     return cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
+//   };
+
+//   const handleCheckout = () => {
+//     document.getElementById('payhere-form').submit();
+//   };
+
 //   return (
 //     <CartWrapper>
 //       <CartContainer>
@@ -117,35 +127,64 @@
 //         </CartHeader>
 
 //         {cart.length > 0 ? (
-//           cart.map((item, index) => (
-//             <CartItem key={index} onClick={() => handleItemClick(item)}>
-//               <img src={item.imageUrl} alt={item.name} width="60" />
-//               <CartDetails>
-//                 <CartItemName>{item.name}</CartItemName>
-//                 <p>{item.description}</p>
-//               </CartDetails>
-//               <CartQuantity>
-//                 <QuantityButton>-</QuantityButton>
-//                 <span>{item.quantity || 1}</span>
-//                 <QuantityButton>+</QuantityButton>
-//               </CartQuantity>
-//               <CartPrice>Rs {item.price}</CartPrice>
-//               <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
-//                 <FontAwesomeIcon icon={faTrashAlt} color="red" />
-//               </DeleteButton>
-//             </CartItem>
-//           ))
+//           <>
+//             {cart.map((item, index) => (
+//               <CartItem key={index} onClick={() => handleItemClick(item)}>
+//                 <img src={item.imageUrl} alt={item.name} width="60" />
+//                 <CartDetails>
+//                   <CartItemName>{item.name}</CartItemName>
+//                   <p>{item.description}</p>
+//                 </CartDetails>
+//                 <CartQuantity>
+//                   <QuantityButton>-</QuantityButton>
+//                   <span>{item.quantity || 1}</span>
+//                   <QuantityButton>+</QuantityButton>
+//                 </CartQuantity>
+//                 <CartPrice>Rs {item.price}</CartPrice>
+//                 <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
+//                   <FontAwesomeIcon icon={faTrashAlt} color="red" />
+//                 </DeleteButton>
+//               </CartItem>
+//             ))}
+//             <CheckoutButton onClick={handleCheckout}>Proceed to Checkout</CheckoutButton>
+//           </>
 //         ) : (
 //           <p>Your cart is empty</p>
 //         )}
 
-//         {/* {cart.length > 0 && <Button onClick={() => navigate('/order')}>Proceed to Checkout</Button>} */}
+//         {/* Hidden PayHere form */}
+//         {cart.length > 0 && (
+//           <form
+//             id="payhere-form"
+//             method="POST"
+//             action="https://sandbox.payhere.lk/pay/checkout"
+//             style={{ display: 'none' }} // Hide the form
+//           >
+//             <input type="hidden" name="merchant_id" value="1228322" />
+//             <input type="hidden" name="return_url" value="http://localhost:3000/cart" />
+//             <input type="hidden" name="cancel_url" value="http://localhost:3000/cancel" />
+//             <input type="hidden" name="notify_url" value="http://localhost:3000/notify" />
+//             <input type="hidden" name="order_id" value="1727630969594" />
+//             <input type="hidden" name="items" value={cart.map(item => item.name).join(', ')} />
+//             <input type="hidden" name="currency" value="Rs" />
+//             <input type="hidden" name="amount" value="300.00" />
+
+//             {/* Customer Info */}
+//             <input type="hidden" name="first_name" value="John" />
+//             <input type="hidden" name="last_name" value="Doe" />
+//             <input type="hidden" name="email" value="john@example.com" />
+//             <input type="hidden" name="phone" value="0771234567" />
+//             <input type="hidden" name="address" value="123, ABC Street, Colombo" />
+//             <input type="hidden" name="city" value="Colombo" />
+//           </form>
+//         )}
 //       </CartContainer>
 //     </CartWrapper>
 //   );
 // }
 
 // export default CartPage;
+
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -226,10 +265,10 @@ const CartPrice = styled.p`
 
 // Delete button styling
 const DeleteButton = styled.button`
-  background-color: transparent; /* Make the button transparent */
+  background-color: transparent;
   border: none;
   cursor: pointer;
-  margin-left: 10px; /* Add some space between the price and icon */
+  margin-left: 10px;
 `;
 
 // Proceed to Checkout button styling
@@ -254,15 +293,27 @@ function CartPage() {
   const handleDeleteItem = (itemToDelete) => {
     const updatedCart = cart.filter(item => item.name !== itemToDelete.name);
     setCart(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart)); // Update localStorage
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
   };
 
+  const handleQuantityChange = (item, increment) => {
+    const updatedCart = cart.map(cartItem => {
+      if (cartItem.name === item.name) {
+        return { ...cartItem, quantity: Math.max(1, (cartItem.quantity || 1) + increment) }; // Prevent quantity from going below 1
+      }
+      return cartItem;
+    });
+    setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
+
   const handleCheckout = () => {
-    document.getElementById('payhere-form').submit();
+    const paymentLink = "https://sandbox.payhere.lk/pay/o753126ca"; // Use the sandbox payment link
+    window.open(paymentLink, "_blank"); // Open the payment link in a new tab or window
   };
 
   return (
@@ -283,9 +334,9 @@ function CartPage() {
                   <p>{item.description}</p>
                 </CartDetails>
                 <CartQuantity>
-                  <QuantityButton>-</QuantityButton>
+                  <QuantityButton onClick={() => handleQuantityChange(item, -1)}>-</QuantityButton>
                   <span>{item.quantity || 1}</span>
-                  <QuantityButton>+</QuantityButton>
+                  <QuantityButton onClick={() => handleQuantityChange(item, 1)}>+</QuantityButton>
                 </CartQuantity>
                 <CartPrice>Rs {item.price}</CartPrice>
                 <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
@@ -297,33 +348,6 @@ function CartPage() {
           </>
         ) : (
           <p>Your cart is empty</p>
-        )}
-
-        {/* Hidden PayHere form */}
-        {cart.length > 0 && (
-          <form
-            id="payhere-form"
-            method="POST"
-            action="https://sandbox.payhere.lk/pay/checkout"
-            style={{ display: 'none' }} // Hide the form
-          >
-            <input type="hidden" name="merchant_id" value="1228322" />
-            <input type="hidden" name="return_url" value="http://localhost:3000/cart" />
-            <input type="hidden" name="cancel_url" value="http://localhost:3000/cancel" />
-            <input type="hidden" name="notify_url" value="http://localhost:3000/notify" />
-            <input type="hidden" name="order_id" value="1727630969594" />
-            <input type="hidden" name="items" value={cart.map(item => item.name).join(', ')} />
-            <input type="hidden" name="currency" value="Rs" />
-            <input type="hidden" name="amount" value="300.00" />
-
-            {/* Customer Info */}
-            <input type="hidden" name="first_name" value="John" />
-            <input type="hidden" name="last_name" value="Doe" />
-            <input type="hidden" name="email" value="john@example.com" />
-            <input type="hidden" name="phone" value="0771234567" />
-            <input type="hidden" name="address" value="123, ABC Street, Colombo" />
-            <input type="hidden" name="city" value="Colombo" />
-          </form>
         )}
       </CartContainer>
     </CartWrapper>
