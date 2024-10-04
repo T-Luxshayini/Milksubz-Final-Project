@@ -79,7 +79,7 @@ function PaymentPage() {
         </label>
       </div>
 
-      <button onClick={handlePayment}>Confirm Payment</button>
+      <button onClick={handlePayment}>Confirm Order</button>
     </div>
   );
 }
