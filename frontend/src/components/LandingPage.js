@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milkbg.jpg'; 
+import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/vecteezy_milk-is-poured-into-a-glass-cup-from-a-bottle-on-the-wooden_23999862.jpg'; 
 import Footer from './Footer';
 // import ProductCarousel from './ProductCarousel';
 const LandingPageWrapper = styled.div`
