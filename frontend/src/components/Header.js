@@ -1,5 +1,4 @@
-// src/components/Header.js
-import React from 'react';
+import React, { useState, useEffect } from 'react'; // Import useState and useEffect
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaHome, FaBoxOpen, FaShoppingCart, FaMoneyCheckAlt } from 'react-icons/fa'; // Import icons
@@ -52,10 +51,31 @@ const LogoutButton = styled.button`
   }
 `;
 
+const CartIconWrapper = styled.div`
+  position: relative; // Positioning for the cart count badge
+`;
+
+const CartCount = styled.span`
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8em;
+`;
+
 function Header() {
+  const [cartCount, setCartCount] = useState(0); // State for cart count
   const navigate = useNavigate();
 
-  // Logout function to remove token and navigate to login page
+  useEffect(() => {
+    // Fetch cart from local storage and set the count
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCartCount(cart.length);
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from localStorage
     navigate('/login'); // Redirect to the login page
@@ -73,9 +93,12 @@ function Header() {
         <NavLink to="/products">
           <FaBoxOpen /> Products
         </NavLink>
-        <NavLink to="/cart">
-          <FaShoppingCart /> Cart
-        </NavLink>
+        <CartIconWrapper>
+          <NavLink to="/cart">
+            <FaShoppingCart />
+            {cartCount > 0 && <CartCount>{cartCount}</CartCount>} {/* Display cart count */}
+          </NavLink>
+        </CartIconWrapper>
         <NavLink to="/payment-history">
           <FaMoneyCheckAlt /> Payment
         </NavLink>

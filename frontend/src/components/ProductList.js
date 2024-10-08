@@ -61,6 +61,7 @@ function ProductList() {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart.push(product);
     localStorage.setItem('cart', JSON.stringify(cart));
+    const cartCount = cart.length;
     setSnackbarMessage(`${product.name} added to cart successfully ✅`);
     setSnackbarOpen(true);
   };
