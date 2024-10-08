@@ -4,42 +4,40 @@ import axios from 'axios';
 
 function PaymentPage() {
   const location = useLocation();
-  const { item, quantity } = location.state || {};
+  const { cart, totalAmount } = location.state || {};
   const navigate = useNavigate();
 
-  // State to manage the address and phone number inputs
+  // State to manage name, address, and phone number inputs
+  const [name, setName] = useState(''); // New state for name
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  if (!item) {
-    return <div>No product selected for payment</div>;
+  if (!cart || cart.length === 0) {
+    return <div>No items in the cart for payment</div>;
   }
-
-  const totalPrice = item.price * quantity;
 
   const handlePayment = async () => {
     // Validate input fields
-    if (!address || !phoneNumber) {
-      alert('Please fill in all the required fields (address and phone number).');
+    if (!name || !address || !phoneNumber) {
+      alert('Please fill in all the required fields (name, address, and phone number).');
       return;
     }
 
     try {
-      // Save the order in the backend after payment
       const orderData = {
-        items: [{ productId: item._id, name: item.name, quantity, price: item.price }],
-        totalAmount: totalPrice,
-        address, // Address from input field
-        telephone: phoneNumber, // Phone number
+        name, // Include the name here
+        totalAmount, // Ensure this is calculated based on the cart items
+        address,
+        telephone: phoneNumber,
       };
 
-      // Update the API endpoint to match your backend route
-      await axios.post('http://localhost:5005/api/orders', orderData); // Ensure this route matches the backend
-      alert('Payment Successful');
-      console.log('Order Data:', orderData); // Check what you are sending
+      await axios.post('http://localhost:5005/api/orders', orderData);
+      alert('Order saved successfully.');
 
-      // Redirect to order history page
-      navigate('/orders'); 
+      const paymentLink = "https://sandbox.payhere.lk/pay/o753126ca"; 
+      window.open(paymentLink, "_blank"); 
+      
+      navigate('/orders'); // Optional: Redirect to order history or another page after payment
     } catch (error) {
       console.error('Payment failed:', error);
       alert('Payment failed: ' + (error.response?.data?.error || 'An error occurred'));
@@ -48,11 +46,24 @@ function PaymentPage() {
 
   return (
     <div>
-      <h2>Payment for {item.name}</h2>
-      <p>Quantity: {quantity}</p>
-      <p>Total Price: Rs {totalPrice}</p>
-      
-      {/* Add input fields for address and phone number */}
+      <h2>Payment Summary</h2>
+      <p>Total Price: Rs {totalAmount}</p>
+
+      {/* Add input field for Name */}
+      <div>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            placeholder="Enter your name"
+          />
+        </label>
+      </div>
+
+      {/* Existing input fields for address and phone number */}
       <div>
         <label>
           Address:
@@ -65,7 +76,7 @@ function PaymentPage() {
           />
         </label>
       </div>
-      
+
       <div>
         <label>
           Phone Number:

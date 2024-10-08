@@ -131,16 +131,16 @@ function CartPage() {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  const handleCheckout = () => {
-    const paymentLink = "https://sandbox.payhere.lk/pay/o753126ca"; // Use the sandbox payment link
-    window.open(paymentLink, "_blank"); // Open the payment link in a new tab or window
-  };
-
   // const handleCheckout = () => {
-  //   const totalAmount = calculateTotal();
-  //   // Pass the entire cart to the payment page
-  //   navigate('/payment', { state: { cart, totalAmount } });
+  //   const paymentLink = "https://sandbox.payhere.lk/pay/o753126ca"; // Use the sandbox payment link
+  //   window.open(paymentLink, "_blank"); // Open the payment link in a new tab or window
   // };
+
+  const handleCheckout = () => {
+    const totalAmount = calculateTotal();
+    // Pass the entire cart to the payment page
+    navigate('/payment', { state: { cart, totalAmount } });
+  };
 
   return (
     <CartWrapper>

@@ -7,22 +7,18 @@ const { auth, adminAuth } = require('../middleware/auth'); // Middleware for aut
 // Create a new order
 router.post('/', async (req, res) => {
     try {
-      const { items, totalAmount, telephone, address } = req.body;
+      const { name, totalAmount, telephone, address } = req.body;
   
       // Validate the incoming data
-      if (!items || items.length === 0) {
-        return res.status(400).json({ message: 'Order items are required.' });
-      }
-      if (!telephone || !address) {
-        return res.status(400).json({ message: 'Telephone number and address are required.' });
+      if (!name || !totalAmount || !telephone || !address) {
+        return res.status(400).json({ message: 'Name, total amount, telephone, and address are required.' });
       }
   
       const order = new Order({
-        items,
+        name,
         totalAmount,
         telephone,
         address,
-        paymentStatus: 'Completed',
       });
   
       await order.save();

@@ -2,6 +2,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaHome, FaBoxOpen, FaShoppingCart, FaMoneyCheckAlt } from 'react-icons/fa'; // Import icons
+import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri'; // For login/logout icons
 
 const HeaderContainer = styled.header`
   background-color: #f8f8f8;
@@ -25,6 +27,10 @@ const Nav = styled.nav`
 const NavLink = styled(Link)`
   color: #333;
   text-decoration: none;
+  display: flex;
+  align-items: center; // Align text and icon vertically
+  gap: 5px; // Space between icon and text
+
   &:hover {
     text-decoration: underline;
   }
@@ -37,6 +43,9 @@ const LogoutButton = styled.button`
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
+  align-items: center; // Align icon with text
+  gap: 5px; // Space between icon and text
 
   &:hover {
     background-color: #ff4500;
@@ -45,7 +54,7 @@ const LogoutButton = styled.button`
 
 function Header() {
   const navigate = useNavigate();
-  
+
   // Logout function to remove token and navigate to login page
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from localStorage
@@ -58,17 +67,31 @@ function Header() {
     <HeaderContainer>
       <Logo to="/">MilkSubz</Logo>
       <Nav>
-        <NavLink to="/">Home</NavLink> 
-        <NavLink to="/products">Products</NavLink>
-        <NavLink to="/cart">Cart</NavLink> 
-        <NavLink to="/payment-history">Payment</NavLink>
+        <NavLink to="/">
+          <FaHome /> Home
+        </NavLink>
+        <NavLink to="/products">
+          <FaBoxOpen /> Products
+        </NavLink>
+        <NavLink to="/cart">
+          <FaShoppingCart /> Cart
+        </NavLink>
+        <NavLink to="/payment-history">
+          <FaMoneyCheckAlt /> Payment
+        </NavLink>
         {!isLoggedIn ? (
           <>
-            <NavLink to="/login">Login</NavLink>
-            <NavLink to="/register">Register</NavLink>
+            <NavLink to="/login">
+              <RiLoginBoxLine /> Login
+            </NavLink>
+            <NavLink to="/register">
+              <RiLoginBoxLine /> Register
+            </NavLink>
           </>
         ) : (
-          <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+          <LogoutButton onClick={handleLogout}>
+            <RiLogoutBoxLine /> Logout
+          </LogoutButton>
         )}
       </Nav>
     </HeaderContainer>
