@@ -105,6 +105,9 @@ const TotalAmount = styled.div`
 function CartPage() {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token'); 
+
+  
 
   const handleItemClick = (item) => {
     navigate('/order', { state: { item } });
