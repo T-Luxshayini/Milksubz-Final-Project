@@ -2,13 +2,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const cartItemSchema = new mongoose.Schema({
-  name: String,
-  price: Number,
-  quantity: { type: Number, default: 1 },
-  imageUrl: String,
-  description: String
-});
+// const cartItemSchema = new mongoose.Schema({
+//   name: String,
+//   price: Number,
+//   quantity: { type: Number, default: 1 },
+//   imageUrl: String,
+//   description: String
+// });
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true }, 
   lastName: { type: String, required: true }, 
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
-  cart: [cartItemSchema]
+  // cart: [cartItemSchema]
   // isActive: { type: Boolean, default: true }, // Active by default
   // createdAt: { type: Date, default: Date.now }
 });

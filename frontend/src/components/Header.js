@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHome, FaBoxOpen, FaShoppingCart, FaMoneyCheckAlt } from 'react-icons/fa'; // Import icons
-import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri'; // For login/logout icons
+import { FaHome, FaBoxOpen, FaShoppingCart, FaMoneyCheckAlt } from 'react-icons/fa';
+import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri';
 
 const HeaderContainer = styled.header`
   background-color: #f8f8f8;
@@ -27,8 +27,8 @@ const NavLink = styled(Link)`
   color: #333;
   text-decoration: none;
   display: flex;
-  align-items: center; // Align text and icon vertically
-  gap: 5px; // Space between icon and text
+  align-items: center;
+  gap: 5px;
 
   &:hover {
     text-decoration: underline;
@@ -43,8 +43,8 @@ const LogoutButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   display: flex;
-  align-items: center; // Align icon with text
-  gap: 5px; // Space between icon and text
+  align-items: center;
+  gap: 5px;
 
   &:hover {
     background-color: #ff4500;
@@ -52,7 +52,7 @@ const LogoutButton = styled.button`
 `;
 
 const CartIconWrapper = styled.div`
-  position: relative; // Positioning for the cart count badge
+  position: relative;
 `;
 
 const CartCount = styled.span`
@@ -67,7 +67,7 @@ const CartCount = styled.span`
 `;
 
 function Header() {
-  const [cartCount, setCartCount] = useState(0); // State for cart count
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -77,8 +77,12 @@ function Header() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove the token from localStorage
-    navigate('/login'); // Redirect to the login page
+    // Clear user token and cart from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('cart');
+
+    // Redirect to the login page
+    navigate('/login');
   };
 
   const isLoggedIn = localStorage.getItem('token'); // Check if the user is logged in
