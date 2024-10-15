@@ -23,10 +23,10 @@ const AdminOrders = () => {
   // Prepare data for DataGrid
   const rows = orders.map((order) => ({
     id: order._id, // Set unique ID for each order
-    user: order.userId?.username || 'Unknown', // Ensure to handle case where userId may not exist
+    user: order.userId?.username || 'Unknown', // Use populated username
     totalAmount: order.totalAmount,
-    paymentStatus: order.paymentStatus,
-    items: order.items.map((item) => `${item.name} (Quantity: ${item.quantity})`).join(', '), // Format items
+    paymentStatus: order.paymentStatus || 'Pending', // Provide a default value for paymentStatus
+    items: order.items ? order.items.map((item) => `${item.productId?.name || 'Unknown'} (Quantity: ${item.quantity})`).join(', ') : 'No items', // Handle undefined items
     telephone: order.telephone, // Include telephone
     address: order.address, // Include address
   }));

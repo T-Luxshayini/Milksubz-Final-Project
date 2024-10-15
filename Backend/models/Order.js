@@ -3,29 +3,41 @@ const mongoose = require('mongoose');
 
 // Define the Order Schema
 const OrderSchema = new mongoose.Schema({
-  
-    
-      name: {
-        type: String,
-        required: true, // Ensure this field is required
+  userId: {
+    type: mongoose.Schema.Types.ObjectId, // Reference to the User model
+    required: true,
+    ref: 'User' // Assuming you have a User model
+  },
+  totalAmount: {
+    type: Number,
+    required: true,
+  },
+  telephone: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  items: [
+    {
+      productId: {
+        type: mongoose.Schema.Types.ObjectId, // Reference to the Product model
+        required: true,
+        ref: 'Product' // Assuming you have a Product model
       },
-      totalAmount: {
+      quantity: {
         type: Number,
         required: true,
       },
-      telephone: {
-        type: String,
-        required: true,
-      },
-      address: {
-        type: String,
-        required: true,
-      },
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
-    });
+    }
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 // Create the Order model
 const Order = mongoose.model('Order', OrderSchema);
