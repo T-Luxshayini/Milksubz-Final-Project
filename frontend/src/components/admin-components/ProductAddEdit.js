@@ -37,8 +37,11 @@ const ProductAddEdit = () => {
     const token = localStorage.getItem('token');
 
     try {
+      console.log('Token:', token); // Check if the token is retrieved correctly
+      console.log('New Product:', newProduct); // Check the product data being passed
+      
       if (currentProduct) {
-        // console.log("exist product");
+        // Editing existing product
         const response = await axios.patch(`http://localhost:5005/api/products/${currentProduct.id}`, newProduct, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,7 +64,12 @@ const ProductAddEdit = () => {
       setOpenForm(false);
       setCurrentProduct(null); // Reset current product after save
     } catch (error) {
-      console.error('Error saving product:', error);
+      // Enhanced error logging to help identify the issue
+      if (error.response) {
+        console.error('Error response:', error.response.data); // Server response error (e.g., validation error)
+      } else {
+        console.error('Error message:', error.message); // Other errors (e.g., network issues)
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -123,17 +131,23 @@ const ProductAddEdit = () => {
         variant="outlined"
         color="primary"
         startIcon={<AddIcon />}
-        onClick={() => {setCurrentProduct(null); setOpenForm(true); }} // Open form for adding a new product
+        onClick={() => { 
+          setCurrentProduct(null); // Reset current product for new entry
+          setOpenForm(true); // Open form for adding a new product
+        }} 
       >
         Add Product
       </Button>
       <ProductForm
         open={openForm}
-        onClose={() => setOpenForm(false)}
+        onClose={() => {
+          setOpenForm(false);
+          setCurrentProduct(null); // Reset when closing the form
+        }}
         onSave={handleAddProduct}
         product={currentProduct}
       />
-      <Box sx={{ height: 500, width: '100%'}}>
+      <Box sx={{ height: 500, width: '100%' }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -141,7 +155,7 @@ const ProductAddEdit = () => {
           rowModesModel={rowModesModel}
           onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
           getRowId={(row) => row.id}
-          style={{ height: 500, width: '100%' }} 
+          style={{ height: 500, width: '100%' }}
         />
       </Box>
     </div>

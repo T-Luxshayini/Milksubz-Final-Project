@@ -15,6 +15,7 @@ router.post('/', async (req, res) => {
       }
   
       const order = new Order({
+        userId: req.user._id,
         name,
         totalAmount,
         telephone,
