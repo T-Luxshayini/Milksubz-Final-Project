@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Pagination } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button as MuiButton } from '@mui/material';
 
 const PageWrapper = styled.div`
   background-image: url('/path/to/your/background-image.jpg'); /* Add your image path */
@@ -9,42 +11,41 @@ const PageWrapper = styled.div`
   background-position: center;
   min-height: 100vh;
   padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Title = styled.h2`
+  font-family: 'Arial', sans-serif; /* Change font style for the heading */
+  font-size: 2.5rem; /* Increase the font size */
+  color: #333; /* You can change the color if needed */
+  margin-bottom: 40px;
 `;
 
 const ProductGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr); /* 3 products side by side */
+  gap: 60px; /* Increase the gap between products */
+  justify-content: center; /* Center the grid */
+  max-width: 1500px; /* Increase the width of the grid */
+  margin: 0 auto;
 `;
 
-const ProductCard = styled.div`
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  text-align: center;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-
+const ProductCard = styled(Card)`
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
   &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: scale(1.05);
-  }
-  h3 {
-    margin: 10px 0 5px 0;
-  }
-
-  p {
-    margin: 5px 0;
+    transform: scale(1.05); /* Slightly enlarge the product card */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
   }
 `;
 
-const Button = styled.button`
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
+const HoverButton = styled(MuiButton)`
+  font-size: 0.2rem; /* Reduced font size of the buttons */
+  padding: 5px 10px; /* Reduced padding */
+  margin: 2px,2px; /* Smaller margin to create a smaller gap */
+  transition: all 0.3s ease;
 `;
 
 const ModalWrapper = styled.div`
@@ -66,12 +67,10 @@ const ModalContent = styled.div`
   text-align: center;
 `;
 
-const SubscriptionButton = styled(Button)`
-  background-color: #28a745;
-`;
-
 function ProductList() {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(3); // 3 products per page
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
@@ -88,6 +87,11 @@ function ProductList() {
 
     fetchProducts();
   }, []);
+
+  // Logic for displaying current products
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const handleAddToCart = (product) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -115,33 +119,62 @@ function ProductList() {
     setShowModal(false);
   };
 
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
   return (
     <PageWrapper>
-      <h2>Our Products</h2>
+      <Title>Our Products</Title>
       <ProductGrid>
-        {products.map((product) => (
-          <ProductCard key={product._id}>
-            <img src={product.imageUrl} alt={product.name} width="180" />
-            <h3>{product.name}</h3>
-            <p>{product.description}</p>
-            <p>Rs {product.price}.00</p>
-            <p>{product.category}</p>
-            <div>
-              <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
-              <SubscriptionButton onClick={() => handleSubscribe(product)}>Subscribe</SubscriptionButton>
-            </div>
+        {currentProducts.map((product) => (
+          <ProductCard key={product._id} sx={{ maxWidth: 300, textAlign: 'center' }}>
+            <CardMedia
+              component="img"
+              height="180"
+              image={product.imageUrl}
+              alt={product.name}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {product.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {product.description}
+              </Typography>
+              <Typography variant="body1" color="primary">
+                Rs {product.price}.00
+              </Typography>
+              <Typography variant="body2">
+                {product.category}
+              </Typography>
+              <HoverButton variant="contained" color="primary" onClick={() => handleAddToCart(product)}>
+                Add to Cart
+              </HoverButton>
+              <HoverButton variant="contained" color="success" onClick={() => handleSubscribe(product)}>
+                Subscribe
+              </HoverButton>
+            </CardContent>
           </ProductCard>
         ))}
       </ProductGrid>
+
+      {/* Pagination component */}
+      <Pagination
+        count={Math.ceil(products.length / productsPerPage)}
+        page={currentPage}
+        onChange={handlePageChange}
+        sx={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}
+      />
 
       {/* Modal for subscription selection */}
       {showModal && (
         <ModalWrapper onClick={() => setShowModal(false)}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <h3>Choose Subscription Plan for {selectedProduct?.name}</h3>
-            <Button onClick={() => handleSubscriptionChoice('1 Week')}>1 Week</Button>
-            <Button onClick={() => handleSubscriptionChoice('1 Month')}>1 Month</Button>
-            <Button onClick={() => setShowModal(false)}>Cancel</Button>
+            <HoverButton onClick={() => handleSubscriptionChoice('1 Week')}>1 Week</HoverButton>
+            <HoverButton onClick={() => handleSubscriptionChoice('1 Month')}>1 Month</HoverButton>
+            <HoverButton onClick={() => setShowModal(false)}>Cancel</HoverButton>
           </ModalContent>
         </ModalWrapper>
       )}

@@ -79,9 +79,20 @@ function PaymentPage() {
     return <div>No items in the cart for payment</div>;
   }
 
+  const validatePhoneNumber = (number) => {
+    // Regex for validating Sri Lankan phone numbers (starts with 07 and has 8 digits after)
+    const phoneRegex = /^07\d{8}$/;
+    return phoneRegex.test(number);
+  };
+
   const handlePayment = async () => {
     if (!name || !address || !phoneNumber) {
       alert('Please fill in all required fields (name, address, phone number).');
+      return;
+    }
+
+    if (!validatePhoneNumber(phoneNumber)) {
+      alert('Please enter a valid Sri Lankan phone number (e.g., 0771234567).');
       return;
     }
 
@@ -91,15 +102,22 @@ function PaymentPage() {
         totalAmount,
         address,
         telephone: phoneNumber,
+        // items: cart.map(item => ({
+        //   productId: item.productId,
+        //   quantity: item.quantity,
+        // })),
       };
 
-      await axios.post('http://localhost:5005/api/orders', orderData);
+      // Send the order data to the backend
+      const response = await axios.post('http://localhost:5005/api/orders', orderData);
       alert('Order saved successfully.');
 
+      // Redirect the user to the payment link
       const paymentLink = "https://sandbox.payhere.lk/pay/o753126ca";
-      window.open(paymentLink, "_blank");
+      window.location.href = paymentLink;
 
-      navigate('/orders'); // Redirect to orders after payment
+      // Redirect to orders after payment
+      navigate('/orders'); 
     } catch (error) {
       console.error('Payment failed:', error);
       alert('Payment failed: ' + (error.response?.data?.error || 'An error occurred'));
@@ -141,7 +159,7 @@ function PaymentPage() {
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             required
-            placeholder="Enter your phone number"
+            placeholder="Enter your phone number (e.g., 0771234567)"
           />
         </InputField>
 

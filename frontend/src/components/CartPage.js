@@ -140,9 +140,13 @@ function CartPage() {
   // };
 
   const handleCheckout = () => {
-    const totalAmount = calculateTotal();
-    // Pass the entire cart to the payment page
-    navigate('/payment', { state: { cart, totalAmount } });
+    try {
+      const totalAmount = calculateTotal();
+      navigate('/payment', { state: { cart, totalAmount } });
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert('There was an issue proceeding to checkout. Please try again.');
+    }
   };
 
   return (
@@ -157,21 +161,22 @@ function CartPage() {
           <>
             {cart.map((item, index) => (
               <CartItem key={index} onClick={() => handleItemClick(item)}>
-                <img src={item.imageUrl} alt={item.name} width="60" />
-                <CartDetails>
-                  <CartItemName>{item.name}</CartItemName>
-                  <p>{item.description}</p>
-                </CartDetails>
-                <CartQuantity>
-                  <QuantityButton onClick={() => handleQuantityChange(item, -1)}>-</QuantityButton>
-                  <span>{item.quantity || 1}</span>
-                  <QuantityButton onClick={() => handleQuantityChange(item, 1)}>+</QuantityButton>
-                </CartQuantity>
-                <CartPrice>Rs {item.price}</CartPrice>
-                <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
-                  <FontAwesomeIcon icon={faTrashAlt} color="red" />
-                </DeleteButton>
-              </CartItem>
+              {item.imageUrl && <img src={item.imageUrl} alt={item.name} width="60" />}
+              <CartDetails>
+                <CartItemName>{item.name || 'Item'}</CartItemName>
+                <p>{item.description || 'No description available'}</p>
+              </CartDetails>
+              <CartQuantity>
+                <QuantityButton onClick={() => handleQuantityChange(item, -1)}>-</QuantityButton>
+                <span>{item.quantity || 1}</span>
+                <QuantityButton onClick={() => handleQuantityChange(item, 1)}>+</QuantityButton>
+              </CartQuantity>
+              <CartPrice>Rs {item.price || 0}</CartPrice>
+              <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
+                <FontAwesomeIcon icon={faTrashAlt} color="red" />
+              </DeleteButton>
+            </CartItem>
+            
             ))}
             <TotalAmount>Total: Rs {calculateTotal()}</TotalAmount> {/* Display total amount */}
             <CheckoutButton onClick={handleCheckout}>Proceed to Checkout</CheckoutButton>
