@@ -1,72 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { AppBar, Toolbar, Typography, IconButton, Badge, Button, Box } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaHome, FaBoxOpen, FaShoppingCart, FaMoneyCheckAlt } from 'react-icons/fa';
 import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri';
 
-const HeaderContainer = styled.header`
-  background-color: #f8f8f8;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Logo = styled(Link)`
-  font-size: 1.5em;
-  color: #333;
-  text-decoration: none;
-`;
-
-const Nav = styled.nav`
-  display: flex;
-  gap: 20px;
-`;
-
-const NavLink = styled(Link)`
-  color: #333;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const LogoutButton = styled.button`
-  background-color: #ff6347;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-
-  &:hover {
-    background-color: #ff4500;
-  }
-`;
-
-const CartIconWrapper = styled.div`
-  position: relative;
-`;
-
-const CartCount = styled.span`
-  position: absolute;
-  top: -5px;
-  right: -10px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 0.8em;
-`;
-
-function Header() {
+const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
@@ -88,41 +26,65 @@ function Header() {
   const isLoggedIn = localStorage.getItem('token'); // Check if the user is logged in
 
   return (
-    <HeaderContainer>
-      <Logo to="/">MilkSubz</Logo>
-      <Nav>
-        <NavLink to="/">
-          <FaHome /> Home
-        </NavLink>
-        <NavLink to="/products">
-          <FaBoxOpen /> Products
-        </NavLink>
-        <CartIconWrapper>
-          <NavLink to="/cart">
-            <FaShoppingCart />
-            {cartCount > 0 && <CartCount>{cartCount}</CartCount>} {/* Display cart count */}
-          </NavLink>
-        </CartIconWrapper>
-        <NavLink to="/payment-history">
-          <FaMoneyCheckAlt /> Payment
-        </NavLink>
-        {!isLoggedIn ? (
-          <>
-            <NavLink to="/login">
-              <RiLoginBoxLine /> Login
-            </NavLink>
-            <NavLink to="/register">
-              <RiLoginBoxLine /> Register
-            </NavLink>
-          </>
-        ) : (
-          <LogoutButton onClick={handleLogout}>
-            <RiLogoutBoxLine /> Logout
-          </LogoutButton>
-        )}
-      </Nav>
-    </HeaderContainer>
+    <AppBar position="static" sx={{ backgroundColor: '#f8f8f8', color: '#333' }}>
+      <Toolbar>
+        <Typography
+          variant="h6"
+          component={Link}
+          to="/"
+          sx={{ textDecoration: 'none', color: '#333', flexGrow: 1 }}
+        >
+          MilkSubz
+        </Typography>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <Button component={Link} to="/" color="inherit" startIcon={<FaHome />}>
+            Home
+          </Button>
+          <Button component={Link} to="/products" color="inherit" startIcon={<FaBoxOpen />}>
+            Products
+          </Button>
+          <IconButton
+            component={Link}
+            to="/cart"
+            color="inherit"
+          >
+            <Badge badgeContent={cartCount} color="secondary">
+              <FaShoppingCart />
+            </Badge>
+          </IconButton>
+          {/* <Button component={Link} to="/payment-history" color="inherit" startIcon={<FaMoneyCheckAlt />}>
+            Payment
+          </Button> */}
+
+          {!isLoggedIn ? (
+            <>
+              <Button component={Link} to="/login" color="inherit" startIcon={<RiLoginBoxLine />}>
+                Login
+              </Button>
+              <Button component={Link} to="/register" color="inherit" startIcon={<RiLoginBoxLine />}>
+                Register
+              </Button>
+            </>
+          ) : (
+            <Button
+              onClick={handleLogout}
+              color="inherit"
+              startIcon={<RiLogoutBoxLine />}
+              sx={{
+                backgroundColor: '#ff6347',
+                '&:hover': {
+                  backgroundColor: '#ff4500',
+                },
+              }}
+            >
+              Logout
+            </Button>
+          )}
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
-}
+};
 
 export default Header;
