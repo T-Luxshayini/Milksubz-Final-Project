@@ -6,7 +6,7 @@ import { Pagination } from '@mui/material';
 import { Card, CardContent, CardMedia, Typography, Button as MuiButton } from '@mui/material';
 
 const PageWrapper = styled.div`
-  background-image: url('/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/vecteezy_realistic-photo-of-fresh-milk-close-up-food-photography_27812402.jpg'); /* Add your image path */
+  background-image: url('/path/to/your/background-image.jpg'); /* Ensure this path is correct */
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -17,35 +17,53 @@ const PageWrapper = styled.div`
 `;
 
 const Title = styled.h2`
-  font-family: 'Arial', sans-serif; /* Change font style for the heading */
-  font-size: 2.5rem; /* Increase the font size */
-  color: #333; /* You can change the color if needed */
+  font-family: 'Arial', sans-serif;
+  font-size: 2.5rem;
+  color: #0D7C66; /* Matching your brand color */
   margin-bottom: 40px;
 `;
 
 const ProductGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 products side by side */
-  gap: 60px; /* Increase the gap between products */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 40px; /* Increase the gap between products */
   justify-content: center; /* Center the grid */
-  max-width: 1500px; /* Increase the width of the grid */
+  max-width: 1200px; /* Max width of grid */
   margin: 0 auto;
 `;
 
 const ProductCard = styled(Card)`
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
+  border: 4px solid #0D7C66; /* Add a border color */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 8px; /* Rounded corners */
+  overflow: hidden; /* Prevents overflow */
   &:hover {
-    transform: scale(1.05); /* Slightly enlarge the product card */
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    transform: translateY(-5px); /* Subtle lift effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
 `;
 
 const HoverButton = styled(MuiButton)`
-  font-size: 0.2rem; /* Reduced font size of the buttons */
-  padding: 5px 10px; /* Reduced padding */
-  margin: 2px,2px; /* Smaller margin to create a smaller gap */
+  font-size: 0.875rem; /* Slightly larger font size */
+  padding: 10px 20px; /* Adjust padding */
+  margin: 5px; /* Adjust margin */
   transition: all 0.3s ease;
+  background-color: #0D7C66; /* Set green button background color */
+  color: white; /* Button text color */
+  border: 2px solid transparent; /* Initial border */
+  
+  /* Neon border effect */
+  box-shadow: 0 0 5px rgba(13, 124, 102, 0.8), 
+              0 0 10px rgba(13, 124, 102, 0.6), 
+              0 0 15px rgba(13, 124, 102, 0.4);
+  
+  &:hover {
+    background-color: #66BB6A; /* Lighter green on hover */
+    box-shadow: 0 0 10px rgba(13, 124, 102, 1), 
+                0 0 20px rgba(13, 124, 102, 0.8), 
+                0 0 30px rgba(13, 124, 102, 0.6); /* Brighter neon effect on hover */
+  }
 `;
 
 const ModalWrapper = styled.div`
@@ -70,7 +88,7 @@ const ModalContent = styled.div`
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(3); // 3 products per page
+  const [productsPerPage] = useState(6); // 6 products per page
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
@@ -142,13 +160,13 @@ function ProductList() {
               <Typography variant="body2" color="text.secondary">
                 {product.description}
               </Typography>
-              <Typography variant="body1" color="primary">
+              <Typography variant="body1" color="#41B3A2">
                 Rs {product.price}.00
               </Typography>
               <Typography variant="body2">
                 {product.category}
               </Typography>
-              <HoverButton variant="contained" color="primary" onClick={() => handleAddToCart(product)}>
+              <HoverButton variant="contained" color='' onClick={() => handleAddToCart(product)}>
                 Add to Cart
               </HoverButton>
               <HoverButton variant="contained" color="success" onClick={() => handleSubscribe(product)}>

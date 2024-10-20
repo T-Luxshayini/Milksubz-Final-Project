@@ -10,7 +10,7 @@ const CartWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: url(${require('../images/milk.jpg')});
+  background-image: url(${require('/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/vecteezy_ai-generated-dairy-variety-on-wooden-backdrop_40555158.jpg')});
   background-size: cover;
   background-position: center;
   padding: 20px;
@@ -33,6 +33,8 @@ const CartHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  color: #0D7C66;
+  font-weight:bold;
 `;
 
 // Styling for individual cart items
@@ -49,11 +51,14 @@ const CartItem = styled.div`
 const CartDetails = styled.div`
   flex-grow: 1;
   margin-left: 10px;
+  
+
 `;
 
 // Styling for the cart item name
 const CartItemName = styled.h3`
   margin: 0;
+color: #0D7C66;
 `;
 
 // Quantity button wrapper
@@ -85,7 +90,7 @@ const DeleteButton = styled.button`
 
 // Proceed to Checkout button styling
 const CheckoutButton = styled.button`
-  background-color: #007bff;
+  background-color: #0D7C66;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -100,6 +105,7 @@ const TotalAmount = styled.div`
   font-size: 18px;
   margin-top: 20px;
   font-weight: bold;
+  color: #0D7C66;
 `;
 
 function CartPage() {

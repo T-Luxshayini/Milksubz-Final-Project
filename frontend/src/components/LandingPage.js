@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { Box, Typography, Button, Container, Grid, Card, CardMedia, CardContent, CardActions, Paper, TextField } from '@mui/material';
 import { keyframes } from '@mui/system'; // Import keyframes for the animation
-import Footer from './Footer'; 
+
 import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/vecteezy_ai-generated-bottle-of-milk-and-basket-of-daisies_41323560.jpeg'; 
 import product1Image from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milk1.jpg';
 import product1Image1 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/paneer.jpeg';
@@ -294,7 +294,7 @@ const LandingPage = () => {
       </Container>
 
       {/* Footer Section */}
-      <Footer />
+      
     </Box>
   );
 };

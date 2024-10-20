@@ -6,7 +6,7 @@ import LandingPage from './components/LandingPage';
 import './index.css';
 
 import Header from './components/Header';
-// import Footer from './components/Footer';
+import Footer from './components/Footer';
 import Login from './components/Login';
 import Register from './components/Register';
 import ProductList from './components/ProductList';
@@ -50,7 +50,7 @@ function App() {
             {/* <Route path="/payment-history" element={<PaymentHistoryPage />} /> */}
           </Routes>
         </MainContent>
-        {/* <Footer /> */}
+        <Footer />
       </AppContainer>
     </Router>
   );

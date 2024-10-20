@@ -132,7 +132,7 @@ const Header = () => {
                 <FaSearch />
               </IconButton>
               <IconButton component={Link} to="/cart" color="inherit">
-                <Badge badgeContent={cartCount} color="secondary">
+                <Badge badgeContent={cartCount} color="success">
                   <FaShoppingCart />
                 </Badge>
               </IconButton>

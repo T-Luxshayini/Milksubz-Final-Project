@@ -1,42 +1,12 @@
-// src/components/Register.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-
-const FormWrapper = styled.div`
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f0f8ff;
-  border-radius: 5px;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: #1e90ff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #4169e1;
-  }
-`;
+import { Box, TextField, Button, Typography, Link, Grid } from '@mui/material';
+import Image4 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/best-and-worst-milk-for-heart-health-alt-1440x810.jpg';
 
 function Register() {
-  const [firstName, setFirstName] = useState(''); 
-  const [lastName, setLastName] = useState(''); 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,7 +16,7 @@ function Register() {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5005/api/auth/register', {
-        firstName, 
+        firstName,
         lastName,
         username,
         email,
@@ -59,47 +29,209 @@ function Register() {
   };
 
   return (
-    <FormWrapper>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-      <Input
-          type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-        />
-        <Input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-        <Input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <Button type="submit">Register</Button>
-      </form>
-    </FormWrapper>
+    <Grid
+      container
+      sx={{
+        height: '100vh',
+        position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: '20px',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Background Image with Light Opacity and Rounded Corners */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: `url(${Image4})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.75,
+          borderRadius: '20px',
+          zIndex: -1,
+        }}
+      />
+
+      <Grid
+        item
+        xs={12}
+        md={6}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            width: '100%',
+            maxWidth: 600,
+            p: 6,
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
+            borderRadius: 2,
+            boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+          <Typography variant="h4" gutterBottom color='#0D7C66' fontWeight='bold'>
+            Create an Account
+          </Typography>
+          <TextField
+            label="First Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#0D7C66',
+                },
+              },
+              '& .MuiInputLabel-outlined': {
+                color: '#0D7C66',
+              },
+            }}
+          />
+          <TextField
+            label="Last Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#0D7C66',
+                },
+              },
+              '& .MuiInputLabel-outlined': {
+                color: '#0D7C66',
+              },
+            }}
+          />
+          <TextField
+            label="Username"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#0D7C66',
+                },
+              },
+              '& .MuiInputLabel-outlined': {
+                color: '#0D7C66',
+              },
+            }}
+          />
+          <TextField
+            label="Email"
+            type="email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#0D7C66',
+                },
+              },
+              '& .MuiInputLabel-outlined': {
+                color: '#0D7C66',
+              },
+            }}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#0D7C66',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#0D7C66',
+                },
+              },
+              '& .MuiInputLabel-outlined': {
+                color: '#0D7C66',
+              },
+            }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{ backgroundColor: '#0D7C66', mt: 2, '&:hover': { backgroundColor: '#41B3A2' } }}
+          >
+            Register
+          </Button>
+
+          <Typography align="center" color='#0D7C66' sx={{ mt: 2 }}>
+            Already have an account?
+            <Link href="#" underline="hover" color='#0D7C66' fontWeight='bold' onClick={() => navigate('/login')}>
+              Login
+            </Link>
+          </Typography>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
 
