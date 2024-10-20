@@ -1,106 +1,120 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Box, Typography, Link, Grid, IconButton } from '@mui/material';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
-
-const FooterContainer = styled.footer`
-  background-color: #1e90ff;
-  color: white;
-  padding: 40px 20px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  text-align: left;
-  width: 100%;
-  position: relative;
-  bottom: 0;
-`;
-
-const FooterSection = styled.div`
-  flex: 1;
-  margin: 20px;
-`;
-
-const FooterTitle = styled.h3`
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  color: #fff;
-  font-weight: bold;
-`;
-
-const FooterLink = styled(Link)`
-  display: block;
-  color: #fff;
-  margin-bottom: 8px;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const SocialMedia = styled.div`
-  display: flex;
-  gap: 15px;
-  margin-top: 15px;
-`;
-
-const SocialIcon = styled.a`
-  color: white;
-  font-size: 1.5em;
-  transition: color 0.3s;
-  
-  &:hover {
-    color: #ff4500;
-  }
-`;
-
-const Copyright = styled.div`
-  background-color: #1e90ff;
-  color: white;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: 20px;
-  width: 100%;
-`;
 
 function Footer() {
   return (
-    <>
-      <FooterContainer>
-        <FooterSection>
-          <FooterTitle>Quick Links</FooterTitle>
-          <FooterLink to="/home">Home</FooterLink>
-          <FooterLink to="/products">Products</FooterLink>
-          <FooterLink to="/subscriptions">Subscriptions</FooterLink>
-          <FooterLink to="/about">About Us</FooterLink>
-        </FooterSection>
-        
-        <FooterSection>
-          <FooterTitle>Contact Us</FooterTitle>
-          <p>Address: 123, Dairy Street, Jaffna, Sri Lanka</p>
-          <p>Phone: +94 77 123 4567</p>
-          <p>Email: support@milksubz.com</p>
-        </FooterSection>
+    <Box 
+      component="footer" 
+      sx={{
+        backgroundColor: '#0D7C66', // Main background color
+        color: 'white',
+        padding: '40px 20px',
+        maxWidth: '100vw',
+        width: '100%',
+        borderRadius: '40px', // Curved corners on all four sides
+        overflow: 'hidden', // Ensures inner content doesn't overflow the rounded corners
+        boxSizing: 'border-box',
+      }}
+    >
+      {/* Top part of the footer with the links */}
+      <Box
+        sx={{
+          backgroundColor: '#0D7C66', // Dark green for upper part
+          padding: '40px 20px',
+          maxWidth: '100vw',
+        }}
+      >
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" gutterBottom>
+              COMPANY INFORMATION
+            </Typography>
+            <Link href="/about" color="inherit" underline="hover">
+              About Us
+            </Link><br />
+            <Link href="/environmental" color="inherit" underline="hover">
+              Environmental
+            </Link><br />
+            <Link href="/cookie-policy" color="inherit" underline="hover">
+              Cookie Policy
+            </Link><br />
+            <Link href="/privacy-policy" color="inherit" underline="hover">
+              Privacy Policy
+            </Link><br />
+            <Link href="/affiliate-program" color="inherit" underline="hover">
+              Affiliate Program
+            </Link>
+          </Grid>
 
-        <FooterSection>
-          <FooterTitle>Follow Us</FooterTitle>
-          <SocialMedia>
-            <SocialIcon href="https://facebook.com" target="_blank" aria-label="Facebook">
-              <FaFacebook />
-            </SocialIcon>
-            <SocialIcon href="https://twitter.com" target="_blank" aria-label="Twitter">
-              <FaTwitter />
-            </SocialIcon>
-            <SocialIcon href="https://instagram.com" target="_blank" aria-label="Instagram">
-              <FaInstagram />
-            </SocialIcon>
-          </SocialMedia>
-        </FooterSection>
-      </FooterContainer>
-      <Copyright>
-        <p>&copy; 2023 MilkSubz. All rights reserved.</p>
-      </Copyright>
-    </>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" gutterBottom>
+              CUSTOMER SERVICES
+            </Typography>
+            <Link href="/contact" color="inherit" underline="hover">
+              Contact Us
+            </Link><br />
+            <Link href="/delivery-info" color="inherit" underline="hover">
+              Delivery Information
+            </Link><br />
+            <Link href="/returns-policy" color="inherit" underline="hover">
+              Quality Guarantee & Returns Policy
+            </Link><br />
+            <Link href="/terms" color="inherit" underline="hover">
+              Terms & Conditions
+            </Link>
+          </Grid>
+
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" gutterBottom>
+              MY ACCOUNT
+            </Typography>
+            <Link href="/my-account" color="inherit" underline="hover">
+              My Information
+            </Link><br />
+            <Link href="/order-history" color="inherit" underline="hover">
+              Order History
+            </Link><br />
+            <Link href="/notification-preferences" color="inherit" underline="hover">
+              Notification Preferences
+            </Link>
+          </Grid>
+        </Grid>
+      </Box>
+
+      {/* Bottom part of the footer with social media and copyright */}
+      <Box 
+        sx={{
+          backgroundColor: '#41B3A2', // Lighter green for bottom part
+          padding: '20px 0',
+          display: 'flex',
+          justifyContent: 'space-between',
+          borderRadius: '40px',
+          alignItems: 'center',
+          flexDirection: { xs: 'column', sm: 'row' },
+          width: '100%', // Ensure full width
+          maxWidth: '100vw',
+        }}
+      >
+        <Box sx={{ textAlign: 'center', marginBottom: { xs: '10px', sm: '0' } }}>
+          <Typography variant="body2">
+            &copy; 2023 MilkSubz. All rights reserved.
+          </Typography>
+        </Box>
+
+        <Box sx={{ textAlign: 'center' }}>
+          <IconButton href="https://facebook.com" target="_blank" sx={{ color: 'white' }}>
+            <FaFacebook />
+          </IconButton>
+          <IconButton href="https://twitter.com" target="_blank" sx={{ color: 'white' }}>
+            <FaTwitter />
+          </IconButton>
+          <IconButton href="https://instagram.com" target="_blank" sx={{ color: 'white' }}>
+            <FaInstagram />
+          </IconButton>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

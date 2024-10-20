@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Badge, Button, Box, Container } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaSearch, FaHeart, FaShoppingCart } from 'react-icons/fa';
-import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri';
+import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -61,16 +60,64 @@ const Header = () => {
             {/* Navigation Links for larger screens */}
             {!isMobile && (
               <Box sx={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
-                <Button component={Link} to="/" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+                <Button
+                  component={Link}
+                  to="/"
+                  color="inherit"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    '&:hover': {
+                      backgroundColor: '#41B3A2',
+                      color: '#fff',
+                    },
+                  }}
+                >
                   Home
                 </Button>
-                <Button component={Link} to="/products" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+                <Button
+                  component={Link}
+                  to="/products"
+                  color="inherit"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    '&:hover': {
+                      backgroundColor: '#41B3A2',
+                      color: '#fff',
+                    },
+                  }}
+                >
                   Shop
                 </Button>
-                <Button component={Link} to="/blog" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+                <Button
+                  component={Link}
+                  to="/blog"
+                  color="inherit"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    '&:hover': {
+                      backgroundColor: '#41B3A2',
+                      color: '#fff',
+                    },
+                  }}
+                >
                   Blog
                 </Button>
-                <Button component={Link} to="/contact" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+                <Button
+                  component={Link}
+                  to="/contact"
+                  color="inherit"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    '&:hover': {
+                      backgroundColor: '#41B3A2',
+                      color: '#fff',
+                    },
+                  }}
+                >
                   Contact
                 </Button>
               </Box>
@@ -83,9 +130,6 @@ const Header = () => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '20px' }}>
               <IconButton color="inherit">
                 <FaSearch />
-              </IconButton>
-              <IconButton color="inherit">
-                <FaHeart />
               </IconButton>
               <IconButton component={Link} to="/cart" color="inherit">
                 <Badge badgeContent={cartCount} color="secondary">
@@ -100,13 +144,19 @@ const Header = () => {
                     component={Link}
                     to="/login"
                     variant="outlined"
-                    color="success"
+                    
                     sx={{
                       textTransform: 'none',
                       fontWeight: 'bold',
                       borderRadius: '20px',
                       borderColor: '#0D7C66',
+                      color:"#0D7C66",
+                      '&:hover': {
+                        backgroundColor: '#41B3A2',
+                        color: '#fff',
+                      },
                       px: 2,
+                      
                       fontSize: isMobile ? '12px' : '16px', // Adjust font size for mobile
                     }}
                   >
