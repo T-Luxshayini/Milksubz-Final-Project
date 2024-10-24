@@ -2,6 +2,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
+
+// import { Elements } from '@stripe/react-stripe-js';
+//  // Import Elements from Stripe
+// import { loadStripe } from '@stripe/stripe-js'; // Import Stripe loader
 import LandingPage from './components/LandingPage';
 import './index.css';
 
@@ -16,6 +20,9 @@ import AdminDashboard from './components/admin-components/AdminDashboard';
 import CartPage from './components/CartPage'; // New Cart Page
 import PaymentPage from './components/PaymentPage'; // New Payment Page
 import OrderPage from './components/OrderPage';
+
+// const stripePromise = loadStripe('pk_test_51QCqZPFDU5aLIEJODMXZ1TrGjcmBHwEJGA5ADUyKW34FJPqWV6PmWQSssWKcxTUDLvXMkNPqO70W5331MkiJYlFt00RIvqYIJJ');
+// console.log(stripePromise);
 // import PaymentHistoryPage from './components/PaymentHistoryPage'; // New Payment History Page
 const AppContainer = styled.div`
   display: flex;
@@ -48,6 +55,16 @@ function App() {
             <Route path="/order" element={<OrderPage />} />
             <Route path="/payment" element={<PaymentPage />} /> {/* Add Payment Route */}
             {/* <Route path="/payment-history" element={<PaymentHistoryPage />} /> */}
+
+            {/* Wrap the Payment Page with Stripe Elements */}
+            {/* <Route 
+              path="/payment" 
+              element={
+                <Elements stripe={stripePromise}>
+                  <PaymentPage />
+                </Elements>
+              } 
+            /> */}
           </Routes>
         </MainContent>
         <Footer />

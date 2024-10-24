@@ -161,7 +161,7 @@ function ProductList() {
                 {product.description}
               </Typography>
               <Typography variant="body1" color="#41B3A2">
-                Rs {product.price}.00
+                $ {product.price}
               </Typography>
               <Typography variant="body2">
                 {product.category}

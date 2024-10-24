@@ -78,3 +78,28 @@ router.post('/notify', (req, res) => {
 
 
 module.exports = router;
+
+
+
+// const express = require('express');
+// const router = express.Router();
+// const stripe = require('stripe')('sk_test_51QCqZPFDU5aLIEJOe8i1Jj2S5zEDIMVMqk9zXySN2Auih4SsE2N87Kq1v5FTwMXFEsufxB06ZQj4TaEMn6J5lJzS000AxbMGbL'); // Use your Stripe Secret Key here
+
+// router.post('/create-payment-intent', async (req, res) => {
+//   const { amount } = req.body; // Total amount from frontend
+
+//   try {
+//     const paymentIntent = await stripe.paymentIntents.create({
+//       amount: amount * 100, // Amount in cents
+//       currency: 'usd', // US Dollars
+//     });
+
+//     res.send({
+//       clientSecret: paymentIntent.client_secret,
+//     });
+//   } catch (error) {
+//     res.status(500).send({ error: error.message });
+//   }
+// });
+
+// module.exports = router;

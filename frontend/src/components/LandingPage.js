@@ -11,9 +11,9 @@ import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/front
 
 // Sample product data
 const recommendedProducts = [
-  { id: 1, name: 'Fresh Cow Milk', price: 'Rs200', image: product1Image },
-  { id: 2, name: 'Paneer', price: 'Rs300', image: product1Image1 },
-  { id: 3, name: 'Ghee', price: 'Rs280', image: product1Image2 },
+  { id: 1, name: 'Fresh Cow Milk', price: '$200', image: product1Image },
+  { id: 2, name: 'Paneer', price: '$300', image: product1Image1 },
+  { id: 3, name: 'Ghee', price: '$280', image: product1Image2 },
 ];
 
 // Define the keyframes for the neon border animation
@@ -48,6 +48,7 @@ const LandingPage = () => {
       {/* Hero Section */}
       <Box
         sx={{
+          position: 'relative', // Make it relative for positioning the overlay
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -61,10 +62,23 @@ const LandingPage = () => {
           padding: '50px',
         }}
       >
-        <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+        {/* Overlay to reduce opacity */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the opacity here (0.5 means 50% opacity)
+            zIndex: 1, // Ensure the overlay is behind the text but above the background image
+          }}
+        />
+        
+        <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.8)', zIndex: 2 }}>
           Welcome to MilkSubz
         </Typography>
-        <Typography variant="h5" sx={{ mb: 4, textShadow: '1px 1px 3px rgba(0,0,0,0.6)' }}>
+        <Typography variant="h5" sx={{ mb: 4, textShadow: '1px 1px 3px rgba(0,0,0,0.6)', zIndex: 2 }}>
           Delivering fresh milk and dairy products right to your doorstep
         </Typography>
 
@@ -74,7 +88,7 @@ const LandingPage = () => {
             component={Link}
             to="/products"
             variant="contained"
-            sx={{ backgroundColor: '#fff', color: '#0D7C66', padding: '15px 30px', fontSize: '1em', fontWeight: 'bold', borderRadius: '5px' }}
+            sx={{ backgroundColor: '#fff', color: '#0D7C66', padding: '15px 30px', fontSize: '1em', fontWeight: 'bold', borderRadius: '5px', zIndex: 2 }}
           >
             View Products
           </Button>
@@ -82,7 +96,7 @@ const LandingPage = () => {
             component={Link}
             to="/subscriptions"
             variant="contained"
-            sx={{ backgroundColor: '#0D7C66', padding: '15px 30px', fontSize: '1em', fontWeight: 'bold', borderRadius: '5px' }}
+            sx={{ backgroundColor: '#0D7C66', padding: '15px 30px', fontSize: '1em', fontWeight: 'bold', borderRadius: '5px', zIndex: 2 }}
           >
             Subscribe Now
           </Button>
@@ -95,69 +109,68 @@ const LandingPage = () => {
           Recommended Products
         </Typography>
         <Grid container spacing={3}>
-  {recommendedProducts.map((product) => (
-    <Grid item key={product.id} xs={12} sm={6} md={4}>
-      <Card
-        sx={{
-          maxWidth: 300,
-          position: 'relative',
-          overflow: 'hidden',
-          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-          '&:hover': {
-            transform: 'scale(1.05)',
-            boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)',
-          },
-          border: '2px solid #0D7C66',
-          animation: `${neonBorderAnimation} 1.5s infinite alternate`,
-        }}
-      >
-        <CardMedia
-          component="img"
-          image={product.image}
-          alt={product.name}
-          sx={{
-            width: '100%',        // Ensures all images have the same width
-            height: '200px',      // Set a fixed height to keep image sizes consistent
-            objectFit: 'cover',   // Crop and fit the image while maintaining aspect ratio
-          }}
-        />
-        <CardContent sx={{ zIndex: 2 }}>
-          <Typography
-            gutterBottom
-            variant="h6"
-            component="div"
-            sx={{ fontWeight: 'bold' }}
-          >
-            {product.name}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.primary"
-            sx={{ fontSize: '1.2rem', color: '#41B3A2' }}
-          >
-            From {product.price}
-          </Typography>
-        </CardContent>
-        <CardActions sx={{ justifyContent: 'center', zIndex: 2 }}>
-          <Button
-            size="large"
-            variant="contained"
-            fullWidth
-            sx={{
-              backgroundColor: '#0D7C66',
-              padding: '10px 20px',
-              fontWeight: 'bold',
-            }}
-            onClick={handleViewMore}
-          >
-            View More
-          </Button>
-        </CardActions>
-      </Card>
-    </Grid>
-  ))}
-</Grid>
-
+          {recommendedProducts.map((product) => (
+            <Grid item key={product.id} xs={12} sm={6} md={4}>
+              <Card
+                sx={{
+                  maxWidth: 300,
+                  position: 'relative',
+                  overflow: 'hidden',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  '&:hover': {
+                    transform: 'scale(1.05)',
+                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)',
+                  },
+                  border: '2px solid #0D7C66',
+                  animation: `${neonBorderAnimation} 1.5s infinite alternate`,
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  image={product.image}
+                  alt={product.name}
+                  sx={{
+                    width: '100%',        // Ensures all images have the same width
+                    height: '200px',      // Set a fixed height to keep image sizes consistent
+                    objectFit: 'cover',   // Crop and fit the image while maintaining aspect ratio
+                  }}
+                />
+                <CardContent sx={{ zIndex: 2 }}>
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                    sx={{ fontWeight: 'bold' }}
+                  >
+                    {product.name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.primary"
+                    sx={{ fontSize: '1.2rem', color: '#41B3A2' }}
+                  >
+                    From {product.price}
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ justifyContent: 'center', zIndex: 2 }}>
+                  <Button
+                    size="large"
+                    variant="contained"
+                    fullWidth
+                    sx={{
+                      backgroundColor: '#0D7C66',
+                      padding: '10px 20px',
+                      fontWeight: 'bold',
+                    }}
+                    onClick={handleViewMore}
+                  >
+                    View More
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Container>
 
       {/* Contact Us Section */}
@@ -208,93 +221,37 @@ const LandingPage = () => {
                 fullWidth
                 label="Your Name"
                 variant="outlined"
-                sx={{
-                  mb: 2,
-                  '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                      borderColor: '#0D7C66',
-                    },
-                    '&:hover fieldset': {
-                      borderColor: '#0D7C66',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#0D7C66',
-                    },
-                  },
-                  '& .MuiInputLabel-outlined': {
-                    color: '#0D7C66',
-                  },
-                }}
-                InputProps={{
-                  style: { color: '#0D7C66' },
-                }}
+                sx={{ mb: 2 }}
               />
               <TextField
                 fullWidth
                 label="Your Email"
                 variant="outlined"
-                sx={{
-                  mb: 2,
-                  '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                      borderColor: '#0D7C66',
-                    },
-                    '&:hover fieldset': {
-                      borderColor: '#0D7C66',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#0D7C66',
-                    },
-                  },
-                  '& .MuiInputLabel-outlined': {
-                    color: '#0D7C66',
-                  },
-                }}
-                InputProps={{
-                  style: { color: '#0D7C66' },
-                }}
+                sx={{ mb: 2 }}
               />
               <TextField
                 fullWidth
                 label="Your Message"
+                variant="outlined"
                 multiline
                 rows={4}
-                variant="outlined"
-                sx={{
-                  mb: 2,
-                  '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                      borderColor: '#0D7C66',
-                    },
-                    '&:hover fieldset': {
-                      borderColor: '#0D7C66',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#0D7C66',
-                    },
-                  },
-                  '& .MuiInputLabel-outlined': {
-                    color: '#0D7C66',
-                  },
-                }}
-                InputProps={{
-                  style: { color: '#0D7C66' },
-                }}
+                sx={{ mb: 2 }}
               />
               <Button
-                type="submit"
                 variant="contained"
-                sx={{ backgroundColor: '#0D7C66', padding: '10px 20px' }}
+                type="submit"
+                sx={{
+                  backgroundColor: '#0D7C66',
+                  padding: '10px 20px',
+                  fontWeight: 'bold',
+                }}
               >
-                Submit
+                Send Message
               </Button>
             </form>
           </Box>
         </Paper>
       </Container>
-
-      {/* Footer Section */}
-      
     </Box>
   );
 };

@@ -177,14 +177,14 @@ function CartPage() {
                 <span>{item.quantity || 1}</span>
                 <QuantityButton onClick={() => handleQuantityChange(item, 1)}>+</QuantityButton>
               </CartQuantity>
-              <CartPrice>Rs {item.price || 0}</CartPrice>
+              <CartPrice>$ {item.price || 0}</CartPrice>
               <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
                 <FontAwesomeIcon icon={faTrashAlt} color="red" />
               </DeleteButton>
             </CartItem>
             
             ))}
-            <TotalAmount>Total: Rs {calculateTotal()}</TotalAmount> {/* Display total amount */}
+            <TotalAmount>Total: $ {calculateTotal()}</TotalAmount> {/* Display total amount */}
             <CheckoutButton onClick={handleCheckout}>Proceed to Checkout</CheckoutButton>
           </>
         ) : (

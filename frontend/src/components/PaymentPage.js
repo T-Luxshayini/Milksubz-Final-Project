@@ -1,69 +1,8 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-// Styled components for Payment Page
-const PaymentWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-image: url(${require('/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milk.jpg')});
-  background-size: cover;
-  background-position: center;
-  padding: 20px;
-`;
-
-const PaymentContainer = styled.div`
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  border-radius: 10px;
-  padding: 40px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  width: 100%;
-`;
-
-const PaymentHeader = styled.h2`
-  margin-bottom: 20px;
-  text-align: center;
-`;
-
-const InputField = styled.div`
-  margin-bottom: 20px;
-
-  label {
-    font-weight: bold;
-  }
-
-  input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-  textarea {
-    resize: none;
-  }
-`;
-
-const ConfirmButton = styled.button`
-  background-color: #008CBA;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 20px;
-
-  &:hover {
-    background-color: #63c5da;
-  }
-`;
+import { Box, TextField, Button, Typography, Grid } from '@mui/material';
+import milkImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/vecteezy_ai-generated-bottle-of-milk-and-basket-of-daisies_41323560.jpeg';
 
 function PaymentPage() {
   const location = useLocation();
@@ -80,8 +19,7 @@ function PaymentPage() {
   }
 
   const validatePhoneNumber = (number) => {
-    // Regex for validating Sri Lankan phone numbers (starts with 07 and has 8 digits after)
-    const phoneRegex = /^07\d{8}$/;
+    const phoneRegex = /^07\d{8}$/; // Sri Lankan phone number validation
     return phoneRegex.test(number);
   };
 
@@ -102,22 +40,15 @@ function PaymentPage() {
         totalAmount,
         address,
         telephone: phoneNumber,
-        // items: cart.map(item => ({
-        //   productId: item.productId,
-        //   quantity: item.quantity,
-        // })),
       };
 
-      // Send the order data to the backend
-      const response = await axios.post('http://localhost:5005/api/orders', orderData);
+      await axios.post('http://localhost:5005/api/orders', orderData);
       alert('Order saved successfully.');
 
-      // Redirect the user to the payment link
       const paymentLink = "https://sandbox.payhere.lk/pay/o753126ca";
       window.location.href = paymentLink;
 
-      // Redirect to orders after payment
-      navigate('/orders'); 
+      navigate('/orders');
     } catch (error) {
       console.error('Payment failed:', error);
       alert('Payment failed: ' + (error.response?.data?.error || 'An error occurred'));
@@ -125,48 +56,121 @@ function PaymentPage() {
   };
 
   return (
-    <PaymentWrapper>
-      <PaymentContainer>
-        <PaymentHeader>Payment Summary</PaymentHeader>
-        <p>Total Price: Rs {totalAmount}</p>
+    <Grid
+      container
+      sx={{
+        height: '100vh',
+        position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      {/* Background Image with Light Opacity */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: `url(${milkImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.75,
+          zIndex: -1,
+        }}
+      />
 
-        <InputField>
-          <label>Name:</label>
-          <input
-            type="text"
+      <Grid item xs={12} md={6}>
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: 600,
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
+            p: 4,
+            borderRadius: 2,
+            boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+          <Typography variant="h4" gutterBottom align="center" color="#0D7C66">
+            Payment Summary
+          </Typography>
+          <Typography variant="h6" gutterBottom align="center" color="#41B3A2" font-weight='bold'>
+            Total Price: $ {totalAmount}
+          </Typography>
+
+          <TextField
+            label="Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            placeholder="Enter your name"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: '#0D7C66' },
+                '&:hover fieldset': { borderColor: '#0D7C66' },
+                '&.Mui-focused fieldset': { borderColor: '#0D7C66' },
+              },
+              '& .MuiInputLabel-outlined': { color: '#0D7C66' },
+            }}
           />
-        </InputField>
 
-        <InputField>
-          <label>Address:</label>
-          <textarea
+          <TextField
+            label="Address"
+            variant="outlined"
+            fullWidth
+            margin="normal"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             required
-            placeholder="Enter your address"
-            rows="3"
+            multiline
+            rows={3}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: '#0D7C66' },
+                '&:hover fieldset': { borderColor: '#0D7C66' },
+                '&.Mui-focused fieldset': { borderColor: '#0D7C66' },
+              },
+              '& .MuiInputLabel-outlined': { color: '#0D7C66' },
+            }}
           />
-        </InputField>
 
-        <InputField>
-          <label>Phone Number:</label>
-          <input
-            type="tel"
+          <TextField
+            label="Phone Number"
+            variant="outlined"
+            fullWidth
+            margin="normal"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             required
             placeholder="Enter your phone number (e.g., 0771234567)"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: '#0D7C66' },
+                '&:hover fieldset': { borderColor: '#0D7C66' },
+                '&.Mui-focused fieldset': { borderColor: '#0D7C66' },
+              },
+              '& .MuiInputLabel-outlined': { color: '#0D7C66' },
+            }}
           />
-        </InputField>
 
-        <ConfirmButton onClick={handlePayment}>Confirm Order</ConfirmButton>
-      </PaymentContainer>
-    </PaymentWrapper>
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{ backgroundColor: '#0D7C66', mt: 2, '&:hover': { backgroundColor: '#41B3A2' } }}
+            onClick={handlePayment}
+          >
+            Confirm Order
+          </Button>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
 
 export default PaymentPage;
+
+
+

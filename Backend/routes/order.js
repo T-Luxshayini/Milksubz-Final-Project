@@ -54,3 +54,4 @@ router.get('/:id', async (req, res) => { // Removed adminAuth middleware
 });
 
 module.exports = router;
+
