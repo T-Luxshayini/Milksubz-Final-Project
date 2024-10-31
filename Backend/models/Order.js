@@ -1,5 +1,4 @@
-// models/Order.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Define the Order Schema
 const OrderSchema = new mongoose.Schema({
@@ -24,19 +23,15 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // items: [
-  //   {
-  //     productId: {
-  //       type: mongoose.Schema.Types.ObjectId, // Reference to the Product model
-  //       required: true,
-  //       ref: 'Product' // Assuming you have a Product model
-  //     },
-  //     quantity: {
-  //       type: Number,
-  //       required: true,
-  //     },
-  //   }
-  // ],
+  paymentId: {
+    type: String,
+    required: true, // Add payment ID and make it required
+  },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'completed', 'failed'], // Possible values for payment status
+    default: 'pending', // Default status is 'pending'
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -46,4 +41,4 @@ const OrderSchema = new mongoose.Schema({
 // Create the Order model
 const Order = mongoose.model('Order', OrderSchema);
 
-module.exports = Order;
+export default Order;

@@ -23,7 +23,7 @@ function Login() {
     try {
       const response = await axios.post('http://localhost:5005/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
-
+      
       if (rememberMe) {
         localStorage.setItem('rememberedEmail', email);
       } else {

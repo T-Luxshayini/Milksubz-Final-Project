@@ -7,18 +7,18 @@
 
 // ... (previous code remains the same)
 // routes/auth.js
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
+import express from 'express'; // Use ES module import
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import User from '../models/User.js'; // Ensure to add .js extension
 
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
   try {
-    const {firstName, lastName, username, email, password, role } = req.body;
-    const user = new User({firstName,lastName, username, email, password, role });
+    const { firstName, lastName, username, email, password, role } = req.body;
+    const user = new User({ firstName, lastName, username, email, password, role });
     await user.save();
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router; // This remains the same
 
 // router.post('/login', async (req, res) => {
 //   try {

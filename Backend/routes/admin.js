@@ -1,9 +1,10 @@
 // routes/admin.js
-const express = require('express');
-const User = require('../models/User');
-const Product = require('../models/Product');
-const Subscription = require('../models/Subscription');
-const { auth, adminAuth } = require('../middleware/auth');
+import express from 'express';
+import User from '../models/User.js';
+import Product from '../models/Product.js';
+import Subscription from '../models/Subscription.js';
+import { auth, adminAuth } from '../middleware/auth.js';
+
 
 const router = express.Router();
 
@@ -95,4 +96,4 @@ router.get('/dashboard', auth, adminAuth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

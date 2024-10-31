@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 // Wrapper for the whole cart page with background image and centered content
 const CartWrapper = styled.div`
@@ -51,14 +52,12 @@ const CartItem = styled.div`
 const CartDetails = styled.div`
   flex-grow: 1;
   margin-left: 10px;
-  
-
 `;
 
 // Styling for the cart item name
 const CartItemName = styled.h3`
   margin: 0;
-color: #0D7C66;
+  color: #0D7C66;
 `;
 
 // Quantity button wrapper
@@ -111,9 +110,12 @@ const TotalAmount = styled.div`
 function CartPage() {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token'); 
-
-  
+  const token = localStorage.getItem('token'); // Retrieve token from localStorage
+  // const userId = localStorage.getItem('userId');
+  const [userId, setUserId] = useState(null);
+  useEffect(() => {
+    // Optionally, you can fetch the cart data from the backend if needed when the component mounts
+  }, []);
 
   const handleItemClick = (item) => {
     navigate('/order', { state: { item } });
@@ -140,14 +142,13 @@ function CartPage() {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  // const handleCheckout = () => {
-  //   const paymentLink = "https://sandbox.payhere.lk/pay/o753126ca"; // Use the sandbox payment link
-  //   window.open(paymentLink, "_blank"); // Open the payment link in a new tab or window
-  // };
+  
+  
 
   const handleCheckout = () => {
     try {
       const totalAmount = calculateTotal();
+      // saveCartToBackend(); // Save cart before proceeding to checkout
       navigate('/payment', { state: { cart, totalAmount } });
     } catch (error) {
       console.error('Checkout error:', error);
@@ -167,22 +168,21 @@ function CartPage() {
           <>
             {cart.map((item, index) => (
               <CartItem key={index} onClick={() => handleItemClick(item)}>
-              {item.imageUrl && <img src={item.imageUrl} alt={item.name} width="60" />}
-              <CartDetails>
-                <CartItemName>{item.name || 'Item'}</CartItemName>
-                <p>{item.description || 'No description available'}</p>
-              </CartDetails>
-              <CartQuantity>
-                <QuantityButton onClick={() => handleQuantityChange(item, -1)}>-</QuantityButton>
-                <span>{item.quantity || 1}</span>
-                <QuantityButton onClick={() => handleQuantityChange(item, 1)}>+</QuantityButton>
-              </CartQuantity>
-              <CartPrice>$ {item.price || 0}</CartPrice>
-              <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
-                <FontAwesomeIcon icon={faTrashAlt} color="red" />
-              </DeleteButton>
-            </CartItem>
-            
+                {item.imageUrl && <img src={item.imageUrl} alt={item.name} width="60" />}
+                <CartDetails>
+                  <CartItemName>{item.name || 'Item'}</CartItemName>
+                  <p>{item.description || 'No description available'}</p>
+                </CartDetails>
+                <CartQuantity>
+                  <QuantityButton onClick={() => handleQuantityChange(item, -1)}>-</QuantityButton>
+                  <span>{item.quantity || 1}</span>
+                  <QuantityButton onClick={() => handleQuantityChange(item, 1)}>+</QuantityButton>
+                </CartQuantity>
+                <CartPrice>$ {item.price || 0}</CartPrice>
+                <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
+                  <FontAwesomeIcon icon={faTrashAlt} color="red" />
+                </DeleteButton>
+              </CartItem>
             ))}
             <TotalAmount>Total: $ {calculateTotal()}</TotalAmount> {/* Display total amount */}
             <CheckoutButton onClick={handleCheckout}>Proceed to Checkout</CheckoutButton>

@@ -112,10 +112,15 @@ function ProductList() {
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const handleAddToCart = (product) => {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push(product);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`${product.name} added to cart!`);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login'); // Redirect to login page if not logged in
+    } else {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${product.name} added to cart!`);
+    }
   };
 
   const handleBuyNow = (product) => {
@@ -123,8 +128,13 @@ function ProductList() {
   };
 
   const handleSubscribe = (product) => {
-    setSelectedProduct(product);
-    setShowModal(true);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login'); // Redirect to login page if not logged in
+    } else {
+      setSelectedProduct(product);
+      setShowModal(true);
+    }
   };
 
   const handleSubscriptionChoice = (plan) => {
