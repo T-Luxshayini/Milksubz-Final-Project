@@ -145,7 +145,7 @@ function ProductList() {
     <PageWrapper>
       <Title>Our Products</Title>
       <ProductGrid>
-        {currentProducts.map((product) => (
+        {currentProducts.map((product, index) => (
           <ProductCard key={product._id} sx={{ maxWidth: 300, textAlign: 'center' }}>
             <CardMedia
               component="img"
@@ -161,7 +161,7 @@ function ProductList() {
                 {product.description}
               </Typography>
               <Typography variant="body1" color="#41B3A2">
-                $ {product.price}
+                LKR {product.price}
               </Typography>
               <Typography variant="body2">
                 {product.category}
@@ -169,9 +169,11 @@ function ProductList() {
               <HoverButton variant="contained" color='' onClick={() => handleAddToCart(product)}>
                 Add to Cart
               </HoverButton>
-              <HoverButton variant="contained" color="success" onClick={() => handleSubscribe(product)}>
-                Subscribe
-              </HoverButton>
+              {index === 0 && ( // Render Subscribe button only for the first product
+                <HoverButton variant="contained" color="success" onClick={() => handleSubscribe(product)}>
+                  Subscribe
+                </HoverButton>
+              )}
             </CardContent>
           </ProductCard>
         ))}

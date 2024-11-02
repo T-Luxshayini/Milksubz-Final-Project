@@ -33,8 +33,8 @@ const Header = () => {
         sx={{
           backgroundColor: '#0D7C66',
           height: '40px',
-          borderTopLeftRadius: '20px',
-          borderTopRightRadius: '20px',
+          // borderTopLeftRadius: '20px',
+          // borderTopRightRadius: '20px',
         }}
       />
 

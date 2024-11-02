@@ -1,59 +1,55 @@
-import React, { useEffect, useState } from 'react';
+// frontend/src/components/OrderDetails.js
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
-const AdminOrders = () => {
+const OrderDetails = () => {
   const [orders, setOrders] = useState([]);
 
-  // Fetch Orders once on mount
+  // Fetch orders once on component mount
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get('http://localhost:5005/api/orders'); // Fetch all orders from backend
+    axios.get('http://localhost:5005/api/orders')
+      .then((response) => {
         setOrders(response.data);
-      } catch (error) {
-        console.error('Failed to fetch orders:', error);
-      }
-    };
-
-    fetchOrders();
+      })
+      .catch((error) => {
+        console.error('Error fetching orders:', error);
+      });
   }, []);
 
-  // Prepare data for DataGrid
-  const rows = orders.map((order) => ({
-    id: order._id, // Set unique ID for each order
-    user: order.userId?.username || 'Unknown', // Use populated username
-    totalAmount: order.totalAmount,
-    paymentStatus: order.paymentStatus || 'Pending', // Provide a default value for paymentStatus
-    items: order.items ? order.items.map((item) => `${item.productId?.name || 'Unknown'} (Quantity: ${item.quantity})`).join(', ') : 'No items', // Handle undefined items
-    telephone: order.telephone, // Include telephone
-    address: order.address, // Include address
-  }));
-
   const columns = [
-    { field: 'id', headerName: 'Order ID', width: 150 },
-    { field: 'user', headerName: 'User', width: 200 },
-    { field: 'items', headerName: 'Items', width: 400 },
-    { field: 'totalAmount', headerName: 'Total Amount (Rs)', width: 150 },
+    { field: '_id', headerName: 'Order ID', width: 200 },
+    { field: 'name', headerName: 'Name', width: 150 },
+    { field: 'totalAmount', headerName: 'Total Amount (LKR)', width: 150 },
+    { field: 'telephone', headerName: 'Phone Number', width: 150 },
+    { field: 'address', headerName: 'Address', width: 200 },
+    { field: 'paymentId', headerName: 'Payment ID', width: 200 },
     { field: 'paymentStatus', headerName: 'Payment Status', width: 150 },
-    { field: 'telephone', headerName: 'Telephone', width: 150 }, // Column for telephone
-    { field: 'address', headerName: 'Address', width: 250 }, // Column for address
+    // {
+    //   field: 'createdAt',
+    //   headerName: 'Date',
+    //   width: 200,
+    //   valueGetter: (params) => {
+    //     const date = params.row.createdAt;
+    //     return date ? new Date(date).toLocaleDateString() : 'N/A';
+    //   },
+    // },
   ];
 
   return (
-    <Box sx={{ height: 500, width: '100%' }}>
-      <h2>Order Details</h2>
+    <Box sx={{ height: 500, width: '100%', padding: 2 }}>
+      <Typography variant="h4" gutterBottom align="center" color="success">Order Details</Typography>
       <DataGrid
-        rows={rows}
+        rows={orders}
         columns={columns}
+        getRowId={(row) => row._id}
         pageSize={5}
         rowsPerPageOptions={[5, 10]}
-        autoHeight
-        getRowId={(row) => row.id} // Use id for unique row id
+        disableSelectionOnClick
       />
     </Box>
   );
 };
 
-export default AdminOrders;
+export default OrderDetails;

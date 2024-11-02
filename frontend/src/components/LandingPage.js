@@ -11,9 +11,9 @@ import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/front
 
 // Sample product data
 const recommendedProducts = [
-  { id: 1, name: 'Fresh Cow Milk', price: '$200', image: product1Image },
-  { id: 2, name: 'Paneer', price: '$300', image: product1Image1 },
-  { id: 3, name: 'Ghee', price: '$280', image: product1Image2 },
+  { id: 1, name: 'Fresh Cow Milk', price: 'Rs200', image: product1Image },
+  { id: 2, name: 'Paneer', price: 'Rs300', image: product1Image1 },
+  { id: 3, name: 'Ghee', price: 'Rs280', image: product1Image2 },
 ];
 
 // Define the keyframes for the neon border animation
@@ -47,20 +47,22 @@ const LandingPage = () => {
     >
       {/* Hero Section */}
       <Box
-        sx={{
-          position: 'relative', // Make it relative for positioning the overlay
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          height: '50vh', // Adjust height as needed
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          color: '#fff',
-          textAlign: 'center',
-          padding: '50px',
-        }}
+  sx={{
+    width: '100vw', // Make the hero section span the full viewport width
+    marginLeft: 'calc((100vw - 100%) / 2)', // Center the section and remove horizontal padding
+    position: 'relative',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: '50vh', // Adjust height as needed
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#fff',
+    textAlign: 'center',
+    padding: '50px',
+  }}
       >
         {/* Overlay to reduce opacity */}
         <Box

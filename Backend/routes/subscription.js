@@ -1,7 +1,6 @@
-// routes/subscriptions.js
-import express from 'express';
-import Subscription from '../models/Subscription.js';
-import { auth, adminAuth } from '../middleware/auth.js';
+const express = require('express');
+const Subscription = require('../models/Subscription.js');
+const { auth, adminAuth } = require('../middleware/auth.js');
 
 const router = express.Router();
 
@@ -69,4 +68,4 @@ router.get('/all', auth, adminAuth, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

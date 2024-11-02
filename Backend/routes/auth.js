@@ -7,10 +7,11 @@
 
 // ... (previous code remains the same)
 // routes/auth.js
-import express from 'express'; // Use ES module import
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import User from '../models/User.js'; // Ensure to add .js extension
+// routes/auth.js
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const User = require('../models/User.js'); // Ensure to add .js extension
 
 const router = express.Router();
 
@@ -45,7 +46,8 @@ router.post('/login', async (req, res) => {
   }
 });
 
-export default router; // This remains the same
+module.exports = router;
+
 
 // router.post('/login', async (req, res) => {
 //   try {

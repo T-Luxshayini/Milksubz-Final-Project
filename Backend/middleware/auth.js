@@ -1,6 +1,4 @@
-// middleware/auth.js
-import jwt from 'jsonwebtoken';
-
+const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
   try {
@@ -16,7 +14,6 @@ const auth = (req, res, next) => {
   }
 };
 
-
 const adminAuth = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next();
@@ -25,4 +22,4 @@ const adminAuth = (req, res, next) => {
   }
 };
 
-export { auth, adminAuth };
+module.exports = { auth, adminAuth };

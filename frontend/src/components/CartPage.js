@@ -111,15 +111,11 @@ function CartPage() {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   const navigate = useNavigate();
   const token = localStorage.getItem('token'); // Retrieve token from localStorage
-  // const userId = localStorage.getItem('userId');
   const [userId, setUserId] = useState(null);
+  
   useEffect(() => {
     // Optionally, you can fetch the cart data from the backend if needed when the component mounts
   }, []);
-
-  const handleItemClick = (item) => {
-    navigate('/order', { state: { item } });
-  };
 
   const handleDeleteItem = (itemToDelete) => {
     const updatedCart = cart.filter(item => item.name !== itemToDelete.name);
@@ -141,9 +137,6 @@ function CartPage() {
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
-
-  
-  
 
   const handleCheckout = () => {
     try {
@@ -167,7 +160,7 @@ function CartPage() {
         {cart.length > 0 ? (
           <>
             {cart.map((item, index) => (
-              <CartItem key={index} onClick={() => handleItemClick(item)}>
+              <CartItem key={index}>
                 {item.imageUrl && <img src={item.imageUrl} alt={item.name} width="60" />}
                 <CartDetails>
                   <CartItemName>{item.name || 'Item'}</CartItemName>
@@ -178,13 +171,13 @@ function CartPage() {
                   <span>{item.quantity || 1}</span>
                   <QuantityButton onClick={() => handleQuantityChange(item, 1)}>+</QuantityButton>
                 </CartQuantity>
-                <CartPrice>$ {item.price || 0}</CartPrice>
+                <CartPrice>LKR {item.price || 0}</CartPrice>
                 <DeleteButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item); }}>
                   <FontAwesomeIcon icon={faTrashAlt} color="red" />
                 </DeleteButton>
               </CartItem>
             ))}
-            <TotalAmount>Total: $ {calculateTotal()}</TotalAmount> {/* Display total amount */}
+            <TotalAmount>Total: LKR {calculateTotal()}</TotalAmount> {/* Display total amount */}
             <CheckoutButton onClick={handleCheckout}>Proceed to Checkout</CheckoutButton>
           </>
         ) : (

@@ -42,20 +42,19 @@
 // module.exports = app;
 
 
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import Stripe from 'stripe';
-import bodyParser from 'body-parser';
-import authRoutes from './routes/auth.js';
-import productRoutes from './routes/products.js';
-import subscriptionRoutes from './routes/subscription.js';
-import adminRoutes from './routes/admin.js';
-import orderRoutes from './routes/order.js'; 
-import stripeRoutes from './routes/paymentStripe.js'; // Import the new payment routes
-import cartRoutes from './routes/cart.js';
-
+const express = require('express'); 
+const mongoose = require('mongoose'); 
+const cors = require('cors'); 
+const dotenv = require('dotenv'); 
+const bodyParser = require('body-parser'); 
+const authRoutes = require('./routes/auth.js'); 
+const productRoutes = require('./routes/products.js'); 
+const subscriptionRoutes = require('./routes/subscription.js'); 
+const adminRoutes = require('./routes/admin.js'); 
+const orderRoutes = require('./routes/order.js'); 
+const stripeRoutes = require('./routes/paymentStripe.js'); 
+const cartRoutes = require('./routes/cart.js'); 
+const webhookRoutes = require('./routes/webhookRoutes.js');
 // Load environment variables
 dotenv.config();
 
@@ -80,6 +79,7 @@ app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/stripe', stripeRoutes);
+app.use('/api/webhook', webhookRoutes);
 app.use('/api/cart', (req, res, next) => {
   console.log('Cart route hit');
   next();
@@ -89,4 +89,4 @@ const PORT = process.env.PORT || 5005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Export the app for testing purposes
-export default app; // Use export default for ES module
+module.exports = app; // Use export default for ES module

@@ -105,12 +105,11 @@
 // // module.exports = router;
 
 
-import express from 'express';
-import Stripe from 'stripe';
-import dotenv from 'dotenv';
+const express = require('express');
+const Stripe = require('stripe');
+const dotenv = require('dotenv');
 
 dotenv.config();
-
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -118,14 +117,20 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 router.post('/create-payment-intent', async (req, res) => {
   try {
     const { name, totalAmount, address, telephone } = req.body;
+    
+    // Convert the total amount to the correct format for Stripe (cents) and ensure it’s a whole number
+    const amountInLKR = Math.round(totalAmount * 100); // Stripe expects amount in smallest currency unit (cents)
+
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: totalAmount * 100, // Stripe uses cents
+      amount: amountInLKR,
       currency: 'lkr',
       metadata: { name, address, telephone },
     });
+
     res.json({
       clientSecret: paymentIntent.client_secret,
+      paymentId: paymentIntent.id
     });
   } catch (error) {
     console.error('Error during payment creation:', error);
@@ -133,44 +138,35 @@ router.post('/create-payment-intent', async (req, res) => {
   }
 });
 
-// router.get('/stripe-checkout/:sessionId', async (req, res) => { 
-//   try {
-//      const session = await stripe.checkout.sessions.retrieve(req.params.sessionId); 
-//      res.redirect(session.url); // Redirect to the Stripe Checkout session URL 
-//      } catch (error) { console.error('Error retrieving Stripe session:', error); 
-//       res.status(500).json({ error: 'Failed to retrieve Stripe session.' }); 
-//     } 
-//   });
-
-router.post('create-checkout-session', async (req, res) => {
+// Create a new checkout session
+router.post('/create-checkout-session', async (req, res) => {
   try {
-      // Create the checkout session with necessary parameters
-      const session = await stripe.checkout.sessions.create({
-          payment_method_types: ['card'],
-          line_items: [
-              {
-                  price_data: {
-                      currency: 'usd',
-                      product_data: {
-                          name: 'MilkSubz', // Product name to display
-                      },
-                      unit_amount: 2000, // Price in cents
-                  },
-                  quantity: 1, // Quantity of items
-              },
-          ],
-          mode: 'payment',
-          success_url: 'http://localhost:3000/success', // Redirect after successful payment
-          cancel_url: 'http://localhost:3000/cancel',   // Redirect after cancellation
-      });
-
-      // Send the session ID back to the client
-      res.json({ id: session.id });
+    // Create the checkout session with necessary parameters
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'lkr',
+            product_data: {
+              name: 'MilkSubz', // Product name to display
+            },
+            unit_amount: 2000, // Price in cents
+          },
+          quantity: 1, // Quantity of items
+        },
+      ],
+      mode: 'payment',
+      success_url: 'http://localhost:3000/success', // Redirect after successful payment
+      cancel_url: 'http://localhost:3000/cancel',   // Redirect after cancellation
+    });
+    
+    // Send the session ID back to the client
+    res.json({ id: session.id });
   } catch (error) {
-      console.error('Error creating checkout session:', error);
-      res.status(500).json({ error: error.message });
+    console.error('Error creating checkout session:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
-export default router;
-
+module.exports = router;

@@ -12,7 +12,7 @@ function Footer() {
         padding: '40px 20px',
         maxWidth: '100vw',
         width: '100%',
-        borderRadius: '40px', // Curved corners on all four sides
+        // borderRadius: '40px', // Curved corners on all four sides
         overflow: 'hidden', // Ensures inner content doesn't overflow the rounded corners
         boxSizing: 'border-box',
       }}
@@ -89,7 +89,7 @@ function Footer() {
           padding: '20px 0',
           display: 'flex',
           justifyContent: 'space-between',
-          borderRadius: '40px',
+          // borderRadius: '40px',
           alignItems: 'center',
           flexDirection: { xs: 'column', sm: 'row' },
           width: '100%', // Ensure full width

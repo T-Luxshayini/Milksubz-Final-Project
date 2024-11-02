@@ -1,13 +1,12 @@
-// routes/products.js
-import express from 'express'; 
-import Product from '../models/Product.js'; 
-import { auth, adminAuth } from '../middleware/auth.js';
+const express = require('express');
+const Product = require('../models/Product.js');
+const { auth, adminAuth } = require('../middleware/auth.js');
 
 const router = express.Router();
 
 // Create a product (Admin only)
 router.post('/', auth, adminAuth, async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
   try {
     const product = new Product(req.body);
     await product.save();
@@ -19,7 +18,7 @@ router.post('/', auth, adminAuth, async (req, res) => {
 
 // Get all products
 router.get('/', async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
   try {
     const products = await Product.find();
     res.json(products);
@@ -30,7 +29,7 @@ router.get('/', async (req, res) => {
 
 // Get a single product
 router.get('/:id', async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ error: 'Product not found' });
@@ -42,7 +41,7 @@ router.get('/:id', async (req, res) => {
 
 // Update a product (Admin only)
 router.patch('/:id', auth, adminAuth, async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
   try {
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!product) return res.status(404).json({ error: 'Product not found' });
@@ -54,7 +53,7 @@ router.patch('/:id', auth, adminAuth, async (req, res) => {
 
 // Delete a product (Admin only)
 router.delete('/:id', auth, adminAuth, async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) return res.status(404).json({ error: 'Product not found' });
@@ -64,5 +63,4 @@ router.delete('/:id', auth, adminAuth, async (req, res) => {
   }
 });
 
-export default router;
-
+module.exports = router;
