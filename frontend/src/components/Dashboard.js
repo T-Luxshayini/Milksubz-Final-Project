@@ -112,11 +112,21 @@ function ProductList() {
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const handleAddToCart = (product) => {
+    const token = localStorage.getItem('token'); // Token key for verifying login status
+  
+    if (!token) {
+      navigate('/login'); // Redirect to login page if not logged in
+      return;
+    }
+  
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart.push(product);
     localStorage.setItem('cart', JSON.stringify(cart));
     alert(`${product.name} added to cart!`);
   };
+  
+  
+  
 
   const handleBuyNow = (product) => {
     navigate('/payment', { state: { product } });
