@@ -20,7 +20,8 @@ import PaymentPage from './components/PaymentPage';
 import OrderPage from './components/OrderPage';
 import OrderHistory from './components/OrderHistory';
 import PaymentForm from './components/PaymentForm';
-
+import Subscription from './components/SubscriptionPackages';
+import { ContactUs } from './components/ContactUs';
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe('pk_test_51QCqZPFDU5aLIEJODMXZ1TrGjcmBHwEJGA5ADUyKW34FJPqWV6PmWQSssWKcxTUDLvXMkNPqO70W5331MkiJYlFt00RIvqYIJJ');
 
@@ -52,7 +53,8 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/order-history" element={<OrderHistory />} />
             <Route path="/order" element={<OrderPage />} />
-            
+            <Route path="/sub" element={<Subscription />} />
+            <Route path="/contactus" element={<ContactUs />} />
             <Route 
               path="/payment" 
               element={
@@ -71,6 +73,7 @@ function App() {
             />
           </Routes>
         </MainContent>
+        
         <Footer />
       </AppContainer>
     </Router>

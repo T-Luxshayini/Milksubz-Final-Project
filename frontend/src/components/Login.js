@@ -34,7 +34,7 @@ function Login() {
       if (userRole === 'admin') {
         navigate('/admin-dashboard');
       } else {
-        navigate('/dashboard');
+        navigate('/products');
       }
     } catch (error) {
       console.error('Login failed:', error.response.data);

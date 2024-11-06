@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Pagination } from '@mui/material';
+import { Pagination, Snackbar, Alert } from '@mui/material';
 import { Card, CardContent, CardMedia, Typography, Button as MuiButton } from '@mui/material';
 
+
+
 const PageWrapper = styled.div`
-  background-image: url('/path/to/your/background-image.jpg'); /* Ensure this path is correct */
+  background-image: url('/path/to/your/background-image.jpg');
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -19,78 +21,61 @@ const PageWrapper = styled.div`
 const Title = styled.h2`
   font-family: 'Arial', sans-serif;
   font-size: 2.5rem;
-  color: #0D7C66; /* Matching your brand color */
+  color: #0D7C66;
   margin-bottom: 40px;
 `;
 
 const ProductGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
-  gap: 40px; /* Increase the gap between products */
-  justify-content: center; /* Center the grid */
-  max-width: 1200px; /* Max width of grid */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 40px;
+  justify-content: center;
+  max-width: 1200px;
   margin: 0 auto;
 `;
 
 const ProductCard = styled(Card)`
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 4px solid #0D7C66; /* Add a border color */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  border-radius: 8px; /* Rounded corners */
-  overflow: hidden; /* Prevents overflow */
+  border: 4px solid #0D7C66;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
   &:hover {
-    transform: translateY(-5px); /* Subtle lift effect */
+    transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
 `;
 
 const HoverButton = styled(MuiButton)`
-  font-size: 0.875rem; /* Slightly larger font size */
-  padding: 10px 20px; /* Adjust padding */
-  margin: 5px; /* Adjust margin */
+  font-size: 0.875rem;
+  padding: 10px 20px;
+  margin: 5px;
   transition: all 0.3s ease;
-  background-color: #0D7C66; /* Set green button background color */
-  color: white; /* Button text color */
-  border: 2px solid transparent; /* Initial border */
+  background-color: #0D7C66;
+  color: white;
+  border: 2px solid transparent;
   
-  /* Neon border effect */
   box-shadow: 0 0 5px rgba(13, 124, 102, 0.8), 
               0 0 10px rgba(13, 124, 102, 0.6), 
               0 0 15px rgba(13, 124, 102, 0.4);
   
   &:hover {
-    background-color: #66BB6A; /* Lighter green on hover */
+    background-color: #66BB6A;
     box-shadow: 0 0 10px rgba(13, 124, 102, 1), 
                 0 0 20px rgba(13, 124, 102, 0.8), 
-                0 0 30px rgba(13, 124, 102, 0.6); /* Brighter neon effect on hover */
+                0 0 30px rgba(13, 124, 102, 0.6);
   }
 `;
 
-const ModalWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
-const ModalContent = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-`;
 
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(6); // 6 products per page
-  const [showModal, setShowModal] = useState(false);
+  const [productsPerPage] = useState(6);
+  
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [notification, setNotification] = useState({ open: false, message: '', severity: 'success' });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -106,54 +91,61 @@ function ProductList() {
     fetchProducts();
   }, []);
 
-  // Logic for displaying current products
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const handleAddToCart = (product) => {
-    const token = localStorage.getItem('token'); // Token key for verifying login status
-  
+    const token = localStorage.getItem('token');
+
     if (!token) {
-      navigate('/login'); // Redirect to login page if not logged in
+      navigate('/login');
       return;
     }
-  
+
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart.push(product);
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`${product.name} added to cart!`);
+    setNotification({ open: true, message: `${product.name} added to cart!`, severity: 'success' });
   };
-  
-  
-  
 
-  const handleBuyNow = (product) => {
-    navigate('/payment', { state: { product } });
-  };
+  // const handleBuyNow = (product) => {
+  //   navigate('/payment', { state: { product } });
+  // };
 
   const handleSubscribe = (product) => {
-    setSelectedProduct(product);
-    setShowModal(true);
+    navigate('/sub', { state: { product } });
+    
   };
 
-  const handleSubscriptionChoice = (plan) => {
-    if (plan === '1 Month') {
-      // Redirect to the PayHere payment link
-      window.location.href = 'https://sandbox.payhere.lk/pay/ob0121425';
-    } else {
-      alert(`Subscribed to ${plan} for ${selectedProduct.name}`);
-    }
-    setShowModal(false);
-  };
+  
+  
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
+  const handleCloseNotification = () => {
+    setNotification({ ...notification, open: false });
+  };
+
   return (
     <PageWrapper>
       <Title>Our Products</Title>
+
+      {/* Notification Snackbar positioned a bit below the header */}
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={3000}
+        onClose={handleCloseNotification}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{ top: '80px' }}  // Adjusted to show below the header
+      >
+        <Alert onClose={handleCloseNotification} severity={notification.severity} sx={{ width: '100%' }}>
+          {notification.message}
+        </Alert>
+      </Snackbar>
+
       <ProductGrid>
         {currentProducts.map((product, index) => (
           <ProductCard key={product._id} sx={{ maxWidth: 300, textAlign: 'center' }}>
@@ -179,7 +171,7 @@ function ProductList() {
               <HoverButton variant="contained" color='' onClick={() => handleAddToCart(product)}>
                 Add to Cart
               </HoverButton>
-              {index === 0 && ( // Render Subscribe button only for the first product
+              {index === 0 && (
                 <HoverButton variant="contained" color="success" onClick={() => handleSubscribe(product)}>
                   Subscribe
                 </HoverButton>
@@ -189,7 +181,6 @@ function ProductList() {
         ))}
       </ProductGrid>
 
-      {/* Pagination component */}
       <Pagination
         count={Math.ceil(products.length / productsPerPage)}
         page={currentPage}
@@ -197,17 +188,7 @@ function ProductList() {
         sx={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}
       />
 
-      {/* Modal for subscription selection */}
-      {showModal && (
-        <ModalWrapper onClick={() => setShowModal(false)}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <h3>Choose Subscription Plan for {selectedProduct?.name}</h3>
-            <HoverButton onClick={() => handleSubscriptionChoice('1 Week')}>1 Week</HoverButton>
-            <HoverButton onClick={() => handleSubscriptionChoice('1 Month')}>1 Month</HoverButton>
-            <HoverButton onClick={() => setShowModal(false)}>Cancel</HoverButton>
-          </ModalContent>
-        </ModalWrapper>
-      )}
+      
     </PageWrapper>
   );
 }

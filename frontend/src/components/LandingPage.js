@@ -8,6 +8,7 @@ import product1Image from '/home/uki-jaffna/Documents/Milksubz-Final-Project/fro
 import product1Image1 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/paneer.jpeg';
 import product1Image2 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/ghee.jpeg';
 import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/5114855.jpg';
+import ContactUs from './ContactUs';
 
 // Sample product data
 const recommendedProducts = [
@@ -175,7 +176,37 @@ const LandingPage = () => {
         </Grid>
       </Container>
 
-      {/* Contact Us Section */}
+      <ContactUs/>
+
+      {/* About Us Section */}
+      {/* <Container sx={{ py: 8 }}>
+        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', color: '#0D7C66', fontWeight: 'bold' }}>
+          About Us
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 2, textAlign: 'center' }}>
+          Welcome to MilkSubz! We deliver fresh, high-quality milk and dairy products right to your door.
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 2, textAlign: 'center' }}>
+          Our goal is to make it easy for families in Sri Lanka to enjoy fresh dairy without the hassle of going to the store. From milk and curd to ghee and milk toffees, we bring you the best local products on a convenient subscription basis.
+        </Typography>
+        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+          Why Choose Us?
+        </Typography>
+        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+          <strong>Fresh & Local:</strong> We work with local farms to bring you quality dairy products.
+        </Typography>
+        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+          <strong>Easy Subscriptions:</strong> Choose a plan, and we’ll handle the rest. Pause or cancel anytime.
+        </Typography>
+        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+          <strong>Friendly Service:</strong> We’re here to make sure you have the best experience possible.
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: 'center' }}>
+          Thank you for choosing MilkSubz. We’re excited to be a part of your daily routine!
+        </Typography>
+      </Container> */}
+
+      {/* Contact Us Section
       <Container sx={{ py: 8 }}>
         <Typography
           variant="h4"
@@ -253,7 +284,7 @@ const LandingPage = () => {
             </form>
           </Box>
         </Paper>
-      </Container>
+      </Container> */}
     </Box>
   );
 };

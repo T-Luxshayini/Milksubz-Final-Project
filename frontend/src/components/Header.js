@@ -107,7 +107,7 @@ const Header = () => {
                 </Button>
                 <Button
                   component={Link}
-                  to="/contact"
+                  to="/contactus"
                   color="inherit"
                   sx={{
                     textTransform: 'none',

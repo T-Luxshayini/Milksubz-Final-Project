@@ -41,11 +41,12 @@
 // // Export the app for testing purposes
 // module.exports = app;
 
-
+const dotenv = require('dotenv'); 
+dotenv.config();
 const express = require('express'); 
 const mongoose = require('mongoose'); 
 const cors = require('cors'); 
-const dotenv = require('dotenv'); 
+  
 const bodyParser = require('body-parser'); 
 const authRoutes = require('./routes/auth.js'); 
 const productRoutes = require('./routes/products.js'); 
@@ -55,8 +56,10 @@ const orderRoutes = require('./routes/order.js');
 const stripeRoutes = require('./routes/paymentStripe.js'); 
 const cartRoutes = require('./routes/cart.js'); 
 const webhookRoutes = require('./routes/webhookRoutes.js');
+
 // Load environment variables
-dotenv.config();
+
+
 
 const app = express();
 
