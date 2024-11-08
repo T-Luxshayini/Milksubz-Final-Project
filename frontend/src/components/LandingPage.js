@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { Box, Typography, Button, Container, Grid, Card, CardMedia, CardContent, CardActions, Paper, TextField } from '@mui/material';
 import { keyframes } from '@mui/system'; // Import keyframes for the animation
 
-import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/vecteezy_ai-generated-bottle-of-milk-and-basket-of-daisies_41323560.jpeg'; 
+import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milk_products_landscape_image.jpeg'; 
 import product1Image from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milk1.jpg';
 import product1Image1 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/paneer.jpeg';
 import product1Image2 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/ghee.jpeg';
 import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/5114855.jpg';
 import ContactUs from './ContactUs';
+import CustomerFeedbacks from '../components/customerFeedback';
 
 // Sample product data
 const recommendedProducts = [
@@ -49,62 +50,110 @@ const LandingPage = () => {
       {/* Hero Section */}
       <Box
   sx={{
-    width: '100vw', // Make the hero section span the full viewport width
-    marginLeft: 'calc((100vw - 100%) / 2)', // Center the section and remove horizontal padding
-    position: 'relative',
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '50vh', // Adjust height as needed
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: '#fff',
-    textAlign: 'center',
-    padding: '50px',
+    width: '100vw', // Full viewport width
+    height: '100vh', // Full viewport height
+    display: 'flex', // Use flexbox to position content
+    alignItems: 'flex-start', // Align content to the top
+    justifyContent: 'flex-start', // Align content to the left side
+    padding: 4, // Add padding if needed
+    overflow: 'hidden', // Prevent any scrolling that might show white space
   }}
-      >
-        {/* Overlay to reduce opacity */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the opacity here (0.5 means 50% opacity)
-            zIndex: 1, // Ensure the overlay is behind the text but above the background image
-          }}
-        />
-        
-        <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.8)', zIndex: 2 }}>
-          Welcome to MilkSubz
-        </Typography>
-        <Typography variant="h5" sx={{ mb: 4, textShadow: '1px 1px 3px rgba(0,0,0,0.6)', zIndex: 2 }}>
-          Delivering fresh milk and dairy products right to your doorstep
-        </Typography>
+>
+  {/* Background Image */}
+  <Box
+    sx={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundImage: `url(${backgroundImage})`, // Use your background image URL
+      backgroundSize: 'cover', // Cover the entire viewport
+      backgroundRepeat: 'no-repeat', // Prevent tiling
+      backgroundPosition: 'left', // Position the background image to the left
+      zIndex: -1, // Send it behind the content
+    }}
+  />
 
-        {/* CTA Buttons */}
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button
-            component={Link}
-            to="/products"
-            variant="contained"
-            sx={{ backgroundColor: '#fff', color: '#0D7C66', padding: '15px 30px', fontSize: '1em', fontWeight: 'bold', borderRadius: '5px', zIndex: 2 }}
-          >
-            View Products
-          </Button>
-          <Button
-            component={Link}
-            to="/subscriptions"
-            variant="contained"
-            sx={{ backgroundColor: '#0D7C66', padding: '15px 30px', fontSize: '1em', fontWeight: 'bold', borderRadius: '5px', zIndex: 2 }}
-          >
-            Subscribe Now
-          </Button>
-        </Box>
-      </Box>
+  {/* Content */}
+  <Box
+    sx={{
+      position: 'relative',
+      zIndex: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center', // Center content horizontally
+      height: '100%',
+      textAlign: 'center', // Center text horizontally
+      marginTop: '-160px', // Adjust to move the content upwards or downwards as needed
+    }}
+  >
+    <Typography
+      variant="h2"
+      component="h1"
+      sx={{
+        fontWeight: 'bold',
+        color: '#16325B', // Updated text color
+        mb: 2, // Add margin at the bottom
+      }}
+    >
+      Welcome to MilkSubz
+    </Typography>
+    <Typography
+  variant="h6"
+  sx={{
+    color: '#16325B', // Text color
+    fontSize: '1.5rem', // Change font size
+    fontWeight: '600', // Adjust font weight
+    lineHeight: '1.6', // Adjust line height for better readability
+    mb: 4, // Margin bottom
+    textTransform: 'capitalize', // Capitalize the text if needed
+    letterSpacing: '0.5px', // Adjust letter spacing
+    fontStyle: 'italic', // Italicize the text
+    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)', // Add text shadow
+  }}
+>
+  Delivering fresh milk and dairy products right to your doorstep
+</Typography>
+
+
+    {/* Centered Buttons */}
+    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+      <Button
+        component={Link}
+        to="/products"
+        variant="contained"
+        sx={{
+          backgroundColor: '#FFDC7F',
+          color: '#16325B',
+          padding: '10px 20px',
+          borderRadius: '50px',
+          fontWeight: 'bold',
+        }}
+      >
+        View Products
+      </Button>
+      <Button
+        component={Link}
+        to="/sub"
+        variant="contained"
+        sx={{
+          backgroundColor: '#FFDC7F',
+          color: '#16325B',
+          padding: '10px 20px',
+          borderRadius: '50px',
+          fontWeight: 'bold',
+        }}
+      >
+        Subscribe Now
+      </Button>
+    </Box>
+  </Box>
+</Box>
+
+
+
 
       {/* Recommended Products Section */}
       <Container sx={{ py: 8 }}>
@@ -175,7 +224,7 @@ const LandingPage = () => {
           ))}
         </Grid>
       </Container>
-
+      <CustomerFeedbacks/>
       <ContactUs/>
 
       {/* About Us Section */}

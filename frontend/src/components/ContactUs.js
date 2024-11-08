@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { Box, Button, Container, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material';
 import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/5114855.jpg';
-
+import axios from 'axios';
 export const ContactUs = () => {
   const form = useRef();
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -13,15 +13,27 @@ export const ContactUs = () => {
     emailjs.sendForm('service_p9sy49m', 'template_8set0kq', form.current, 'IVJKCR1xxKLEeg7m5')
       .then(
         () => {
-          setOpenSnackbar(true); // Open the success notification
-          form.current.reset(); // Clear the form fields
+          axios.post('http://localhost:5005/api/contact', {
+            name: form.current.from_name.value,
+            email: form.current.from_email.value,
+            message: form.current.message.value,
+          })
+          .then(() => {
+            setOpenSnackbar(true); // Show success message
+            form.current.reset(); // Clear the form fields
+          })
+          .catch((error) => {
+            console.error('Failed to save message to the backend:', error);
+            alert("Message sent but failed to save in the database.");
+          });
         },
         (error) => {
-          console.log('FAILED...', error.text);
+          console.error('Failed to send email:', error);
           alert("Failed to send message, please try again.");
         }
       );
   };
+
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);

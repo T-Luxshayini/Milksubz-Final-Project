@@ -28,18 +28,8 @@ const Header = () => {
 
   return (
     <>
-      {/* Top Green Box */}
-      <Box
-        sx={{
-          backgroundColor: '#0D7C66',
-          height: '40px',
-          // borderTopLeftRadius: '20px',
-          // borderTopRightRadius: '20px',
-        }}
-      />
-
       {/* Main Header */}
-      <AppBar position="static" elevation={0} sx={{ backgroundColor: '#fff', color: '#333', borderBottom: '1px solid #ddd' }}>
+      <AppBar position="static" elevation={0} sx={{ backgroundColor: '#16325B', color: '#fff', borderBottom: '1px solid #ddd' }}>
         <Container maxWidth="lg">
           <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
             {/* Logo Section */}
@@ -49,7 +39,7 @@ const Header = () => {
               to="/"
               sx={{
                 textDecoration: 'none',
-                color: '#0D7C66',
+                color: '#fff',
                 fontWeight: 'bold',
                 marginRight: isMobile ? '20px' : '60px', // Adjusted for mobile
               }}
@@ -67,9 +57,10 @@ const Header = () => {
                   sx={{
                     textTransform: 'none',
                     fontWeight: 'bold',
+                    color: '#fff',
                     '&:hover': {
-                      backgroundColor: '#41B3A2',
-                      color: '#fff',
+                      backgroundColor: '#FFDC7F',
+                      color: '#16325B',
                     },
                   }}
                 >
@@ -82,9 +73,10 @@ const Header = () => {
                   sx={{
                     textTransform: 'none',
                     fontWeight: 'bold',
+                    color: '#fff',
                     '&:hover': {
-                      backgroundColor: '#41B3A2',
-                      color: '#fff',
+                      backgroundColor: '#FFDC7F',
+                      color: '#16325B',
                     },
                   }}
                 >
@@ -97,9 +89,10 @@ const Header = () => {
                   sx={{
                     textTransform: 'none',
                     fontWeight: 'bold',
+                    color: '#fff',
                     '&:hover': {
-                      backgroundColor: '#41B3A2',
-                      color: '#fff',
+                      backgroundColor: '#FFDC7F',
+                      color: '#16325B',
                     },
                   }}
                 >
@@ -112,9 +105,10 @@ const Header = () => {
                   sx={{
                     textTransform: 'none',
                     fontWeight: 'bold',
+                    color: '#fff',
                     '&:hover': {
-                      backgroundColor: '#41B3A2',
-                      color: '#fff',
+                      backgroundColor: '#FFDC7F',
+                      color: '#16325B',
                     },
                   }}
                 >
@@ -122,9 +116,6 @@ const Header = () => {
                 </Button>
               </Box>
             )}
-
-            {/* Gap between Contact and Icons */}
-            {!isMobile && <Box sx={{ flexGrow: 0.3 }} />} {/* Increased gap to match image between "Contact" and icons */}
 
             {/* Icons Section */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '20px' }}>
@@ -137,51 +128,27 @@ const Header = () => {
                 </Badge>
               </IconButton>
 
-              {/* Responsive login/register buttons */}
+              {/* Responsive login button */}
               {!isLoggedIn ? (
-                <>
-                  <Button
-                    component={Link}
-                    to="/login"
-                    variant="outlined"
-                    
-                    sx={{
-                      textTransform: 'none',
-                      fontWeight: 'bold',
-                      borderRadius: '20px',
-                      borderColor: '#0D7C66',
-                      color:"#0D7C66",
-                      '&:hover': {
-                        backgroundColor: '#41B3A2',
-                        color: '#fff',
-                      },
-                      px: 2,
-                      
-                      fontSize: isMobile ? '12px' : '16px', // Adjust font size for mobile
-                    }}
-                  >
-                    Login
-                  </Button>
-                  <Button
-                    component={Link}
-                    to="/register"
-                    variant="contained"
-                    color="success"
-                    sx={{
-                      textTransform: 'none',
-                      fontWeight: 'bold',
-                      borderRadius: '20px',
-                      px: 2,
-                      fontSize: isMobile ? '12px' : '16px', // Adjust font size for mobile
-                      backgroundColor: '#0D7C66',
-                      '&:hover': {
-                        backgroundColor: '#41B3A2',
-                      },
-                    }}
-                  >
-                    Register
-                  </Button>
-                </>
+                <Button
+                  component={Link}
+                  to="/login"
+                  variant="contained"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    borderRadius: '20px',
+                    px: 2,
+                    fontSize: isMobile ? '12px' : '16px', // Adjust font size for mobile
+                    backgroundColor: '#FFDC7F',
+                    color: '#16325B',
+                    '&:hover': {
+                      backgroundColor: '#78B7D0',
+                    },
+                  }}
+                >
+                  Login
+                </Button>
               ) : (
                 <Button
                   onClick={handleLogout}

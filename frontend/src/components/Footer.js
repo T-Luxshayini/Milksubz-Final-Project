@@ -7,7 +7,7 @@ function Footer() {
     <Box 
       component="footer" 
       sx={{
-        backgroundColor: '#0D7C66', // Main background color
+        backgroundColor: '#16325B', // Main background color
         color: 'white',
         padding: '40px 20px',
         maxWidth: '100vw',
@@ -20,7 +20,7 @@ function Footer() {
       {/* Top part of the footer with the links */}
       <Box
         sx={{
-          backgroundColor: '#0D7C66', // Dark green for upper part
+          backgroundColor: '#16325B', // Dark green for upper part
           padding: '40px 20px',
           maxWidth: '100vw',
         }}
@@ -85,7 +85,7 @@ function Footer() {
       {/* Bottom part of the footer with social media and copyright */}
       <Box 
         sx={{
-          backgroundColor: '#41B3A2', // Lighter green for bottom part
+          backgroundColor: '#16325B', // Lighter green for bottom part
           padding: '20px 0',
           display: 'flex',
           justifyContent: 'space-between',

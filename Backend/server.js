@@ -56,7 +56,7 @@ const orderRoutes = require('./routes/order.js');
 const stripeRoutes = require('./routes/paymentStripe.js'); 
 const cartRoutes = require('./routes/cart.js'); 
 const webhookRoutes = require('./routes/webhookRoutes.js');
-
+const contactRoutes = require('./routes/contact');
 // Load environment variables
 
 
@@ -83,6 +83,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/stripe', stripeRoutes);
 app.use('/api/webhook', webhookRoutes);
+app.use('/api/contact', contactRoutes);
 app.use('/api/cart', (req, res, next) => {
   console.log('Cart route hit');
   next();

@@ -7,6 +7,7 @@ import {
   AccountCircle, Subscriptions, BarChart,
   ChevronLeft, ChevronRight, Storefront
 } from '@mui/icons-material';
+import { MailOutline } from '@mui/icons-material';
 import ProductAddEdit from './ProductAddEdit';
 import milkImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/best-and-worst-milk-for-heart-health-alt-1440x810.jpg';
 import UserDetails from './UserDetails';
@@ -14,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AdminOrders from './AdminOrders';
 import SubscriptionDetails from './SubscriptionDetails';
-
+import ContactMessages from './ContactMessages';
 const drawerWidthExpanded = 300; 
 const drawerWidthCollapsed = 70;
 
@@ -42,8 +43,8 @@ function Dashboard() {
         return <AdminOrders />;
       case 'Subscription Details':
         return <SubscriptionDetails />;
-      case 'Reports':
-        return <Typography variant="h6">Reports Content</Typography>;
+      case 'Contact Messages':
+        return <ContactMessages/>;
       default:
         return <Typography variant="h6">Please select an option from the sidebar</Typography>;
     }
@@ -102,9 +103,9 @@ function Dashboard() {
               {isExpanded && <ListItemText primary="Subscription Details" />}
             </ListItem>
             <Divider />
-            <ListItem button onClick={() => handleMenuClick('Reports')} key="Reports">
-              <ListItemIcon><BarChart /></ListItemIcon>
-              {isExpanded && <ListItemText primary="Reports" />}
+            <ListItem button onClick={() => handleMenuClick('Contact Messages')} key="Contact Messages">
+              <ListItemIcon><MailOutline /></ListItemIcon>
+              {isExpanded && <ListItemText primary="Contact Messages" />}
             </ListItem>
           </List>
         </Drawer>
