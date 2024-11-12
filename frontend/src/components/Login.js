@@ -17,12 +17,32 @@ function Login() {
       setRememberMe(true);
     }
   }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5005/api/auth/login', { email, password });
+
+      // Create a user object that includes the email explicitly
+    const userWithEmail = {
+      id: response.data.user.id,
+      username: response.data.user.username,
+      role: response.data.user.role,
+      email: email  // Add the email from the form
+    };
+      // Log everything to verify
+    console.log('Email being stored:', email);
+    console.log('Enhanced user object:', userWithEmail);
+    console.log('Local Storage after saving:', localStorage.getItem('user'));
+      
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(userWithEmail));
+
+      // Get user data from localStorage to verify what was stored
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    console.log('Stored User Data:', storedUser);
+      
       
       if (rememberMe) {
         localStorage.setItem('rememberedEmail', email);
@@ -92,10 +112,10 @@ function Login() {
             boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
           }}
         >
-          <Typography variant="h4" gutterBottom color='#0D7C66' fontWeight='bold'>
+          <Typography variant="h4" gutterBottom color='#16325B' fontWeight='bold'>
             Welcome back!
           </Typography>
-          <Typography variant="subtitle1" gutterBottom color='#41B3A2' fontWeight='bold'>
+          <Typography variant="subtitle1" gutterBottom color='#78B7D0' fontWeight='bold'>
             Enter your credentials to access your account
           </Typography>
           <TextField
@@ -106,17 +126,17 @@ function Login() {
                   mb: 2,
                   '& .MuiOutlinedInput-root': {
                     '& fieldset': {
-                      borderColor: '#0D7C66',
+                      borderColor: '#16325B',
                     },
                     '&:hover fieldset': {
-                      borderColor: '#0D7C66',
+                      borderColor: '#16325B',
                     },
                     '&.Mui-focused fieldset': {
-                      borderColor: '#0D7C66',
+                      borderColor: '#16325B',
                     },
                   },
                   '& .MuiInputLabel-outlined': {
-                    color: '#0D7C66',
+                    color: '#16325B',
                   },
                 }}
             fullWidth
@@ -133,17 +153,17 @@ function Login() {
                   mb: 2,
                   '& .MuiOutlinedInput-root': {
                     '& fieldset': {
-                      borderColor: '#0D7C66',
+                      borderColor: '#16325B',
                     },
                     '&:hover fieldset': {
-                      borderColor: '#0D7C66',
+                      borderColor: '#16325B',
                     },
                     '&.Mui-focused fieldset': {
-                      borderColor: '#0D7C66',
+                      borderColor: '#16325B',
                     },
                   },
                   '& .MuiInputLabel-outlined': {
-                    color: '#0D7C66',
+                    color: '#78B7D0',
                   },
                 }}
             fullWidth
@@ -152,12 +172,12 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <Box display="flex" justifyContent="space-between" alignItems="center" color='#41B3A2' fontWeight='bold'>
+          <Box display="flex" justifyContent="space-between" alignItems="center" color='#78B7D0' fontWeight='bold'>
             <FormControlLabel
               control={<Checkbox checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} />}
               label="Remember for 30 days"
             />
-            <Link href="#" underline="hover" color='#41B3A2' fontWeight='bold'>
+            <Link href="#" underline="hover" color='#78B7D0' fontWeight='bold'>
               Forgot password?
             </Link>
           </Box>
@@ -165,14 +185,14 @@ function Login() {
             type="submit"
             variant="contained"
             fullWidth
-            sx={{ backgroundColor: '#0D7C66', mt: 2, '&:hover': { backgroundColor: '#41B3A2' } }}
+            sx={{ backgroundColor: '#FFDC7F',color:'#16325B', mt: 2,borderRadius:'50px', '&:hover': { backgroundColor: '#41B3A2' } }}
           >
             Login
           </Button>
 
-          <Typography align="center" color='#0D7C66' sx={{ mt: 2 }}>
+          <Typography align="center" color='#16325B' sx={{ mt: 2 }}>
             Don’t have an account?
-            <Link href="#" underline="hover" color='#0D7C66' fontWeight='bold' onClick={() => navigate('/register')}>
+            <Link href="#" underline="hover" color='#16325B' fontWeight='bold' onClick={() => navigate('/register')}>
               Register
             </Link>
           </Typography>

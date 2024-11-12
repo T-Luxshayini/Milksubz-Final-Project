@@ -222,6 +222,8 @@ router.use(bodyParser.raw({ type: "application/json" }));
 // Route to create Stripe session for subscription
 router.post("/create-stripe-session-subscription", async (req, res) => {
   const { userEmail, userId } = req.body;
+  console.log("Received email:", userEmail);
+  console.log("Received userId:", userId);
   let customer;
 
   // Check for an existing customer by email
@@ -261,7 +263,7 @@ router.post("/create-stripe-session-subscription", async (req, res) => {
 
   // Create the Stripe checkout session with the customer ID
   const session = await stripe.checkout.sessions.create({
-    success_url: "http://localhost:3000/success",
+    success_url: "http://localhost:3000/products",
     cancel_url: "http://localhost:3000/cancel",
     payment_method_types: ["card"],
     mode: "subscription",
@@ -272,7 +274,7 @@ router.post("/create-stripe-session-subscription", async (req, res) => {
           currency: "lkr",
           product_data: {
             name: "Milk Subscription",
-            description: "Weekly or Monthly Milk Plan",
+            description: "Monthly Milk Plan",
           },
           unit_amount: 600000, // Set to 6000 LKR for the monthly plan
           recurring: {
@@ -290,6 +292,60 @@ router.post("/create-stripe-session-subscription", async (req, res) => {
 
   res.json({ id: session.id });
 });
+// Route to fetch subscription details from Stripe
+router.get("/admin/stripe-subscriptions", async (req, res) => {
+  try {
+    // Retrieve all subscriptions from Stripe
+    const subscriptions = await stripe.subscriptions.list({
+      limit: 100, // Adjust the limit as needed to fetch more subscriptions
+    });
+
+    // Map through subscriptions to extract the necessary details
+    const subscriptionDetails = subscriptions.data.map((sub) => ({
+      id: sub.id,
+      customerId: sub.customer,
+      status: sub.status,
+      currentPeriodEnd: new Date(sub.current_period_end * 1000).toLocaleDateString(),
+      items: sub.items.data.map((item) => ({
+        product: item.price.product,
+        amount: item.price.unit_amount / 100, // Convert from cents to the main currency unit
+        currency: item.price.currency,
+        interval: item.price.recurring.interval,
+      })),
+    }));
+
+    // Send the subscription details to the client
+    res.json(subscriptionDetails);
+  } catch (error) {
+    console.error("Error fetching Stripe subscriptions:", error);
+    res.status(500).json({ message: "Error fetching subscription details from Stripe" });
+  }
+});
+// Assuming you're using Express
+router.put('/api/subscriptions/disable/:subscriptionId', async (req, res) => {
+  const { subscriptionId } = req.params;
+  
+  try {
+    // Find the subscription in your database or Stripe
+    const subscription = await Subscription.findById(subscriptionId);
+    if (!subscription) {
+      return res.status(404).send({ message: 'Subscription not found' });
+    }
+
+    // Update subscription status to disabled
+    subscription.status = 'disabled';
+    await subscription.save();
+
+    // Optionally, update subscription status on Stripe (if needed)
+    // await stripe.subscriptions.update(subscription.stripeSubscriptionId, { status: 'canceled' });
+
+    res.send({ message: 'Subscription disabled successfully' });
+  } catch (error) {
+    console.error('Error disabling subscription:', error);
+    res.status(500).send({ message: 'Error disabling subscription' });
+  }
+});
+
 
 // Webhook for Stripe events
 router.post("/webhook", async (req, res) => {
@@ -363,3 +419,4 @@ process.on("SIGINT", () => {
 });
 
 module.exports = router;
+

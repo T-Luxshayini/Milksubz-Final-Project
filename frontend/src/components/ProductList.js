@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { Pagination, Snackbar, Alert } from '@mui/material';
 import { Card, CardContent, CardMedia, Typography, Button as MuiButton } from '@mui/material';
 
-
-
 const PageWrapper = styled.div`
   background-image: url('/path/to/your/background-image.jpg');
   background-size: cover;
@@ -21,7 +19,7 @@ const PageWrapper = styled.div`
 const Title = styled.h2`
   font-family: 'Arial', sans-serif;
   font-size: 2.5rem;
-  color: #0D7C66;
+  color: #16325B;
   margin-bottom: 40px;
 `;
 
@@ -36,7 +34,7 @@ const ProductGrid = styled.div`
 
 const ProductCard = styled(Card)`
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 4px solid #0D7C66;
+  border: 4px solid #16325B;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
@@ -51,8 +49,8 @@ const HoverButton = styled(MuiButton)`
   padding: 10px 20px;
   margin: 5px;
   transition: all 0.3s ease;
-  background-color: #0D7C66;
-  color: white;
+  background-color: #FFDC7F;
+  color: #16325B;
   border: 2px solid transparent;
   
   box-shadow: 0 0 5px rgba(13, 124, 102, 0.8), 
@@ -67,7 +65,17 @@ const HoverButton = styled(MuiButton)`
   }
 `;
 
+const SubscribeButton = styled(HoverButton)`
+  background-color: #16325B;
+  color: #16325B;
 
+  &:hover {
+    background-color: #66BB6A;
+    box-shadow: 0 0 10px rgba(13, 124, 102, 1), 
+                0 0 20px rgba(13, 124, 102, 0.8), 
+                0 0 30px rgba(13, 124, 102, 0.6);
+  }
+`;
 
 function ProductList() {
   const [products, setProducts] = useState([]);
@@ -109,17 +117,9 @@ function ProductList() {
     setNotification({ open: true, message: `${product.name} added to cart!`, severity: 'success' });
   };
 
-  // const handleBuyNow = (product) => {
-  //   navigate('/payment', { state: { product } });
-  // };
-
   const handleSubscribe = (product) => {
     navigate('/sub', { state: { product } });
-    
   };
-
-  
-  
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -162,7 +162,7 @@ function ProductList() {
               <Typography variant="body2" color="text.secondary">
                 {product.description}
               </Typography>
-              <Typography variant="body1" color="#41B3A2">
+              <Typography variant="body1" color="#78B7D0">
                 LKR {product.price}
               </Typography>
               <Typography variant="body2">
@@ -172,9 +172,9 @@ function ProductList() {
                 Add to Cart
               </HoverButton>
               {index === 0 && (
-                <HoverButton variant="contained" color="success" onClick={() => handleSubscribe(product)}>
+                <SubscribeButton variant="contained"  onClick={() => handleSubscribe(product)}>
                   Subscribe
-                </HoverButton>
+                </SubscribeButton>
               )}
             </CardContent>
           </ProductCard>
@@ -187,8 +187,6 @@ function ProductList() {
         onChange={handlePageChange}
         sx={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}
       />
-
-      
     </PageWrapper>
   );
 }

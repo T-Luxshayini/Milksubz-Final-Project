@@ -39,7 +39,7 @@ const OrderDetails = () => {
 
   return (
     <Box sx={{ height: 500, width: '100%', padding: 2 }}>
-      <Typography variant="h4" gutterBottom align="center" color="success">Order Details</Typography>
+      {/* <Typography variant="h4" gutterBottom align="center" color="success">Order Details</Typography> */}
       <DataGrid
         rows={orders}
         columns={columns}

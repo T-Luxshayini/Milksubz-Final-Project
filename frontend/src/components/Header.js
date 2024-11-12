@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Badge, Button, Box, Container } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Badge, Button, Box, Container, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import logo from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milksubz-logo.jpg';
 
 const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
   const theme = useTheme();
-  
+
   // Media query for responsiveness (true for mobile)
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     setCartCount(cart.length);
-  }, []);
+  }, [cartCount]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -33,19 +34,33 @@ const Header = () => {
         <Container maxWidth="lg">
           <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
             {/* Logo Section */}
-            <Typography
-              variant="h6"
+            <Box
               component={Link}
               to="/"
               sx={{
+                display: 'flex',
+                alignItems: 'center',
                 textDecoration: 'none',
-                color: '#fff',
-                fontWeight: 'bold',
                 marginRight: isMobile ? '20px' : '60px', // Adjusted for mobile
               }}
             >
-              MilkSubz
-            </Typography>
+              <img
+                src={logo}
+                alt="MilkSubz Logo"
+                style={{ height: '40px', width: 'auto' }} // Adjust the height and width as needed
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  marginLeft: '10px', // Space between logo and text
+                  fontWeight: 'bold',
+                  color: '#FFF',
+                  textDecoration: 'none',
+                }}
+              >
+                MilkSubz
+              </Typography>
+            </Box>
 
             {/* Navigation Links for larger screens */}
             {!isMobile && (
@@ -153,16 +168,17 @@ const Header = () => {
                 <Button
                   onClick={handleLogout}
                   variant="contained"
-                  color="error"
+                  color="#16325B"
                   sx={{
                     textTransform: 'none',
                     fontWeight: 'bold',
                     borderRadius: '20px',
                     px: 3,
                     fontSize: isMobile ? '12px' : '16px', // Adjust font size for mobile
-                    backgroundColor: '#ff6347',
+                    backgroundColor: '#FFDC7F',
+                    color: '#16325B',
                     '&:hover': {
-                      backgroundColor: '#ff4500',
+                      backgroundColor: '#FFDC7F',
                     },
                   }}
                 >

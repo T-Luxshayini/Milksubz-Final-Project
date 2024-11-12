@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { Box, Button, Container, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material';
-import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/5114855.jpg';
+import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/5124556.jpg';
 import axios from 'axios';
 export const ContactUs = () => {
   const form = useRef();
@@ -47,7 +47,7 @@ export const ContactUs = () => {
         sx={{
           mb: 4,
           textAlign: 'center',
-          color: '#0D7C66',
+          color: '#16325B',
           fontWeight: 'bold',
         }}
       >
@@ -72,14 +72,15 @@ export const ContactUs = () => {
           alt="Contact Us Illustration"
           sx={{
             width: { xs: '100%', md: '50%' },
-            maxHeight: '300px',
+            maxHeight: '400px',
             objectFit: 'contain',
             marginRight: { md: 3 },
             mb: { xs: 3, md: 0 },
+            // color:'#16325B'
           }}
         />
         <Box sx={{ flex: 1 }}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mb: 2 ,color:'#16325B'}}>
             Get in Touch
           </Typography>
           <form ref={form} onSubmit={sendEmail}>
@@ -111,10 +112,11 @@ export const ContactUs = () => {
               variant="contained"
               type="submit"
               sx={{
-                backgroundColor: '#0D7C66',
-                color: '#fff',
+                backgroundColor: '#FFDC7F',
+                color: '#16325B',
                 padding: '10px 20px',
                 fontWeight: 'bold',
+                borderRadius: '50px'
               }}
             >
               Send Message

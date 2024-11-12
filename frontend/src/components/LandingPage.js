@@ -10,7 +10,8 @@ import product1Image2 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/fr
 import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/5114855.jpg';
 import ContactUs from './ContactUs';
 import CustomerFeedbacks from '../components/customerFeedback';
-
+import AboutUs from './AboutUs';
+// import BlogSection from './BlogSection';
 // Sample product data
 const recommendedProducts = [
   { id: 1, name: 'Fresh Cow Milk', price: 'Rs200', image: product1Image },
@@ -21,16 +22,16 @@ const recommendedProducts = [
 // Define the keyframes for the neon border animation
 const neonBorderAnimation = keyframes`
   0% {
-    border-color: #0D7C66;
-    box-shadow: 0 0 5px #0D7C66, 0 0 10px #0D7C66, 0 0 15px #0D7C66;
+    border-color: #16325B;
+    box-shadow: 0 0 5px #16325B, 0 0 10px #16325B, 0 0 15px #16325B;
   }
   50% {
-    border-color: #41B3A2;
-    box-shadow: 0 0 10px #41B3A2, 0 0 20px #41B3A2, 0 0 30px #41B3A2;
+    border-color: #16325B;
+    box-shadow: 0 0 10px #16325B, 0 0 20px #16325B, 0 0 30px #16325B;
   }
   100% {
-    border-color: #0D7C66;
-    box-shadow: 0 0 5px #0D7C66, 0 0 10px #0D7C66, 0 0 15px #0D7C66;
+    border-color: #16325B;
+    box-shadow: 0 0 5px #16325B, 0 0 10px #16325B, 0 0 15px #16325B;
   }
 `;
 
@@ -157,7 +158,7 @@ const LandingPage = () => {
 
       {/* Recommended Products Section */}
       <Container sx={{ py: 8 }}>
-        <Typography variant="h4" component="h2" sx={{ mb: 4, textAlign: 'center', color: '#0D7C66', fontWeight: 'bold' }}>
+        <Typography variant="h4" component="h2" sx={{ mb: 4, textAlign: 'center', color: '#16325B', fontWeight: 'bold' }}>
           Recommended Products
         </Typography>
         <Grid container spacing={3}>
@@ -167,7 +168,9 @@ const LandingPage = () => {
                 sx={{
                   maxWidth: 300,
                   position: 'relative',
+                  padding: 2,
                   overflow: 'hidden',
+                  borderRadius: 2,
                   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                   '&:hover': {
                     transform: 'scale(1.05)',
@@ -184,7 +187,11 @@ const LandingPage = () => {
                   sx={{
                     width: '100%',        // Ensures all images have the same width
                     height: '200px',      // Set a fixed height to keep image sizes consistent
-                    objectFit: 'cover',   // Crop and fit the image while maintaining aspect ratio
+                    objectFit: 'cover',
+                    borderRadius: 2,
+                    marginBottom: 2
+                    
+                       // Crop and fit the image while maintaining aspect ratio
                   }}
                 />
                 <CardContent sx={{ zIndex: 2 }}>
@@ -199,7 +206,7 @@ const LandingPage = () => {
                   <Typography
                     variant="body2"
                     color="text.primary"
-                    sx={{ fontSize: '1.2rem', color: '#41B3A2' }}
+                    sx={{ fontSize: '1.2rem', color: '#78B7D0' }}
                   >
                     From {product.price}
                   </Typography>
@@ -210,9 +217,11 @@ const LandingPage = () => {
                     variant="contained"
                     fullWidth
                     sx={{
-                      backgroundColor: '#0D7C66',
+                      backgroundColor: '#FFDC7F',
                       padding: '10px 20px',
                       fontWeight: 'bold',
+                      color:'#16325B',
+                      borderRadius: '50px'
                     }}
                     onClick={handleViewMore}
                   >
@@ -224,8 +233,11 @@ const LandingPage = () => {
           ))}
         </Grid>
       </Container>
-      <CustomerFeedbacks/>
+      {/* <CustomerFeedbacks/> */}
+      <AboutUs/>
+      {/* <BlogSection/> */}
       <ContactUs/>
+      <CustomerFeedbacks/>
 
       {/* About Us Section */}
       {/* <Container sx={{ py: 8 }}>

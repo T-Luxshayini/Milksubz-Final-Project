@@ -79,7 +79,7 @@ function Register() {
             boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
           }}
         >
-          <Typography variant="h4" gutterBottom color='#0D7C66' fontWeight='bold'>
+          <Typography variant="h4" gutterBottom color='#16325B' fontWeight='bold'>
             Create an Account
           </Typography>
           <TextField
@@ -94,17 +94,17 @@ function Register() {
               mb: 2,
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&:hover fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
               },
               '& .MuiInputLabel-outlined': {
-                color: '#0D7C66',
+                color: '#78B7D0',
               },
             }}
           />
@@ -120,17 +120,17 @@ function Register() {
               mb: 2,
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&:hover fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
               },
               '& .MuiInputLabel-outlined': {
-                color: '#0D7C66',
+                color: '#78B7D0',
               },
             }}
           />
@@ -146,17 +146,17 @@ function Register() {
               mb: 2,
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&:hover fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
               },
               '& .MuiInputLabel-outlined': {
-                color: '#0D7C66',
+                color: '#78B7D0',
               },
             }}
           />
@@ -173,17 +173,17 @@ function Register() {
               mb: 2,
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&:hover fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
               },
               '& .MuiInputLabel-outlined': {
-                color: '#0D7C66',
+                color: '#78B7D0',
               },
             }}
           />
@@ -200,17 +200,17 @@ function Register() {
               mb: 2,
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&:hover fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#0D7C66',
+                  borderColor: '#16325B',
                 },
               },
               '& .MuiInputLabel-outlined': {
-                color: '#0D7C66',
+                color: '#78B7D0',
               },
             }}
           />
@@ -218,14 +218,14 @@ function Register() {
             type="submit"
             variant="contained"
             fullWidth
-            sx={{ backgroundColor: '#0D7C66', mt: 2, '&:hover': { backgroundColor: '#41B3A2' } }}
+            sx={{ backgroundColor: '#FFDC7F',color:'#16325B',borderRadius:'50px', mt: 2, '&:hover': { backgroundColor: '#41B3A2' } }}
           >
             Register
           </Button>
 
-          <Typography align="center" color='#0D7C66' sx={{ mt: 2 }}>
+          <Typography align="center" color='#16325B' sx={{ mt: 2 }}>
             Already have an account?
-            <Link href="#" underline="hover" color='#0D7C66' fontWeight='bold' onClick={() => navigate('/login')}>
+            <Link href="#" underline="hover" color='#16325B' fontWeight='bold' onClick={() => navigate('/login')}>
               Login
             </Link>
           </Typography>

@@ -34,7 +34,7 @@ const CartHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  color: #0D7C66;
+  color: #16325B;
   font-weight:bold;
 `;
 
@@ -57,7 +57,7 @@ const CartDetails = styled.div`
 // Styling for the cart item name
 const CartItemName = styled.h3`
   margin: 0;
-  color: #0D7C66;
+  color: #16325B;
 `;
 
 // Quantity button wrapper
@@ -89,11 +89,11 @@ const DeleteButton = styled.button`
 
 // Proceed to Checkout button styling
 const CheckoutButton = styled.button`
-  background-color: #0D7C66;
-  color: white;
+  background-color: #FFDC7F;
+  color: #16325B;
   border: none;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
   margin-top: 20px;
 `;
@@ -104,7 +104,7 @@ const TotalAmount = styled.div`
   font-size: 18px;
   margin-top: 20px;
   font-weight: bold;
-  color: #0D7C66;
+  color: #16325B;
 `;
 
 function CartPage() {

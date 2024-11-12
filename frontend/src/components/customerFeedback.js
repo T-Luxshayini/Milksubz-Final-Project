@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, Avatar, Box } from '@mui/material';
+import { Typography, Avatar, Box } from '@mui/material';
 import Slider from 'react-slick';
 import { BsStar } from 'react-icons/bs';
 import "slick-carousel/slick/slick.css"; 
@@ -13,7 +13,6 @@ function CustomerFeedbacks() {
         { name: 'J.Kaviya', photo: 'https://picsum.photos/80?random=4', review: 'Amazing customer service and on-time deliveries every time.', rating: 5 },
         { name: 'R.Dinesh', photo: 'https://picsum.photos/80?random=5', review: 'Great value for the quality of milk delivered by RELY MILK!', rating: 5 },
     ];
-    
 
     const settings = {
         dots: true,
@@ -27,13 +26,21 @@ function CustomerFeedbacks() {
     };
 
     return (
-        <section style={{ padding: '40px 0' }}>
-            <Container maxWidth="md" style={{ textAlign: 'center' }}>
+        <div 
+            style={{ 
+                width: '100%', 
+                background: 'linear-gradient(135deg, #5B9BD5, #257180)', // Gradient background
+                padding: '40px 0',
+                margin: 0,
+                boxSizing: 'border-box', // Ensures padding doesn't affect the width
+            }}
+        >
+            <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
                 <Typography 
                     variant="h4" 
                     component="h2" 
                     gutterBottom 
-                    style={{ color: '#257180', fontWeight: 'bold' }}
+                    style={{ color: '#16325B', fontWeight: 'bold' }}
                 >
                     What Our Customers Say
                 </Typography>
@@ -45,11 +52,11 @@ function CustomerFeedbacks() {
                                 backgroundColor: '#fff', 
                                 padding: '20px', 
                                 borderRadius: '10px', 
-                                border: '2px solid #257180', // Set a solid border color
-                                margin: '10px', // Add spacing between cards
+                                border: '2px solid #257180',
+                                margin: '10px',
                                 textAlign: 'center',
-                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Add subtle shadow for depth
-                                minHeight: '200px', // Ensures the box has enough height
+                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                minHeight: '200px',
                             }}
                         >
                             <Avatar
@@ -81,8 +88,8 @@ function CustomerFeedbacks() {
                         </Box>
                     ))}
                 </Slider>
-            </Container>
-        </section>
+            </div>
+        </div>
     );
 }
 

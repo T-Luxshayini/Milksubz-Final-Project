@@ -100,13 +100,13 @@ function PaymentPage() {
       <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundImage: `url(${milkImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.75, zIndex: -1 }} />
       <Grid item xs={12} md={6}>
         <Box sx={{ width: '100%', maxWidth: 600, backgroundColor: 'rgba(255, 255, 255, 0.85)', p: 4, borderRadius: 2, boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)' }}>
-          <Typography variant="h4" gutterBottom align="center" color="#0D7C66">Payment Summary</Typography>
-          <Typography variant="h6" gutterBottom align="center" color="#41B3A2" fontWeight="bold">Total Price: LKR {totalAmount}</Typography>
+          <Typography variant="h4" gutterBottom align="center" color="#16325B">Payment Summary</Typography>
+          <Typography variant="h6" gutterBottom align="center" color="#78B7D0" fontWeight="bold">Total Price: LKR {totalAmount}</Typography>
           <TextField label="Name" variant="outlined" fullWidth margin="normal" value={name} onChange={(e) => setName(e.target.value)} required />
           <TextField label="Address" variant="outlined" fullWidth margin="normal" value={address} onChange={(e) => setAddress(e.target.value)} required multiline rows={3} />
           <TextField label="Phone Number" variant="outlined" fullWidth margin="normal" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required placeholder="Enter your phone number (e.g., 0771234567)" />
 
-          <Typography variant="h6" gutterBottom align="center">Payment Method</Typography>
+          <Typography variant="h6" gutterBottom align="center" color="#16325B">Payment Method</Typography>
           <TextField label="Cardholder Name" variant="outlined" fullWidth margin="normal" />
 
           <Box my={2}>
@@ -134,14 +134,14 @@ function PaymentPage() {
           <Button
             variant="contained"
             fullWidth
-            sx={{ mt: 2, backgroundColor: '#0D7C66', '&:hover': { backgroundColor: '#41B3A2' } }}
+            sx={{ mt: 2, backgroundColor: '#FFDC7F',color:'#16325B',borderRadius:'50px', '&:hover': { backgroundColor: '#78B7D0' } }}
             onClick={handleOrderSubmit}
           >
             {loading ? 'Processing...' : 'Pay Now'}
           </Button>
 
           {error && <Typography color="error" mt={2}>{error}</Typography>}
-          {successMessage && <Typography color="success" mt={2}>{successMessage}</Typography>} {/* Render success message */}
+          {successMessage && <Typography color="#227B94" mt={2}>{successMessage}</Typography>} {/* Render success message */}
         </Box>
       </Grid>
     </Grid>
