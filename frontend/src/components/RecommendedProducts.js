@@ -1,7 +1,8 @@
 import React from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
+import { Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { keyframes } from '@mui/system'; // Import keyframes for the animation
+import { keyframes } from '@mui/system';
+import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/blue-bg.jpg'; // Import your background image
 
 // Define the keyframes for the neon border animation
 const neonBorderAnimation = keyframes`
@@ -20,76 +21,85 @@ const neonBorderAnimation = keyframes`
 `;
 
 const RecommendedProducts = ({ products }) => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleViewMore = () => {
-    navigate('/products'); // Navigate to '/products' when called
+    navigate('/products');
   };
 
   return (
-    <Grid container spacing={3}>
-      {products.map((product) => (
-        <Grid item key={product.id} xs={12} sm={6} md={4}>
-          <Card
-            sx={{
-              maxWidth: 300,
-              position: 'relative',
-              overflow: 'hidden',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              '&:hover': {
-                transform: 'scale(1.05)',
-                boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)',
-              },
-              border: '2px solid #0D7C66',
-              animation: `${neonBorderAnimation} 1.5s infinite alternate`,
-            }}
-          >
-            <CardMedia
-              component="img"
-              image={product.image}
-              alt={product.name}
+    <Box
+      sx={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        padding: 4,
+      }}
+    >
+      <Grid container spacing={3}>
+        {products.map((product) => (
+          <Grid item key={product.id} xs={12} sm={6} md={4}>
+            <Card
               sx={{
-                width: '100%',        // Ensures all images have the same width
-                height: '200px',      // Set a fixed height to keep image sizes consistent
-                objectFit: 'cover',   // Crop and fit the image while maintaining aspect ratio
+                maxWidth: 300,
+                position: 'relative',
+                overflow: 'hidden',
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)',
+                },
+                border: '2px solid #0D7C66',
+                animation: `${neonBorderAnimation} 1.5s infinite alternate`,
               }}
-            />
-            <CardContent sx={{ zIndex: 2 }}>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="div"
-                sx={{ fontWeight: 'bold' }}
-              >
-                {product.name}
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.primary"
-                sx={{ fontSize: '1.2rem', color: '#41B3A2' }}
-              >
-                From {product.price}
-              </Typography>
-            </CardContent>
-            <CardActions sx={{ justifyContent: 'center', zIndex: 2 }}>
-              <Button
-                size="large"
-                variant="contained"
-                fullWidth
+            >
+              <CardMedia
+                component="img"
+                image={product.image}
+                alt={product.name}
                 sx={{
-                  backgroundColor: '#0D7C66',
-                  padding: '10px 20px',
-                  fontWeight: 'bold',
+                  width: '100%',
+                  height: '200px',
+                  objectFit: 'cover',
                 }}
-                onClick={handleViewMore}
-              >
-                View More
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+              />
+              <CardContent sx={{ zIndex: 2 }}>
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="div"
+                  sx={{ fontWeight: 'bold' }}
+                >
+                  {product.name}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: '1.2rem', color: '#41B3A2' }}
+                >
+                  From {product.price}
+                </Typography>
+              </CardContent>
+              <CardActions sx={{ justifyContent: 'center', zIndex: 2 }}>
+                <Button
+                  size="large"
+                  variant="contained"
+                  fullWidth
+                  sx={{
+                    backgroundColor: '#0D7C66',
+                    padding: '10px 20px',
+                    fontWeight: 'bold',
+                  }}
+                  onClick={handleViewMore}
+                >
+                  View More
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 

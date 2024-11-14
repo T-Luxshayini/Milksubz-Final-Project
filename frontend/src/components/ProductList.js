@@ -45,35 +45,34 @@ const ProductCard = styled(Card)`
 `;
 
 const HoverButton = styled(MuiButton)`
-  font-size: 0.875rem;
-  padding: 10px 20px;
-  margin: 5px;
-  transition: all 0.3s ease;
-  background-color: #FFDC7F;
-  color: #16325B;
-  border: 2px solid transparent;
-  
-  box-shadow: 0 0 5px rgba(13, 124, 102, 0.8), 
-              0 0 10px rgba(13, 124, 102, 0.6), 
-              0 0 15px rgba(13, 124, 102, 0.4);
-  
-  &:hover {
-    background-color: #66BB6A;
-    box-shadow: 0 0 10px rgba(13, 124, 102, 1), 
-                0 0 20px rgba(13, 124, 102, 0.8), 
-                0 0 30px rgba(13, 124, 102, 0.6);
+  && {
+    font-size: 0.875rem;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #FFDC7F;
+    color: #16325B;
+    border: 2px solid transparent;
+    border-radius: 50px;
+                
+    &:hover {
+      background-color: #FFDC7F;
+    }
   }
 `;
 
-const SubscribeButton = styled(HoverButton)`
-  background-color: #16325B;
-  color: #16325B;
-
-  &:hover {
-    background-color: #66BB6A;
-    box-shadow: 0 0 10px rgba(13, 124, 102, 1), 
-                0 0 20px rgba(13, 124, 102, 0.8), 
-                0 0 30px rgba(13, 124, 102, 0.6);
+const SubscribeButton = styled(MuiButton)`
+  && {
+    font-size: 0.875rem;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #16325B;
+    color: #FFDC7F;
+    border: 2px solid transparent;
+    border-radius: 50px;
+                
+    &:hover {
+      background-color: #16325B;
+    }
   }
 `;
 
@@ -133,13 +132,12 @@ function ProductList() {
     <PageWrapper>
       <Title>Our Products</Title>
 
-      {/* Notification Snackbar positioned a bit below the header */}
       <Snackbar
         open={notification.open}
         autoHideDuration={3000}
         onClose={handleCloseNotification}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        sx={{ top: '80px' }}  // Adjusted to show below the header
+        sx={{ top: '80px' }}
       >
         <Alert onClose={handleCloseNotification} severity={notification.severity} sx={{ width: '100%' }}>
           {notification.message}
@@ -168,11 +166,21 @@ function ProductList() {
               <Typography variant="body2">
                 {product.category}
               </Typography>
-              <HoverButton variant="contained" color='' onClick={() => handleAddToCart(product)}>
+              <HoverButton 
+                variant="contained" 
+                disableElevation
+                disableRipple
+                onClick={() => handleAddToCart(product)}
+              >
                 Add to Cart
               </HoverButton>
               {index === 0 && (
-                <SubscribeButton variant="contained"  onClick={() => handleSubscribe(product)}>
+                <SubscribeButton 
+                  variant="contained"
+                  disableElevation
+                  disableRipple
+                  onClick={() => handleSubscribe(product)}
+                >
                   Subscribe
                 </SubscribeButton>
               )}

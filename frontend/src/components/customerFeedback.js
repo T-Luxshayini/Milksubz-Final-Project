@@ -27,14 +27,15 @@ function CustomerFeedbacks() {
 
     return (
         <div 
-            style={{ 
-                width: '100%', 
-                background: 'linear-gradient(135deg, #5B9BD5, #257180)', // Gradient background
-                padding: '40px 0',
-                margin: 0,
-                boxSizing: 'border-box', // Ensures padding doesn't affect the width
-            }}
-        >
+    style={{ 
+        width: '100%', 
+        background: 'linear-gradient(135deg, #d5d5d0, #e4e4dc, #dce4dc, #e4e4e4)', // Updated gradient background
+        padding: '40px 0',
+        margin: 0,
+        boxSizing: 'border-box', // Ensures padding doesn't affect the width
+    }}
+>
+
             <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
                 <Typography 
                     variant="h4" 

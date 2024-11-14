@@ -18,6 +18,7 @@ const AboutUs = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center', // Center content horizontally
+        marginTop: '30px'
       }}
     >
       {/* Background Video */}
@@ -50,6 +51,7 @@ const AboutUs = () => {
           color: '#16325B',
           fontWeight: 'bold',
           fontFamily: 'Poppins, sans-serif',
+          marginLeft: '-80px',
         }}
       >
         WHY MilkSubz?
@@ -57,134 +59,163 @@ const AboutUs = () => {
 
       {/* Icon Section */}
       <Grid
-        container
-        spacing={0.5} // Reduced spacing between items
-        justifyContent="center"  // Center the items horizontally
-        alignItems="center"      // Center the items vertically
-        sx={{ marginTop: '40px' }}
+  container
+  spacing={2} // Uniform gap between all cards
+  justifyContent="center"  // Center the items horizontally
+  sx={{ marginTop: '40px' }}
+>
+  {/* Icon 1: Fresh Milk */}
+  <Grid item xs={12} sm={4} md={3} textAlign="center">
+    <Card
+      sx={{
+        width: '100%', // Fixed width for consistent card size
+        maxWidth: 300, // Increased maxWidth for bigger cards
+        height: 350, // Set height for a larger card
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: 'rgba(22, 50, 91, 0.8)', // Added transparency (70%)
+      }}
+    >
+      <CardContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center', // Center the content vertically
+          alignItems: 'center', // Center the content horizontally
+          height: '100%', // Ensure the content fills the card
+          textAlign: 'center', // Ensure text is centered
+        }}
       >
-        {/* Icon 1: Fresh Milk */}
-        <Grid item xs={12} sm={4} md={3} textAlign="center">
-          <Card
-            sx={{
-              width: '100%', // Fixed width for consistent card size
-              maxWidth: 250, // Set maxWidth for each card to keep them same size
-              borderRadius: '8px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              backgroundColor: '#16325B',
-              color:'#78B7D0',
-             
-            }}
-          >
-            <CardContent>
-              <LocalDrinkOutlined sx={{ fontSize: 60, color: '#78B7D0' }} />
-              <Typography
-                variant="h6"
-                gutterBottom
-                sx={{
-                  color: '#78B7D0',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontWeight: 'bold',
-                }}
-              >
-                Fresh Milk
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: '#78B7D0',
-                  fontFamily: 'Poppins, sans-serif',
-                }}
-              >
-                Enjoy the freshest, purest milk delivered straight to your doorstep.
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+        <LocalDrinkOutlined sx={{ fontSize: 80, color: '#fff' }} />
+        <Typography
+          variant="h5" // Increased font size for the title
+          gutterBottom
+          sx={{
+            color: '#fff',
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 'bold',
+          }}
+        >
+          Fresh Milk
+        </Typography>
+        <Typography
+          variant="body1" // Increased font size for the body text
+          sx={{
+            color: '#fff',
+            fontFamily: 'Poppins, sans-serif',
+          }}
+        >
+          Enjoy the freshest, purest milk delivered straight to your doorstep.
+        </Typography>
+      </CardContent>
+    </Card>
+  </Grid>
 
-        {/* Icon 2: Wide Variety */}
-        <Grid item xs={12} sm={4} md={3} textAlign="center">
-          <Card
-            sx={{
-              width: '100%', // Fixed width for consistent card size
-              maxWidth: 250, // Set maxWidth for each card to keep them same size
-              borderRadius: '8px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              backgroundColor: '#16325B',
-            }}
-          >
-            <CardContent>
-              <FeedOutlined sx={{ fontSize: 60, color: '#78B7D0' }} />
-              <Typography
-                variant="h6"
-                gutterBottom
-                sx={{
-                  color: '#78B7D0',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontWeight: 'bold',
-                }}
-              >
-                Wide Variety
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: '#78B7D0',
-                  fontFamily: 'Poppins, sans-serif',
-                }}
-              >
-                From milk to paneer, curd, ghee, kulfi, and more, we have it all.
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+  {/* Icon 2: Wide Variety */}
+  <Grid item xs={12} sm={4} md={3} textAlign="center">
+    <Card
+      sx={{
+        width: '100%', // Fixed width for consistent card size
+        maxWidth: 300, // Increased maxWidth for bigger cards
+        height: 350, // Set height for a larger card
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: 'rgba(22, 50, 91, 0.8)', // Added transparency (70%)
+      }}
+    >
+      <CardContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center', // Center the content vertically
+          alignItems: 'center', // Center the content horizontally
+          height: '100%', // Ensure the content fills the card
+          textAlign: 'center', // Ensure text is centered
+        }}
+      >
+        <FeedOutlined sx={{ fontSize: 80, color: '#fff' }} />
+        <Typography
+          variant="h5" // Increased font size for the title
+          gutterBottom
+          sx={{
+            color: '#fff',
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 'bold',
+          }}
+        >
+          Wide Variety
+        </Typography>
+        <Typography
+          variant="body1" // Increased font size for the body text
+          sx={{
+            color: '#fff',
+            fontFamily: 'Poppins, sans-serif',
+          }}
+        >
+          From milk to paneer, curd, ghee, kulfi, and more, we have it all.
+        </Typography>
+      </CardContent>
+    </Card>
+  </Grid>
 
-        {/* Icon 3: Quality Assured */}
-        <Grid item xs={12} sm={4} md={3} textAlign="center">
-          <Card
-            sx={{
-              width: '100%', // Fixed width for consistent card size
-              maxWidth: 250, // Set maxWidth for each card to keep them same size
-              borderRadius: '8px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              backgroundColor: '#16325B',
-            }}
-          >
-            <CardContent>
-              <ShieldOutlined sx={{ fontSize: 60, color: '#78B7D0' }} />
-              <Typography
-                variant="h6"
-                gutterBottom
-                sx={{
-                  color: '#78B7D0',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontWeight: 'bold',
-                }}
-              >
-                Quality Assured
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: '#78B7D0',
-                  fontFamily: 'Poppins, sans-serif',
-                }}
-              >
-                Stringent quality standards ensure the best dairy products for you.
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+  {/* Icon 3: Quality Assured */}
+  <Grid item xs={12} sm={4} md={3} textAlign="center">
+    <Card
+      sx={{
+        width: '100%', // Fixed width for consistent card size
+        maxWidth: 300, // Increased maxWidth for bigger cards
+        height: 350, // Set height for a larger card
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: 'rgba(22, 50, 91, 0.8)', // Added transparency (70%)
+      }}
+    >
+      <CardContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center', // Center the content vertically
+          alignItems: 'center', // Center the content horizontally
+          height: '100%', // Ensure the content fills the card
+          textAlign: 'center', // Ensure text is centered
+        }}
+      >
+        <ShieldOutlined sx={{ fontSize: 80, color: '#fff' }} />
+        <Typography
+          variant="h5" // Increased font size for the title
+          gutterBottom
+          sx={{
+            color: '#fff',
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 'bold',
+          }}
+        >
+          Quality Assured
+        </Typography>
+        <Typography
+          variant="body1" // Increased font size for the body text
+          sx={{
+            color: '#fff',
+            fontFamily: 'Poppins, sans-serif',
+          }}
+        >
+          Stringent quality standards ensure the best dairy products for you.
+        </Typography>
+      </CardContent>
+    </Card>
+  </Grid>
+</Grid>
+
+
     </Box>
   );
 };

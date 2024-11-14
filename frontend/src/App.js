@@ -24,7 +24,8 @@ import Subscription from './components/SubscriptionPackages';
 import { ContactUs } from './components/ContactUs';
 import CustomerFeedbacks from './components/customerFeedback';
 import RecommendedProducts from './components/RecommendedProducts'; 
-import BlogSection from './components/BlogSection';
+import BlogPage from './components/BlogSection';
+import AboutSection from './components/AboutSection';
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe('pk_test_51QCqZPFDU5aLIEJODMXZ1TrGjcmBHwEJGA5ADUyKW34FJPqWV6PmWQSssWKcxTUDLvXMkNPqO70W5331MkiJYlFt00RIvqYIJJ');
 
@@ -61,7 +62,8 @@ function App() {
             <Route path="/contactus" element={<ContactUs />} />
             <Route path="/feedbacks" element={<CustomerFeedbacks />} />
             <Route path="/recommended-products" element={<RecommendedProducts />} />
-            <Route path="/blog" element={<BlogSection />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/about" element={<AboutSection />} />
             <Route 
               path="/payment" 
               element={

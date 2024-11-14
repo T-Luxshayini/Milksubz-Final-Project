@@ -3,6 +3,7 @@ import emailjs from '@emailjs/browser';
 import { Box, Button, Container, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material';
 import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/5124556.jpg';
 import axios from 'axios';
+
 export const ContactUs = () => {
   const form = useRef();
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -34,36 +35,37 @@ export const ContactUs = () => {
       );
   };
 
-
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
 
   return (
-    <Container sx={{ py: 8 }}>
+    <Container sx={{ py: 8, maxWidth: '90%' }}>
       <Typography
-        variant="h4"
+        variant="h3"
         component="h2"
         sx={{
           mb: 4,
           textAlign: 'center',
           color: '#16325B',
           fontWeight: 'bold',
+          fontSize: '2.5rem', // Increased font size
         }}
       >
         Contact Us
       </Typography>
       <Paper
-        elevation={3}
+        elevation={5}
         sx={{
-          padding: 4,
-          maxWidth: '800px',
+          padding: 6,
+          maxWidth: '100%',
           margin: '0 auto',
           backgroundColor: '#fff',
           color: '#0D7C66',
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
           alignItems: 'center',
+          gap: 4, // Added gap for better spacing
         }}
       >
         <Box
@@ -72,15 +74,14 @@ export const ContactUs = () => {
           alt="Contact Us Illustration"
           sx={{
             width: { xs: '100%', md: '50%' },
-            maxHeight: '400px',
+            maxHeight: '900px', // Increased max height
             objectFit: 'contain',
-            marginRight: { md: 3 },
+            marginRight: { md: 4 },
             mb: { xs: 3, md: 0 },
-            // color:'#16325B'
           }}
         />
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="h6" sx={{ mb: 2 ,color:'#16325B'}}>
+        <Box sx={{ flex: 1, width: '100%' }}>
+          <Typography variant="h5" sx={{ mb: 3, color: '#16325B', fontSize: '1.5rem' }}>
             Get in Touch
           </Typography>
           <form ref={form} onSubmit={sendEmail}>
@@ -89,7 +90,8 @@ export const ContactUs = () => {
               name="from_name"
               label="Your Name"
               variant="outlined"
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
+              inputProps={{ style: { fontSize: '1.1rem', padding: '12px' } }} // Increased font size
             />
             <TextField
               fullWidth
@@ -97,7 +99,8 @@ export const ContactUs = () => {
               label="Your Email"
               type="email"
               variant="outlined"
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
+              inputProps={{ style: { fontSize: '1.1rem', padding: '12px' } }} // Increased font size
             />
             <TextField
               fullWidth
@@ -105,22 +108,25 @@ export const ContactUs = () => {
               label="Your Message"
               variant="outlined"
               multiline
-              rows={4}
-              sx={{ mb: 2 }}
+              rows={6} // Increased rows for bigger text box
+              sx={{ mb: 3 }}
+              inputProps={{ style: { fontSize: '1.1rem', padding: '12px' } }} // Increased font size
             />
             <Button
-              variant="contained"
-              type="submit"
-              sx={{
-                backgroundColor: '#FFDC7F',
-                color: '#16325B',
-                padding: '10px 20px',
-                fontWeight: 'bold',
-                borderRadius: '50px'
-              }}
-            >
-              Send Message
-            </Button>
+  variant="contained"
+  type="submit"
+  sx={{
+    backgroundColor: '#FFDC7F',
+    color: '#16325B',
+    padding: '8px 16px', // Reduced padding
+    fontWeight: 'bold',
+    fontSize: '1rem', // Reduced font size
+    borderRadius: '50px',
+  }}
+>
+  Send Message
+</Button>
+
           </form>
         </Box>
       </Paper>

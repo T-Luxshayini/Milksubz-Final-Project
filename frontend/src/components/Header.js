@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, IconButton, Badge, Button, Box, Container, Typography } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Badge, Button, Box, Container, Typography, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaSearch, FaShoppingCart } from 'react-icons/fa';
+import { FaSearch, FaShoppingCart, FaBars } from 'react-icons/fa';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import logo from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milksubz-logo.jpg';
 
 const Header = () => {
   const [cartCount, setCartCount] = useState(0);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -21,18 +22,41 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     localStorage.removeItem('cart');
     navigate('/login');
   };
 
   const isLoggedIn = localStorage.getItem('token');
 
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
+  const drawerLinks = (
+    <List>
+      <ListItem button component={Link} to="/" onClick={toggleDrawer}>
+        <ListItemText primary="Home" />
+      </ListItem>
+      <ListItem button component={Link} to="/products" onClick={toggleDrawer}>
+        <ListItemText primary="Shop" />
+      </ListItem>
+      {/* <ListItem button component={Link} to="/blog" onClick={toggleDrawer}>
+        <ListItemText primary="Blog" />
+      </ListItem> */}
+      <ListItem button component={Link} to="/contactus" onClick={toggleDrawer}>
+        <ListItemText primary="Contact" />
+      </ListItem>
+    </List>
+  );
+
   return (
     <>
-      {/* Main Header */}
-      <AppBar position="static" elevation={0} sx={{ backgroundColor: '#16325B', color: '#fff', borderBottom: '1px solid #ddd' }}>
+      {/* Fixed Header */}
+      <AppBar position="fixed" elevation={4} sx={{ backgroundColor: '#16325B', color: '#fff', borderBottom: '1px solid #ddd' }}>
         <Container maxWidth="lg">
           <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+
             {/* Logo Section */}
             <Box
               component={Link}
@@ -41,18 +65,19 @@ const Header = () => {
                 display: 'flex',
                 alignItems: 'center',
                 textDecoration: 'none',
-                marginRight: isMobile ? '20px' : '60px', // Adjusted for mobile
+                marginRight: isMobile ? '20px' : '60px',
+                marginLeft: '-100px',  // Move logo and text slightly to the left
               }}
             >
               <img
                 src={logo}
                 alt="MilkSubz Logo"
-                style={{ height: '40px', width: 'auto' }} // Adjust the height and width as needed
+                style={{ height: '40px', width: 'auto' }}
               />
               <Typography
                 variant="h6"
                 sx={{
-                  marginLeft: '10px', // Space between logo and text
+                  marginLeft: '10px',
                   fontWeight: 'bold',
                   color: '#FFF',
                   textDecoration: 'none',
@@ -62,78 +87,44 @@ const Header = () => {
               </Typography>
             </Box>
 
+            {/* Hamburger menu for mobile */}
+            {isMobile && (
+              <IconButton
+                color="inherit"
+                onClick={toggleDrawer}
+                sx={{ marginLeft: 'auto' }}
+              >
+                <FaBars />
+              </IconButton>
+            )}
+
             {/* Navigation Links for larger screens */}
             {!isMobile && (
               <Box sx={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
-                <Button
-                  component={Link}
-                  to="/"
-                  color="inherit"
-                  sx={{
-                    textTransform: 'none',
-                    fontWeight: 'bold',
-                    color: '#fff',
-                    '&:hover': {
-                      backgroundColor: '#FFDC7F',
-                      color: '#16325B',
-                    },
-                  }}
-                >
+                <Button component={Link} to="/" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold', color: '#fff', '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' } }}>
                   Home
                 </Button>
-                <Button
-                  component={Link}
-                  to="/products"
-                  color="inherit"
-                  sx={{
-                    textTransform: 'none',
-                    fontWeight: 'bold',
-                    color: '#fff',
-                    '&:hover': {
-                      backgroundColor: '#FFDC7F',
-                      color: '#16325B',
-                    },
-                  }}
-                >
+                <Button component={Link} to="/products" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold', color: '#fff', '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' } }}>
                   Shop
                 </Button>
-                <Button
-                  component={Link}
-                  to="/blog"
-                  color="inherit"
-                  sx={{
-                    textTransform: 'none',
-                    fontWeight: 'bold',
-                    color: '#fff',
-                    '&:hover': {
-                      backgroundColor: '#FFDC7F',
-                      color: '#16325B',
-                    },
-                  }}
-                >
-                  Blog
+                <Button component={Link} to="/about" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold', color: '#fff', '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' } }}>
+                  AboutUs
                 </Button>
-                <Button
-                  component={Link}
-                  to="/contactus"
-                  color="inherit"
-                  sx={{
-                    textTransform: 'none',
-                    fontWeight: 'bold',
-                    color: '#fff',
-                    '&:hover': {
-                      backgroundColor: '#FFDC7F',
-                      color: '#16325B',
-                    },
-                  }}
-                >
-                  Contact
+                <Button component={Link} to="/contactus" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold', color: '#fff', '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' } }}>
+                  ContactUs
                 </Button>
               </Box>
             )}
 
             {/* Icons Section */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '20px' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: isMobile ? '10px' : '20px',
+                marginRight: '-100px',  // Move icons slightly to the right
+              }}
+            >
               <IconButton color="inherit">
                 <FaSearch />
               </IconButton>
@@ -142,8 +133,6 @@ const Header = () => {
                   <FaShoppingCart />
                 </Badge>
               </IconButton>
-
-              {/* Responsive login button */}
               {!isLoggedIn ? (
                 <Button
                   component={Link}
@@ -154,7 +143,7 @@ const Header = () => {
                     fontWeight: 'bold',
                     borderRadius: '20px',
                     px: 2,
-                    fontSize: isMobile ? '12px' : '16px', // Adjust font size for mobile
+                    fontSize: isMobile ? '12px' : '16px',
                     backgroundColor: '#FFDC7F',
                     color: '#16325B',
                     '&:hover': {
@@ -168,13 +157,12 @@ const Header = () => {
                 <Button
                   onClick={handleLogout}
                   variant="contained"
-                  color="#16325B"
                   sx={{
                     textTransform: 'none',
                     fontWeight: 'bold',
                     borderRadius: '20px',
                     px: 3,
-                    fontSize: isMobile ? '12px' : '16px', // Adjust font size for mobile
+                    fontSize: isMobile ? '12px' : '16px',
                     backgroundColor: '#FFDC7F',
                     color: '#16325B',
                     '&:hover': {
@@ -189,6 +177,25 @@ const Header = () => {
           </Toolbar>
         </Container>
       </AppBar>
+
+      {/* Content Section with padding for the fixed header */}
+      <Box sx={{ paddingTop: '70px' }}>
+        {/* Other content goes here */}
+      </Box>
+
+      {/* Drawer for mobile */}
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+        <Box
+          sx={{
+            width: 250,
+            padding: '20px',
+            backgroundColor: '#16325B',
+            color: '#fff',
+          }}
+        >
+          {drawerLinks}
+        </Box>
+      </Drawer>
     </>
   );
 };
