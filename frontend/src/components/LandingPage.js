@@ -14,6 +14,7 @@ import ContactUs from './ContactUs';
 import CustomerFeedbacks from '../components/customerFeedback';
 import AboutUs from './AboutUs';
 import AboutSection from './AboutSection';
+// import SubscriptionShowcase from './SubscriptionShowcase';
 // import BlogSection from './BlogSection';
 // Sample product data
 const recommendedProducts = [
@@ -237,6 +238,7 @@ const LandingPage = () => {
     ))}
   </Grid>
 </Container>
+{/* <SubscriptionShowcase/> */}
       {/* <CustomerFeedbacks/> */}
       <AboutSection/>
       <AboutUs/>

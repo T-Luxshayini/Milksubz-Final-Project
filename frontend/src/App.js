@@ -26,6 +26,7 @@ import CustomerFeedbacks from './components/customerFeedback';
 import RecommendedProducts from './components/RecommendedProducts'; 
 import BlogPage from './components/BlogSection';
 import AboutSection from './components/AboutSection';
+import AuthModal from './components/AuthModal';
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe('pk_test_51QCqZPFDU5aLIEJODMXZ1TrGjcmBHwEJGA5ADUyKW34FJPqWV6PmWQSssWKcxTUDLvXMkNPqO70W5331MkiJYlFt00RIvqYIJJ');
 
@@ -46,6 +47,7 @@ function App() {
     <Router>
       <AppContainer>
         <Header />
+        <AuthModal />
         <MainContent>
           <Routes>
             <Route path="/" element={<LandingPage />} />

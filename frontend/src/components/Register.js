@@ -1,16 +1,14 @@
+// File: /src/components/Register.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, Typography, Link, Grid } from '@mui/material';
-import Image4 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/best-and-worst-milk-for-heart-health-alt-1440x810.jpg';
+import { Dialog, DialogContent, Box, TextField, Button, Typography } from '@mui/material';
 
-function Register() {
+const Register = ({ open, handleClose, openLogin }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,66 +20,40 @@ function Register() {
         email,
         password,
       });
-      navigate('/login');
+      handleClose();
+      openLogin(); // Switch to Login modal on successful registration
     } catch (error) {
-      console.error('Registration failed:', error.response.data);
+      console.error('Registration failed:', error.response?.data || error.message);
     }
   };
 
   return (
-    <Grid
-      container
-      sx={{
-        height: '100vh',
-        position: 'relative',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: '20px',
-        overflow: 'hidden',
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      PaperProps={{
+        sx: {
+          background: 'linear-gradient(135deg, #16325B, #78B7D0)', // Same gradient background as Login
+          backdropFilter: 'blur(5px)',
+          color: '#fff',
+          borderRadius: '10px',
+        },
       }}
     >
-      {/* Background Image with Light Opacity and Rounded Corners */}
-      <Box
+      <DialogContent
         sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundImage: `url(${Image4})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.75,
-          borderRadius: '20px',
-          zIndex: -1,
-        }}
-      />
-
-      <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          padding: '20px',
+          borderRadius: '8px',
+          boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
         }}
       >
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{
-            width: '100%',
-            maxWidth: 600,
-            p: 6,
-            backgroundColor: 'rgba(255, 255, 255, 0.85)',
-            borderRadius: 2,
-            boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
-          }}
-        >
-          <Typography variant="h4" gutterBottom color='#16325B' fontWeight='bold'>
-            Create an Account
-          </Typography>
+        <Typography variant="h5" gutterBottom color="#fff" fontWeight="bold">
+          Create an Account
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom color="#DFF6FF">
+          Fill in your details to register
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
           <TextField
             label="First Name"
             variant="outlined"
@@ -91,21 +63,12 @@ function Register() {
             onChange={(e) => setFirstName(e.target.value)}
             required
             sx={{
-              mb: 2,
               '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#16325B',
-                },
+                '& fieldset': { borderColor: '#fff' },
+                '&:hover fieldset': { borderColor: '#DFF6FF' },
+                '&.Mui-focused fieldset': { borderColor: '#DFF6FF' },
               },
-              '& .MuiInputLabel-outlined': {
-                color: '#78B7D0',
-              },
+              '& .MuiInputLabel-outlined': { color: '#DFF6FF' },
             }}
           />
           <TextField
@@ -117,21 +80,12 @@ function Register() {
             onChange={(e) => setLastName(e.target.value)}
             required
             sx={{
-              mb: 2,
               '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#16325B',
-                },
+                '& fieldset': { borderColor: '#fff' },
+                '&:hover fieldset': { borderColor: '#DFF6FF' },
+                '&.Mui-focused fieldset': { borderColor: '#DFF6FF' },
               },
-              '& .MuiInputLabel-outlined': {
-                color: '#78B7D0',
-              },
+              '& .MuiInputLabel-outlined': { color: '#DFF6FF' },
             }}
           />
           <TextField
@@ -143,21 +97,12 @@ function Register() {
             onChange={(e) => setUsername(e.target.value)}
             required
             sx={{
-              mb: 2,
               '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#16325B',
-                },
+                '& fieldset': { borderColor: '#fff' },
+                '&:hover fieldset': { borderColor: '#DFF6FF' },
+                '&.Mui-focused fieldset': { borderColor: '#DFF6FF' },
               },
-              '& .MuiInputLabel-outlined': {
-                color: '#78B7D0',
-              },
+              '& .MuiInputLabel-outlined': { color: '#DFF6FF' },
             }}
           />
           <TextField
@@ -170,21 +115,12 @@ function Register() {
             onChange={(e) => setEmail(e.target.value)}
             required
             sx={{
-              mb: 2,
               '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#16325B',
-                },
+                '& fieldset': { borderColor: '#fff' },
+                '&:hover fieldset': { borderColor: '#DFF6FF' },
+                '&.Mui-focused fieldset': { borderColor: '#DFF6FF' },
               },
-              '& .MuiInputLabel-outlined': {
-                color: '#78B7D0',
-              },
+              '& .MuiInputLabel-outlined': { color: '#DFF6FF' },
             }}
           />
           <TextField
@@ -197,42 +133,46 @@ function Register() {
             onChange={(e) => setPassword(e.target.value)}
             required
             sx={{
-              mb: 2,
               '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#16325B',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#16325B',
-                },
+                '& fieldset': { borderColor: '#fff' },
+                '&:hover fieldset': { borderColor: '#DFF6FF' },
+                '&.Mui-focused fieldset': { borderColor: '#DFF6FF' },
               },
-              '& .MuiInputLabel-outlined': {
-                color: '#78B7D0',
-              },
+              '& .MuiInputLabel-outlined': { color: '#DFF6FF' },
             }}
           />
           <Button
             type="submit"
             variant="contained"
             fullWidth
-            sx={{ backgroundColor: '#FFDC7F',color:'#16325B',borderRadius:'50px', mt: 2, '&:hover': { backgroundColor: '#41B3A2' } }}
+            sx={{
+              mt: 2,
+              backgroundColor: '#FFDC7F',
+              color: '#16325B',
+              borderRadius: '20px',
+              fontWeight: 'bold',
+              '&:hover': { backgroundColor: '#145DA0', color: '#fff' },
+            }}
           >
             Register
           </Button>
-
-          <Typography align="center" color='#16325B' sx={{ mt: 2 }}>
-            Already have an account?
-            <Link href="#" underline="hover" color='#16325B' fontWeight='bold' onClick={() => navigate('/login')}>
+          <Typography align="center" color="#DFF6FF" sx={{ mt: 2 }}>
+            Already have an account?{' '}
+            <Button
+              color="inherit"
+              onClick={() => {
+                handleClose();
+                openLogin(); // Switch back to Login modal
+              }}
+              sx={{ fontWeight: 'bold', textTransform: 'none', color: '#fff' }}
+            >
               Login
-            </Link>
+            </Button>
           </Typography>
         </Box>
-      </Grid>
-    </Grid>
+      </DialogContent>
+    </Dialog>
   );
-}
+};
 
 export default Register;

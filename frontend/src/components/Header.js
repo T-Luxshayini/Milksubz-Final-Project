@@ -1,14 +1,19 @@
+// File: /src/components/Header.js
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, IconButton, Badge, Button, Box, Container, Typography, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import {
+  AppBar, Toolbar, IconButton, Badge, Button, Box, Container, Typography, Drawer, List, ListItem, ListItemText,
+} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaShoppingCart, FaBars } from 'react-icons/fa';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import logo from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milksubz-logo.jpg';
+import Login from './Login'; // Import the Login component
 
 const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false); // State for Login modal
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -20,17 +25,35 @@ const Header = () => {
     setCartCount(cart.length);
   }, [cartCount]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('cart');
-    navigate('/login');
-  };
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
+
+const handleLogout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem('cart');
+
+  // Trigger a re-render
+  setIsLoggedOut(true);
+
+  // Navigate to the home page
+  navigate('/', { replace: true });
+};
+
+// In your component, use `isLoggedOut` to re-render as needed
+
 
   const isLoggedIn = localStorage.getItem('token');
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
+  };
+
+  const handleLoginOpen = () => {
+    setIsLoginOpen(true);
+  };
+
+  const handleLoginClose = () => {
+    setIsLoginOpen(false);
   };
 
   const drawerLinks = (
@@ -41,9 +64,6 @@ const Header = () => {
       <ListItem button component={Link} to="/products" onClick={toggleDrawer}>
         <ListItemText primary="Shop" />
       </ListItem>
-      {/* <ListItem button component={Link} to="/blog" onClick={toggleDrawer}>
-        <ListItemText primary="Blog" />
-      </ListItem> */}
       <ListItem button component={Link} to="/contactus" onClick={toggleDrawer}>
         <ListItemText primary="Contact" />
       </ListItem>
@@ -66,7 +86,7 @@ const Header = () => {
                 alignItems: 'center',
                 textDecoration: 'none',
                 marginRight: isMobile ? '20px' : '60px',
-                marginLeft: '-100px',  // Move logo and text slightly to the left
+                marginLeft: '-100px',
               }}
             >
               <img
@@ -117,63 +137,56 @@ const Header = () => {
             )}
 
             {/* Icons Section */}
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: isMobile ? '10px' : '20px',
-                marginRight: '-100px',  // Move icons slightly to the right
-              }}
-            >
-              <IconButton color="inherit">
-                <FaSearch />
-              </IconButton>
-              <IconButton component={Link} to="/cart" color="inherit">
-                <Badge badgeContent={cartCount} color="success">
-                  <FaShoppingCart />
-                </Badge>
-              </IconButton>
-              {!isLoggedIn ? (
-                <Button
-                  component={Link}
-                  to="/login"
-                  variant="contained"
-                  sx={{
-                    textTransform: 'none',
-                    fontWeight: 'bold',
-                    borderRadius: '20px',
-                    px: 2,
-                    fontSize: isMobile ? '12px' : '16px',
-                    backgroundColor: '#FFDC7F',
-                    color: '#16325B',
-                    '&:hover': {
-                      backgroundColor: '#78B7D0',
-                    },
-                  }}
-                >
-                  Login
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleLogout}
-                  variant="contained"
-                  sx={{
-                    textTransform: 'none',
-                    fontWeight: 'bold',
-                    borderRadius: '20px',
-                    px: 3,
-                    fontSize: isMobile ? '12px' : '16px',
-                    backgroundColor: '#FFDC7F',
-                    color: '#16325B',
-                    '&:hover': {
-                      backgroundColor: '#FFDC7F',
-                    },
-                  }}
-                >
-                  Logout
-                </Button>
-              )}
-            </Box>
+<Box sx={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '20px', marginRight: '-100px' }}>
+  <IconButton color="inherit">
+    <FaSearch />
+  </IconButton>
+  <IconButton component={Link} to="/cart" color="inherit">
+    <Badge badgeContent={cartCount} color="success">
+      <FaShoppingCart />
+    </Badge>
+  </IconButton>
+  {!isLoggedIn ? (
+    <Button
+      onClick={handleLoginOpen} // Open the Login modal
+      variant="contained"
+      sx={{
+        textTransform: 'none',
+        fontWeight: 'bold',
+        borderRadius: '20px',
+        px: 2,
+        fontSize: isMobile ? '12px' : '16px',
+        backgroundColor: '#FFDC7F',
+        color: '#16325B',
+        '&:hover': {
+          backgroundColor: '#78B7D0',
+        },
+      }}
+    >
+      Login
+    </Button>
+  ) : (
+    <Button
+      onClick={handleLogout}
+      variant="contained"
+      sx={{
+        textTransform: 'none',
+        fontWeight: 'bold',
+        borderRadius: '20px',
+        px: 3,
+        fontSize: isMobile ? '12px' : '16px',
+        backgroundColor: '#FFDC7F',
+        color: '#16325B',
+        '&:hover': {
+          backgroundColor: '#FFDC7F',
+        },
+      }}
+    >
+      Logout
+    </Button>
+  )}
+</Box>
+
           </Toolbar>
         </Container>
       </AppBar>
@@ -196,6 +209,9 @@ const Header = () => {
           {drawerLinks}
         </Box>
       </Drawer>
+
+      {/* Login Modal */}
+      <Login open={isLoginOpen} handleClose={handleLoginClose} />
     </>
   );
 };
