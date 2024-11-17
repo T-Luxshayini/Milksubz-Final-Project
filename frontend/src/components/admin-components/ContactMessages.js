@@ -1,58 +1,3 @@
-// // ContactMessages.js
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { DataGrid } from '@mui/x-data-grid';
-// import { Box } from '@mui/material';
-// import moment from 'moment';
-// const ContactMessages = ({ open, onClose }) => {
-//   const [messages, setMessages] = useState([]);
-
-//   useEffect(() => {
-//     axios.get('http://localhost:5005/api/contact', {
-//       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-//     })
-//       .then((response) => {
-//         setMessages(response.data);
-//       })
-//       .catch((error) => {
-//         console.error('Error fetching contact messages:', error);
-//       });
-//   }, []); // Run only on mount
-  
-
-//   const columns = [
-//     { field: '_id', headerName: 'ID', width: 100 },
-//     { field: 'name', headerName: 'Name', width: 150 },
-//     { field: 'email', headerName: 'Email', width: 200 },
-//     { field: 'message', headerName: 'Message', width: 400 },
-//     { 
-//       field: 'createdAt', 
-//       headerName: 'Date', 
-//       width: 200,
-//       renderCell: (params) => {
-//         // Check if we have a valid date string
-//         if (!params.row.createdAt) return 'No date';
-        
-//         // Use moment to parse and format the date
-//         return moment(params.row.createdAt).format('MM/DD/YYYY HH:mm A');
-//       }
-//     }
-//   ];
-//   return (
-//     <Box sx={{ height: 500, width: '100%' }}>
-//       <DataGrid
-//         rows={messages}
-//         columns={columns}
-//         getRowId={(row) => row._id}
-//         pageSize={5}
-//         rowsPerPageOptions={[5, 10]}
-//       />
-//     </Box>
-//   );
-// };
-
-// export default ContactMessages;
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
@@ -67,7 +12,6 @@ const ContactMessages = () => {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [replyMessage, setReplyMessage] = useState('');
 
-  // Replace with your actual EmailJS public key, service ID, and template ID
   const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
   const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
   const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
@@ -93,28 +37,20 @@ const ContactMessages = () => {
 
   const handleReplySubmit = async () => {
     const emailParams = {
-      to_email: selectedMessage.email,   // recipient's email
-      reply_message: replyMessage,       // message content
-      user_name: selectedMessage.name,   // sender's name
+      to_email: selectedMessage.email,
+      reply_message: replyMessage,
+      user_name: selectedMessage.name,
     };
-  
+
     try {
-      // First, send the reply via EmailJS to the user's email
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailParams, EMAILJS_PUBLIC_KEY);
       console.log('Reply sent via EmailJS');
-  
-      // Optionally, you can update the messages state to reflect the sent reply
-  
-      // Then, send the reply details to your backend API to log/store the reply
+
       const backendResponse = await axios.post('http://localhost:5005/api/contact/reply', emailParams);
-  
+
       if (backendResponse.data.success) {
-        // Successfully sent the reply and saved it to the backend
-        setReplyDialogOpen(false);        // Close the dialog
-        setReplyMessage('');              // Clear the message input
-  
-        // Optionally, update your messages state to reflect the sent reply
-        // setMessages([...messages, backendResponse.data.newMessage]);
+        setReplyDialogOpen(false);
+        setReplyMessage('');
       } else {
         console.error('Error saving reply to backend');
       }
@@ -122,7 +58,6 @@ const ContactMessages = () => {
       console.error('Error sending reply:', error);
     }
   };
-  
 
   const columns = [
     { field: '_id', headerName: 'ID', width: 100 },
@@ -136,7 +71,7 @@ const ContactMessages = () => {
       renderCell: (params) => {
         if (!params.row.createdAt) return 'No date';
         return new Date(params.row.createdAt).toLocaleString();
-      }
+      },
     },
     {
       field: 'actions',
@@ -148,22 +83,43 @@ const ContactMessages = () => {
           icon={<SendIcon size={20} />}
           label="Reply"
           onClick={() => handleReplyButtonClick(params)}
-        />
-      ]
-    }
+        />,
+      ],
+    },
   ];
 
   return (
-    <Box sx={{ height: 500, width: '100%' }}>
-      <DataGrid
-        rows={messages}
-        columns={columns}
-        getRowId={(row) => row._id}
-        pageSize={5}
-        rowsPerPageOptions={[5, 10]}
-        loading={loading}
-        disableSelectionOnClick
-      />
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 2,
+        gap: 2, // Add spacing between the elements
+      }}
+    >
+      <Box
+        sx={{
+          height: 500,
+          width: '80%',
+          maxWidth: '1000px',
+           // Custom border color
+          borderRadius: '8px', // Optional rounded corners
+          transform: 'scale(1.2)', // Apply zoom effect
+          transformOrigin: 'center', // Center the zoom
+          padding: 2,
+        }}
+      >
+        <DataGrid
+          rows={messages}
+          columns={columns}
+          getRowId={(row) => row._id}
+          pageSize={5}
+          rowsPerPageOptions={[5, 10]}
+          loading={loading}
+          disableSelectionOnClick
+        />
+      </Box>
 
       <Dialog open={replyDialogOpen} onClose={() => setReplyDialogOpen(false)}>
         <DialogTitle>Reply to Message</DialogTitle>

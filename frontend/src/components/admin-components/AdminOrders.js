@@ -26,28 +26,35 @@ const OrderDetails = () => {
     { field: 'address', headerName: 'Address', width: 200 },
     { field: 'paymentId', headerName: 'Payment ID', width: 200 },
     { field: 'paymentStatus', headerName: 'Payment Status', width: 150 },
-    // {
-    //   field: 'createdAt',
-    //   headerName: 'Date',
-    //   width: 200,
-    //   valueGetter: (params) => {
-    //     const date = params.row.createdAt;
-    //     return date ? new Date(date).toLocaleDateString() : 'N/A';
-    //   },
-    // },
   ];
 
   return (
-    <Box sx={{ height: 500, width: '100%', padding: 2 }}>
-      {/* <Typography variant="h4" gutterBottom align="center" color="success">Order Details</Typography> */}
-      <DataGrid
-        rows={orders}
-        columns={columns}
-        getRowId={(row) => row._id}
-        pageSize={5}
-        rowsPerPageOptions={[5, 10]}
-        disableSelectionOnClick
-      />
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 2 }}>
+      {/* Header section */}
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 2 }}>
+        <Typography variant="h5" component="div">Order Details</Typography>
+      </Box>
+      {/* DataGrid section */}
+      <Box
+        sx={{
+          height: 500,
+          width: '100%',
+          maxWidth: '1000px',
+          border: '2px solid #16325b', // Custom border color
+          borderRadius: '8px', // Optional: Add rounded corners
+          transform: 'scale(1.2)', // Apply zoom
+          transformOrigin: 'center', // Adjust scaling origin
+        }}
+      >
+        <DataGrid
+          rows={orders}
+          columns={columns}
+          getRowId={(row) => row._id}
+          pageSize={5}
+          rowsPerPageOptions={[5, 10]}
+          disableSelectionOnClick
+        />
+      </Box>
     </Box>
   );
 };

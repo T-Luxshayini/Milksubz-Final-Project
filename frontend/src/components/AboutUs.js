@@ -54,7 +54,7 @@ const AboutUs = () => {
           marginLeft: '-80px',
         }}
       >
-        WHY MilkSubz?
+        Why MilkSubz?
       </Typography>
 
       {/* Icon Section */}

@@ -9,13 +9,14 @@ import {
 } from '@mui/icons-material';
 import { MailOutline } from '@mui/icons-material';
 import ProductAddEdit from './ProductAddEdit';
-import milkImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/best-and-worst-milk-for-heart-health-alt-1440x810.jpg';
+// import milkImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/splashmilk.jpeg';
 import UserDetails from './UserDetails';
 import { useNavigate } from 'react-router-dom';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AdminOrders from './AdminOrders';
 import SubscriptionDetails from './SubscriptionDetails';
 import ContactMessages from './ContactMessages';
+
 const drawerWidthExpanded = 300; 
 const drawerWidthCollapsed = 70;
 
@@ -44,7 +45,7 @@ function Dashboard() {
       case 'Subscription Details':
         return <SubscriptionDetails />;
       case 'Contact Messages':
-        return <ContactMessages/>;
+        return <ContactMessages />;
       default:
         return <Typography variant="h6">Please select an option from the sidebar</Typography>;
     }
@@ -58,7 +59,7 @@ function Dashboard() {
           bgcolor: 'background.default',
           p: 5,
           ml: `${isExpanded ? drawerWidthExpanded : drawerWidthCollapsed}px`,
-          backgroundImage: `url(${milkImage})`,
+          // backgroundImage: `url(${milkImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}>
@@ -74,6 +75,7 @@ function Dashboard() {
               boxSizing: 'border-box',
               overflowX: 'hidden',
               transition: 'width 0.3s',
+              backgroundColor: '#16325B',  // Set the background color here
             },
           }}
           variant="permanent"
@@ -87,24 +89,24 @@ function Dashboard() {
           <Divider />
           <List>
             <ListItem button onClick={() => handleMenuClick('User Details')} key="User Details">
-              <ListItemIcon><AccountCircle /></ListItemIcon>
+              <ListItemIcon sx={{ color: 'white' }}><AccountCircle /></ListItemIcon> {/* Icon color to white */}
               {isExpanded && <ListItemText primary="User Details" />}
             </ListItem>
             <ListItem button onClick={() => handleMenuClick('Product Details')} key="Product Details">
-              <ListItemIcon><Storefront /></ListItemIcon>
+              <ListItemIcon sx={{ color: 'white' }}><Storefront /></ListItemIcon> {/* Icon color to white */}
               {isExpanded && <ListItemText primary="Product Details" />}
             </ListItem>
             <ListItem button onClick={() => handleMenuClick('Order Details')} key="Order Details">
-              <ListItemIcon><ListAltIcon /></ListItemIcon>
+              <ListItemIcon sx={{ color: 'white' }}><ListAltIcon /></ListItemIcon> {/* Icon color to white */}
               {isExpanded && <ListItemText primary="Order Details" />}
             </ListItem>
             <ListItem button onClick={() => handleMenuClick('Subscription Details')} key="Subscription Details">
-              <ListItemIcon><Subscriptions /></ListItemIcon>
+              <ListItemIcon sx={{ color: 'white' }}><Subscriptions /></ListItemIcon> {/* Icon color to white */}
               {isExpanded && <ListItemText primary="Subscription Details" />}
             </ListItem>
             <Divider />
             <ListItem button onClick={() => handleMenuClick('Contact Messages')} key="Contact Messages">
-              <ListItemIcon><MailOutline /></ListItemIcon>
+              <ListItemIcon sx={{ color: 'white' }}><MailOutline /></ListItemIcon> {/* Icon color to white */}
               {isExpanded && <ListItemText primary="Contact Messages" />}
             </ListItem>
           </List>

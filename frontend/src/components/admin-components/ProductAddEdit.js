@@ -12,10 +12,9 @@ const ProductAddEdit = () => {
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
   const [openForm, setOpenForm] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState(null); // State for the currently edited product
+  const [currentProduct, setCurrentProduct] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fetch Products once on mount
   useEffect(() => {
     axios.get(`http://localhost:5005/api/products`)
       .then((response) => {
@@ -32,43 +31,31 @@ const ProductAddEdit = () => {
 
   const handleAddProduct = async (newProduct) => {
     if (isSubmitting) return;
-
     setIsSubmitting(true);
     const token = localStorage.getItem('token');
 
     try {
-      console.log('Token:', token); // Check if the token is retrieved correctly
-      console.log('New Product:', newProduct); // Check the product data being passed
-      
       if (currentProduct) {
-        // Editing existing product
         const response = await axios.patch(`http://localhost:5005/api/products/${currentProduct.id}`, newProduct, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setRows((oldRows) =>
           oldRows.map((row) => (row.id === currentProduct.id ? { ...response.data, id: response.data._id } : row))
         );
       } else {
-        // Adding a new product
         const response = await axios.post(`http://localhost:5005/api/products`, newProduct, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         const addedProduct = { ...response.data, id: response.data._id };
         setRows((prevRows) => [...prevRows, addedProduct]);
       }
-
       setOpenForm(false);
-      setCurrentProduct(null); // Reset current product after save
+      setCurrentProduct(null);
     } catch (error) {
-      // Enhanced error logging to help identify the issue
       if (error.response) {
-        console.error('Error response:', error.response.data); // Server response error (e.g., validation error)
+        console.error('Error response:', error.response.data);
       } else {
-        console.error('Error message:', error.message); // Other errors (e.g., network issues)
+        console.error('Error message:', error.message);
       }
     } finally {
       setIsSubmitting(false);
@@ -77,19 +64,16 @@ const ProductAddEdit = () => {
 
   const handleEditProduct = (id) => {
     const productToEdit = rows.find(row => row.id === id);
-    console.log(productToEdit);
     setCurrentProduct(productToEdit);
-    setOpenForm(true); // Open form for editing
+    setOpenForm(true);
   };
 
   const handleDeleteProduct = async (id) => {
     const token = localStorage.getItem('token');
-
     try {
       await axios.delete(`http://localhost:5005/api/products/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       setRows((oldRows) => oldRows.filter((row) => row.id !== id));
     } catch (error) {
       console.error('Error deleting product:', error);
@@ -122,43 +106,67 @@ const ProductAddEdit = () => {
         <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => handleEditProduct(params.id)} />,
         <GridActionsCellItem icon={<DeleteIcon />} label="Delete" onClick={() => handleDeleteProduct(params.id)} />,
       ],
-    }
+    },
   ];
 
   return (
-    <div>
-      <Button
-        variant="outlined"
-        color="primary"
-        startIcon={<AddIcon />}
-        onClick={() => { 
-          setCurrentProduct(null); // Reset current product for new entry
-          setOpenForm(true); // Open form for adding a new product
-        }} 
+    <Box sx={{ width: '100%', marginTop: 2 }}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        sx={{ marginBottom: 2 }}
       >
-        Add Product
-      </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={() => { 
+            setCurrentProduct(null);
+            setOpenForm(true);
+          }} 
+        >
+          Add Product
+        </Button>
+      </Box>
       <ProductForm
         open={openForm}
         onClose={() => {
           setOpenForm(false);
-          setCurrentProduct(null); // Reset when closing the form
+          setCurrentProduct(null);
         }}
         onSave={handleAddProduct}
         product={currentProduct}
       />
-      <Box sx={{ height: 500, width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          editMode="row"
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-          getRowId={(row) => row.id}
-          style={{ height: 500, width: '100%' }}
-        />
+      <Box
+        display="flex"
+        justifyContent="center"
+      >
+        <Box sx={{ height: 500, width: '80%', maxWidth: '1000px' }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+            getRowId={(row) => row.id}
+            sx={{
+              border: '2px solid #16325B',
+              transform: 'scale(1.1)', // Apply scaling
+              transformOrigin: 'center', // Ensure scaling is centered
+              '& .MuiDataGrid-cell': {
+                borderColor: '#16325B',
+                padding: '0 8px',
+                fontSize: '1rem',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                borderBottom: '2px solid #16325B',
+                fontSize: '1rem',
+              },
+            }}
+          />
+        </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 

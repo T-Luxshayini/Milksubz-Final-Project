@@ -1,14 +1,14 @@
-// File: /src/components/Header.js
 import React, { useState, useEffect } from 'react';
 import {
   AppBar, Toolbar, IconButton, Badge, Button, Box, Container, Typography, Drawer, List, ListItem, ListItemText,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaSearch, FaShoppingCart, FaBars } from 'react-icons/fa';
+import { FaShoppingCart, FaBars } from 'react-icons/fa';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import logo from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milksubz-logo.jpg';
+import logo from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milksubz-logo-lux.jpg';
 import Login from './Login'; // Import the Login component
+
 
 const Header = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -21,26 +21,26 @@ const Header = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    setCartCount(cart.length);
-  }, [cartCount]);
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      setCartCount(cart.length);
+    };
 
-  const [isLoggedOut, setIsLoggedOut] = useState(false);
+    updateCartCount();
 
-const handleLogout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  localStorage.removeItem('cart');
+    window.addEventListener('cartUpdated', updateCartCount);
 
-  // Trigger a re-render
-  setIsLoggedOut(true);
+    return () => {
+      window.removeEventListener('cartUpdated', updateCartCount);
+    };
+  }, []);
 
-  // Navigate to the home page
-  navigate('/', { replace: true });
-};
-
-// In your component, use `isLoggedOut` to re-render as needed
-
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('cart');
+    navigate('/', { replace: true });
+  };
 
   const isLoggedIn = localStorage.getItem('token');
 
@@ -72,7 +72,6 @@ const handleLogout = () => {
 
   return (
     <>
-      {/* Fixed Header */}
       <AppBar position="fixed" elevation={4} sx={{ backgroundColor: '#16325B', color: '#fff', borderBottom: '1px solid #ddd' }}>
         <Container maxWidth="lg">
           <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
@@ -86,13 +85,13 @@ const handleLogout = () => {
                 alignItems: 'center',
                 textDecoration: 'none',
                 marginRight: isMobile ? '20px' : '60px',
-                marginLeft: '-100px',
+                marginLeft:'-220px'
               }}
             >
               <img
                 src={logo}
                 alt="MilkSubz Logo"
-                style={{ height: '40px', width: 'auto' }}
+                style={{ height: '85px', width: 'auto' }}
               />
               <Typography
                 variant="h6"
@@ -137,66 +136,60 @@ const handleLogout = () => {
             )}
 
             {/* Icons Section */}
-<Box sx={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '20px', marginRight: '-100px' }}>
-  <IconButton color="inherit">
-    <FaSearch />
-  </IconButton>
-  <IconButton component={Link} to="/cart" color="inherit">
-    <Badge badgeContent={cartCount} color="success">
-      <FaShoppingCart />
-    </Badge>
-  </IconButton>
-  {!isLoggedIn ? (
-    <Button
-      onClick={handleLoginOpen} // Open the Login modal
-      variant="contained"
-      sx={{
-        textTransform: 'none',
-        fontWeight: 'bold',
-        borderRadius: '20px',
-        px: 2,
-        fontSize: isMobile ? '12px' : '16px',
-        backgroundColor: '#FFDC7F',
-        color: '#16325B',
-        '&:hover': {
-          backgroundColor: '#78B7D0',
-        },
-      }}
-    >
-      Login
-    </Button>
-  ) : (
-    <Button
-      onClick={handleLogout}
-      variant="contained"
-      sx={{
-        textTransform: 'none',
-        fontWeight: 'bold',
-        borderRadius: '20px',
-        px: 3,
-        fontSize: isMobile ? '12px' : '16px',
-        backgroundColor: '#FFDC7F',
-        color: '#16325B',
-        '&:hover': {
-          backgroundColor: '#FFDC7F',
-        },
-      }}
-    >
-      Logout
-    </Button>
-  )}
-</Box>
-
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '20px' ,marginRight:'-220px'}}>
+              <IconButton component={Link} to="/cart" color="inherit">
+                <Badge badgeContent={cartCount} color="success">
+                  <FaShoppingCart />
+                </Badge>
+              </IconButton>
+              {!isLoggedIn ? (
+                <Button
+                  onClick={handleLoginOpen} // Open the Login modal
+                  variant="contained"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    borderRadius: '20px',
+                    px: 2,
+                    fontSize: isMobile ? '12px' : '16px',
+                    backgroundColor: '#FFDC7F',
+                    color: '#16325B',
+                    '&:hover': {
+                      backgroundColor: '#78B7D0',
+                    },
+                  }}
+                >
+                  Login
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleLogout}
+                  variant="contained"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    borderRadius: '20px',
+                    px: 3,
+                    fontSize: isMobile ? '12px' : '16px',
+                    backgroundColor: '#FFDC7F',
+                    color: '#16325B',
+                    '&:hover': {
+                      backgroundColor: '#FFDC7F',
+                    },
+                  }}
+                >
+                  Logout
+                </Button>
+              )}
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
 
-      {/* Content Section with padding for the fixed header */}
       <Box sx={{ paddingTop: '70px' }}>
         {/* Other content goes here */}
       </Box>
 
-      {/* Drawer for mobile */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
         <Box
           sx={{
@@ -210,7 +203,6 @@ const handleLogout = () => {
         </Box>
       </Drawer>
 
-      {/* Login Modal */}
       <Login open={isLoginOpen} handleClose={handleLoginClose} />
     </>
   );

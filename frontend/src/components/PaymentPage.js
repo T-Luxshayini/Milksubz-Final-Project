@@ -96,45 +96,47 @@ function PaymentPage() {
   };
 
   return (
-    <Grid container sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+    <Grid container sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center', zoom: 1.1 }}> {/* Add zoom here */}
       <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundImage: `url(${milkImage})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.75, zIndex: -1 }} />
-      <Grid item xs={12} md={6}>
-        <Box sx={{ width: '100%', maxWidth: 600, backgroundColor: 'rgba(255, 255, 255, 0.85)', p: 4, borderRadius: 2, boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)' }}>
-          <Typography variant="h4" gutterBottom align="center" color="#16325B">Payment Summary</Typography>
-          <Typography variant="h6" gutterBottom align="center" color="#78B7D0" fontWeight="bold">Total Price: LKR {totalAmount}</Typography>
-          <TextField label="Name" variant="outlined" fullWidth margin="normal" value={name} onChange={(e) => setName(e.target.value)} required />
-          <TextField label="Address" variant="outlined" fullWidth margin="normal" value={address} onChange={(e) => setAddress(e.target.value)} required multiline rows={3} />
-          <TextField label="Phone Number" variant="outlined" fullWidth margin="normal" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required placeholder="Enter your phone number (e.g., 0771234567)" />
-
-          <Typography variant="h6" gutterBottom align="center" color="#16325B">Payment Method</Typography>
-          <TextField label="Cardholder Name" variant="outlined" fullWidth margin="normal" />
-
-          <Box my={2}>
-            <Typography variant="body1" gutterBottom>Card Number</Typography>
-            <Box style={{ border: '1px solid #ced4da', padding: '10px 12px', borderRadius: '4px', marginTop: '8px' }}>
-              <CardNumberElement options={elementOptions} />
-            </Box>
-          </Box>
-
-          <Box display="flex" gap={2} mt={2}>
-            <Box flex={1}>
-              <Typography variant="body1" gutterBottom>Expiration Date</Typography>
-              <Box style={{ border: '1px solid #ced4da', padding: '10px 12px', borderRadius: '4px', marginTop: '8px' }}>
-                <CardExpiryElement options={elementOptions} />
+      <Grid item xs={12} md={8}>
+        <Box sx={{ width: '100%', maxWidth: 900, backgroundColor: 'rgba(255, 255, 255, 0.85)', p: 4, borderRadius: 2, boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)' ,}}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h4" gutterBottom align="center" color="#16325B">Payment Summary</Typography>
+              <Typography variant="h6" gutterBottom align="center" color="#78B7D0" fontWeight="bold">Total Price: LKR {totalAmount}</Typography>
+              <TextField label="Name" variant="outlined" fullWidth margin="normal" value={name} onChange={(e) => setName(e.target.value)} required />
+              <TextField label="Address" variant="outlined" fullWidth margin="normal" value={address} onChange={(e) => setAddress(e.target.value)} required multiline rows={3} />
+              <TextField label="Phone Number" variant="outlined" fullWidth margin="normal" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required placeholder="Enter your phone number (e.g., 0771234567)" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" gutterBottom align="center" color="#16325B" marginTop={8}>Payment Method</Typography>
+              <TextField label="Cardholder Name" variant="outlined" fullWidth margin="normal" />
+              <Box my={2}>
+                <Typography variant="body1" gutterBottom>Card Number</Typography>
+                <Box style={{ border: '1px solid #ced4da', padding: '10px 12px', borderRadius: '4px', marginTop: '8px' }}>
+                  <CardNumberElement options={elementOptions} />
+                </Box>
               </Box>
-            </Box>
-            <Box flex={1}>
-              <Typography variant="body1" gutterBottom>CVC</Typography>
-              <Box style={{ border: '1px solid #ced4da', padding: '10px 12px', borderRadius: '4px', marginTop: '8px' }}>
-                <CardCvcElement options={elementOptions} />
+              <Box display="flex" gap={2} mt={2}>
+                <Box flex={1}>
+                  <Typography variant="body1" gutterBottom>Expiration Date</Typography>
+                  <Box style={{ border: '1px solid #ced4da', padding: '10px 12px', borderRadius: '4px', marginTop: '8px' }}>
+                    <CardExpiryElement options={elementOptions} />
+                  </Box>
+                </Box>
+                <Box flex={1}>
+                  <Typography variant="body1" gutterBottom>CVC</Typography>
+                  <Box style={{ border: '1px solid #ced4da', padding: '10px 12px', borderRadius: '4px', marginTop: '8px' }}>
+                    <CardCvcElement options={elementOptions} />
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-          </Box>
-
+            </Grid>
+          </Grid>
           <Button
             variant="contained"
             fullWidth
-            sx={{ mt: 2, backgroundColor: '#FFDC7F',color:'#16325B',borderRadius:'50px', '&:hover': { backgroundColor: '#78B7D0' } }}
+            sx={{ mt: 2, backgroundColor: '#FFDC7F', color: '#16325B', borderRadius: '50px', '&:hover': { backgroundColor: '#78B7D0' } }}
             onClick={handleOrderSubmit}
           >
             {loading ? 'Processing...' : 'Pay Now'}
