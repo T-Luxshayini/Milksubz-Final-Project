@@ -16,6 +16,7 @@ function PaymentPage() {
   const elements = useElements();
 
   const [name, setName] = useState('');
+  const [lastname, setLastName] = useState('');
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,7 @@ function PaymentPage() {
   };
 
   const handleOrderSubmit = async () => {
-    if (!name || !address || !phoneNumber) {
+    if (!name || !lastname || !address || !phoneNumber) {
       setError('Please fill in all required fields (name, address, phone number).');
       return;
     }
@@ -45,6 +46,7 @@ function PaymentPage() {
     try {
       const orderData = {
         name,
+        lastname,
         address,
         telephone: phoneNumber,
         totalAmount: Math.round(totalAmount * 100), // Stripe requires amounts in cents
@@ -105,8 +107,10 @@ function PaymentPage() {
               <Typography variant="h4" gutterBottom align="center" color="#16325B">Payment Summary</Typography>
               <Typography variant="h6" gutterBottom align="center" color="#78B7D0" fontWeight="bold">Total Price: LKR {totalAmount}</Typography>
               <TextField label="Name" variant="outlined" fullWidth margin="normal" value={name} onChange={(e) => setName(e.target.value)} required />
+              <TextField label="Last Name" variant="outlined" fullWidth margin="normal" value={lastname} onChange={(e) => setLastName(e.target.value)} required  />
               <TextField label="Address" variant="outlined" fullWidth margin="normal" value={address} onChange={(e) => setAddress(e.target.value)} required multiline rows={3} />
               <TextField label="Phone Number" variant="outlined" fullWidth margin="normal" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required placeholder="Enter your phone number (e.g., 0771234567)" />
+              
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="h6" gutterBottom align="center" color="#16325B" marginTop={8}>Payment Method</Typography>

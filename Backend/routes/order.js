@@ -5,13 +5,14 @@ const Order = require('../models/Order.js'); // Assuming the Order model is in t
 // Create a new order
 router.post('/', async (req, res) => { // Removed auth middleware
   try {
-    const { name, totalAmount, telephone, address, paymentId, paymentStatus } = req.body; // Include paymentId and paymentStatus
+    const { name,lastname, totalAmount, telephone, address, paymentId, paymentStatus } = req.body; // Include paymentId and paymentStatus
     // Validate the incoming data
-    if (!name || !totalAmount || !telephone || !address || !paymentId) {
+    if (!name ||!lastname|| !totalAmount || !telephone || !address || !paymentId) {
       return res.status(400).json({ message: 'Name, total amount, telephone, address, and payment ID are required.' });
     }
     const order = new Order({
       name, // Set name in order
+      lastname,
       totalAmount,
       telephone,
       address,

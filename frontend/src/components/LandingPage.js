@@ -1,15 +1,16 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import React, { useState } from 'react';
+
+import { Link, useNavigate} from 'react-router-dom'; // Import useNavigate
 import { Box, Typography, Button, Container, Grid, Card, CardMedia, CardContent, CardActions, Paper, TextField } from '@mui/material';
 import { keyframes } from '@mui/system'; // Import keyframes for the animation
-
+import SubscriptionModal from './SubscriptionModal';
 import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milk_products_landscape_image.jpeg'; 
 import product1Image from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/milk1.jpg';
 import product1Image1 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/paneer.jpeg';
 import product1Image2 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/ghee.jpeg';
 
 import product1Image4 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/choco milk.jpg';
-import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/5114855.jpg';
+
 import ContactUs from './ContactUs';
 import CustomerFeedbacks from '../components/customerFeedback';
 import AboutUs from './AboutUs';
@@ -43,7 +44,10 @@ const neonBorderAnimation = keyframes`
 
 const LandingPage = () => {
   const navigate = useNavigate(); // Initialize useNavigate
+  const [isModalOpen, setModalOpen] = useState(false);
 
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
   const handleViewMore = () => {
     navigate('/products'); // Navigate to '/products' when called
   };
@@ -93,7 +97,7 @@ const LandingPage = () => {
       alignItems: 'center', // Center content horizontally
       height: '100%',
       textAlign: 'center', // Center text horizontally
-      marginTop: '-270px', // Adjust to move the content upwards or downwards as needed
+      marginTop: '-250px', // Adjust to move the content upwards or downwards as needed
     }}
   >
     <Typography
@@ -143,19 +147,15 @@ const LandingPage = () => {
         View Products
       </Button>
       <Button
-        component={Link}
-        to="/sub"
         variant="contained"
-        sx={{
-          backgroundColor: '#FFDC7F',
-          color: '#16325B',
-          padding: '10px 20px',
-          borderRadius: '50px',
-          fontWeight: 'bold',
-        }}
+        onClick={handleModalOpen}
+        sx={{ backgroundColor: '#FFDC7F', color: '#16325B', fontWeight: 'bold' }}
       >
         Subscribe Now
       </Button>
+
+      {/* Modal */}
+      <SubscriptionModal open={isModalOpen} onClose={handleModalClose} />
     </Box>
   </Box>
 </Box>

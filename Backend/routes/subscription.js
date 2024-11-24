@@ -193,221 +193,359 @@
 // module.exports = router;
 
 
+//old
 
+// const express = require("express");
+// const cors = require("cors");
+// require("dotenv").config();
+// const bodyParser = require("body-parser");
+// const { MongoClient, ServerApiVersion } = require("mongodb");
+// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+// const uri = process.env.MONGODB_URI;
+// const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
-const bodyParser = require("body-parser");
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const uri = process.env.MONGODB_URI;
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+// const client = new MongoClient(uri, {
+//   serverApi: {
+//     version: ServerApiVersion.v1,
+//     strict: true,
+//     deprecationErrors: true,
+//   },
+// });
 
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
+// // Connect to the MongoDB client
+// client.connect();
 
-// Connect to the MongoDB client
-client.connect();
+// const router = express.Router();
+// router.use(cors());
+// router.use(bodyParser.raw({ type: "application/json" }));
 
-const router = express.Router();
-router.use(cors());
-router.use(bodyParser.raw({ type: "application/json" }));
+// // Route to create Stripe session for subscription
+// router.post("/create-stripe-session-subscription", async (req, res) => {
+//   const { userEmail, userId } = req.body;
+//   console.log("Received email:", userEmail);
+//   console.log("Received userId:", userId);
+//   let customer;
 
-// Route to create Stripe session for subscription
-router.post("/create-stripe-session-subscription", async (req, res) => {
-  const { userEmail, userId } = req.body;
-  console.log("Received email:", userEmail);
-  console.log("Received userId:", userId);
-  let customer;
+//   // Check for an existing customer by email
+//   const existingCustomers = await stripe.customers.list({
+//     email: userEmail,
+//     limit: 1,
+//   });
 
-  // Check for an existing customer by email
-  const existingCustomers = await stripe.customers.list({
-    email: userEmail,
-    limit: 1,
-  });
+//   if (existingCustomers.data.length > 0) {
+//     // Customer exists
+//     customer = existingCustomers.data[0];
 
-  if (existingCustomers.data.length > 0) {
-    // Customer exists
-    customer = existingCustomers.data[0];
+//     // Check if the customer already has an active subscription
+//     // const subscriptions = await stripe.subscriptions.list({
+//     //   customer: customer.id,
+//     //   status: "active",
+//     //   limit: 1,
+//     // });
 
-    // Check if the customer already has an active subscription
-    // const subscriptions = await stripe.subscriptions.list({
-    //   customer: customer.id,
-    //   status: "active",
-    //   limit: 1,
-    // });
+//     // if (subscriptions.data.length > 0) {
+//     //   // Redirect to billing portal to manage existing subscription
+//     //   const stripeSession = await stripe.billingPortal.sessions.create({
+//     //     customer: customer.id,
+//     //     return_url: "http://localhost:3000/",
+//     //   });
+//     //   return res.status(409).json({ redirectUrl: stripeSession.url });
+//     // }
+//   } else {
+//     // No customer found, create a new one
+//     customer = await stripe.customers.create({
+//       email: userEmail,
+//       metadata: {
+//         userId: userId,
+//       },
+//     });
+//   }
 
-    // if (subscriptions.data.length > 0) {
-    //   // Redirect to billing portal to manage existing subscription
-    //   const stripeSession = await stripe.billingPortal.sessions.create({
-    //     customer: customer.id,
-    //     return_url: "http://localhost:3000/",
-    //   });
-    //   return res.status(409).json({ redirectUrl: stripeSession.url });
-    // }
-  } else {
-    // No customer found, create a new one
-    customer = await stripe.customers.create({
-      email: userEmail,
-      metadata: {
-        userId: userId,
-      },
-    });
-  }
+//   // Create the Stripe checkout session with the customer ID
+//   const session = await stripe.checkout.sessions.create({
+//     success_url: "http://localhost:3000/products",
+//     cancel_url: "http://localhost:3000/cancel",
+//     payment_method_types: ["card"],
+//     mode: "subscription",
+//     billing_address_collection: "auto",
+//     line_items: [
+//       {
+//         price_data: {
+//           currency: "lkr",
+//           product_data: {
+//             name: "Milk Subscription",
+//             description: "Monthly Milk Plan",
+//           },
+//           unit_amount: 600000, // Set to 6000 LKR for the monthly plan
+//           recurring: {
+//             interval: "month",
+//           },
+//         },
+//         quantity: 1,
+//       },
+//     ],
+//     metadata: {
+//       userId: userId,
+//     },
+//     customer: customer.id,
+//   });
 
-  // Create the Stripe checkout session with the customer ID
-  const session = await stripe.checkout.sessions.create({
-    success_url: "http://localhost:3000/products",
-    cancel_url: "http://localhost:3000/cancel",
-    payment_method_types: ["card"],
-    mode: "subscription",
-    billing_address_collection: "auto",
-    line_items: [
-      {
-        price_data: {
-          currency: "lkr",
-          product_data: {
-            name: "Milk Subscription",
-            description: "Monthly Milk Plan",
-          },
-          unit_amount: 600000, // Set to 6000 LKR for the monthly plan
-          recurring: {
-            interval: "month",
-          },
-        },
-        quantity: 1,
-      },
-    ],
-    metadata: {
-      userId: userId,
-    },
-    customer: customer.id,
-  });
+//   res.json({ id: session.id });
+// });
+// // Route to fetch subscription details from Stripe
+// router.get("/admin/stripe-subscriptions", async (req, res) => {
+//   try {
+//     // Retrieve all subscriptions from Stripe
+//     const subscriptions = await stripe.subscriptions.list({
+//       limit: 100, // Adjust the limit as needed to fetch more subscriptions
+//     });
 
-  res.json({ id: session.id });
-});
-// Route to fetch subscription details from Stripe
-router.get("/admin/stripe-subscriptions", async (req, res) => {
-  try {
-    // Retrieve all subscriptions from Stripe
-    const subscriptions = await stripe.subscriptions.list({
-      limit: 100, // Adjust the limit as needed to fetch more subscriptions
-    });
+//     // Map through subscriptions to extract the necessary details
+//     const subscriptionDetails = subscriptions.data.map((sub) => ({
+//       id: sub.id,
+//       customerId: sub.customer,
+//       status: sub.status,
+//       currentPeriodEnd: new Date(sub.current_period_end * 1000).toLocaleDateString(),
+//       items: sub.items.data.map((item) => ({
+//         product: item.price.product,
+//         amount: item.price.unit_amount / 100, // Convert from cents to the main currency unit
+//         currency: item.price.currency,
+//         interval: item.price.recurring.interval,
+//       })),
+//     }));
 
-    // Map through subscriptions to extract the necessary details
-    const subscriptionDetails = subscriptions.data.map((sub) => ({
-      id: sub.id,
-      customerId: sub.customer,
-      status: sub.status,
-      currentPeriodEnd: new Date(sub.current_period_end * 1000).toLocaleDateString(),
-      items: sub.items.data.map((item) => ({
-        product: item.price.product,
-        amount: item.price.unit_amount / 100, // Convert from cents to the main currency unit
-        currency: item.price.currency,
-        interval: item.price.recurring.interval,
-      })),
-    }));
-
-    // Send the subscription details to the client
-    res.json(subscriptionDetails);
-  } catch (error) {
-    console.error("Error fetching Stripe subscriptions:", error);
-    res.status(500).json({ message: "Error fetching subscription details from Stripe" });
-  }
-});
-// Assuming you're using Express
-router.put('/api/subscriptions/disable/:subscriptionId', async (req, res) => {
-  const { subscriptionId } = req.params;
+//     // Send the subscription details to the client
+//     res.json(subscriptionDetails);
+//   } catch (error) {
+//     console.error("Error fetching Stripe subscriptions:", error);
+//     res.status(500).json({ message: "Error fetching subscription details from Stripe" });
+//   }
+// });
+// // Assuming you're using Express
+// router.put('/api/subscriptions/disable/:subscriptionId', async (req, res) => {
+//   const { subscriptionId } = req.params;
   
-  try {
-    // Find the subscription in your database or Stripe
-    const subscription = await Subscription.findById(subscriptionId);
-    if (!subscription) {
-      return res.status(404).send({ message: 'Subscription not found' });
-    }
+//   try {
+//     // Find the subscription in your database or Stripe
+//     const subscription = await Subscription.findById(subscriptionId);
+//     if (!subscription) {
+//       return res.status(404).send({ message: 'Subscription not found' });
+//     }
 
-    // Update subscription status to disabled
-    subscription.status = 'disabled';
-    await subscription.save();
+//     // Update subscription status to disabled
+//     subscription.status = 'disabled';
+//     await subscription.save();
 
-    // Optionally, update subscription status on Stripe (if needed)
-    // await stripe.subscriptions.update(subscription.stripeSubscriptionId, { status: 'canceled' });
+//     // Optionally, update subscription status on Stripe (if needed)
+//     // await stripe.subscriptions.update(subscription.stripeSubscriptionId, { status: 'canceled' });
 
-    res.send({ message: 'Subscription disabled successfully' });
-  } catch (error) {
-    console.error('Error disabling subscription:', error);
-    res.status(500).send({ message: 'Error disabling subscription' });
+//     res.send({ message: 'Subscription disabled successfully' });
+//   } catch (error) {
+//     console.error('Error disabling subscription:', error);
+//     res.status(500).send({ message: 'Error disabling subscription' });
+//   }
+// });
+
+
+// // Webhook for Stripe events
+// router.post("/webhook", async (req, res) => {
+//   const db = client.db("subDB");
+//   const subscriptions = db.collection("subscriptions");
+
+//   const payload = req.body;
+//   const sig = req.headers["stripe-signature"];
+//   let event;
+
+//   try {
+//     event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+//   } catch (err) {
+//     return res.status(400).send(`Webhook Error: ${err.message}`);
+//   }
+
+//   if (event.type === "invoice.payment_succeeded") {
+//     const invoice = event.data.object;
+
+//     // Retrieve subscription and customer details on successful payment
+//     const subscription = await stripe.subscriptions.retrieve(invoice.subscription);
+//     const customer = await stripe.customers.retrieve(invoice.customer);
+
+//     if (invoice.billing_reason === "subscription_create") {
+//       // Initial payment - store subscription details in the database
+//       const subscriptionDocument = {
+//         userId: customer.metadata.userId,
+//         subId: invoice.subscription,
+//         endDate: subscription.current_period_end * 1000,
+//       };
+
+//       const result = await subscriptions.insertOne(subscriptionDocument);
+//       console.log(`New subscription added with _id: ${result.insertedId}`);
+//     } else if (
+//       invoice.billing_reason === "subscription_cycle" ||
+//       invoice.billing_reason === "subscription_update"
+//     ) {
+//       // Recurring subscription payments - update the database with new end date
+//       const filter = { userId: customer.metadata.userId };
+//       const updateDoc = {
+//         $set: {
+//           endDate: subscription.current_period_end * 1000,
+//         },
+//       };
+
+//       const result = await subscriptions.updateOne(filter, updateDoc);
+//       console.log(result.matchedCount > 0 ? "Subscription end date updated." : "No document matched for update.");
+//     }
+//   }
+
+//   // Handling subscription cancellations or updates
+//   if (event.type === "customer.subscription.updated") {
+//     const subscription = event.data.object;
+//     if (subscription.cancel_at_period_end) {
+//       console.log(`Subscription ${subscription.id} set to cancel at period end.`);
+//       // Update database status here if needed
+//     } else {
+//       console.log(`Subscription ${subscription.id} was renewed.`);
+//     }
+//   }
+
+//   res.status(200).end();
+// });
+
+// // Close MongoDB connection on app termination
+// process.on("SIGINT", () => {
+//   client.close().then(() => {
+//     console.log("MongoDB disconnected on app termination");
+//     process.exit(0);
+//   });
+// });
+
+// module.exports = router;
+
+
+
+//new
+// const express = require('express');
+// const Stripe = require('stripe');
+// const bodyParser = require('body-parser');
+// const cors = require('cors');
+
+// // Load environment variables from a .env file
+// require('dotenv').config();
+
+// const router = express.Router(); // Initialize the router
+// // Initialize Stripe with Secret Key
+// const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
+// const app = express();
+
+// // Middleware
+// app.use(cors()); // Allow Cross-Origin Resource Sharing
+// app.use(bodyParser.json()); // Parse incoming JSON requests
+
+// // Route: Health Check
+// app.get('/', (req, res) => {
+//   res.send('Stripe backend is running');
+// });
+
+// // Route: Create Subscription
+// app.post('/create-subscription', async (req, res) => {
+//   const { token, email, subscriptionPlan } = req.body;
+
+//   try {
+//     // Create a customer
+//     const customer = await stripe.customers.create({
+//       email: email,
+//       source: token.id,
+//     });
+
+//     // Create a subscription
+//     const subscription = await stripe.subscriptions.create({
+//       customer: customer.id,
+//       items: [{ plan: subscriptionPlan }],
+//     });
+
+//     res.status(200).send(subscription);
+//   } catch (error) {
+//     res.status(500).send({ error: error.message });
+//   }
+// });
+
+// // Close MongoDB connection on app termination
+// process.on("SIGINT", () => {
+//   client.close().then(() => {
+//     console.log("MongoDB disconnected on app termination");
+//     process.exit(0);
+//   });
+// });
+
+
+
+// module.exports = router;
+
+
+const express = require('express');
+const Stripe = require('stripe');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { MongoClient } = require('mongodb');
+
+// Load environment variables from a .env file
+require('dotenv').config();
+
+const router = express.Router(); // Initialize the router
+// Initialize Stripe with Secret Key
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
+const app = express();
+
+// Middleware
+app.use(cors()); // Allow Cross-Origin Resource Sharing
+app.use(bodyParser.json()); // Parse incoming JSON requests
+
+// MongoDB connection
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+async function connectToDatabase() {
+  if (!client.isConnected()) {
+    await client.connect();
   }
+  return client.db('your-database-name');
+}
+
+// Route: Health Check
+app.get('/', (req, res) => {
+  res.send('Stripe backend is running');
 });
 
-
-// Webhook for Stripe events
-router.post("/webhook", async (req, res) => {
-  const db = client.db("subDB");
-  const subscriptions = db.collection("subscriptions");
-
-  const payload = req.body;
-  const sig = req.headers["stripe-signature"];
-  let event;
+// Route: Create Subscription
+app.post('/create-subscription', async (req, res) => {
+  const { token, email, subscriptionPlan, deliveryDays, deliveryTime, address, phone, quantity } = req.body;
 
   try {
-    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-  } catch (err) {
-    return res.status(400).send(`Webhook Error: ${err.message}`);
+    // Create a customer
+    const customer = await stripe.customers.create({
+      email: email,
+      source: token.id,
+    });
+
+    // Create a subscription
+    const subscription = await stripe.subscriptions.create({
+      customer: customer.id,
+      items: [{ plan: subscriptionPlan }],
+      metadata: {
+        deliveryDays,
+        deliveryTime,
+        address,
+        phone,
+        quantity,
+      },
+    });
+
+    res.status(200).send(subscription);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send({ error: error.message });
   }
-
-  if (event.type === "invoice.payment_succeeded") {
-    const invoice = event.data.object;
-
-    // Retrieve subscription and customer details on successful payment
-    const subscription = await stripe.subscriptions.retrieve(invoice.subscription);
-    const customer = await stripe.customers.retrieve(invoice.customer);
-
-    if (invoice.billing_reason === "subscription_create") {
-      // Initial payment - store subscription details in the database
-      const subscriptionDocument = {
-        userId: customer.metadata.userId,
-        subId: invoice.subscription,
-        endDate: subscription.current_period_end * 1000,
-      };
-
-      const result = await subscriptions.insertOne(subscriptionDocument);
-      console.log(`New subscription added with _id: ${result.insertedId}`);
-    } else if (
-      invoice.billing_reason === "subscription_cycle" ||
-      invoice.billing_reason === "subscription_update"
-    ) {
-      // Recurring subscription payments - update the database with new end date
-      const filter = { userId: customer.metadata.userId };
-      const updateDoc = {
-        $set: {
-          endDate: subscription.current_period_end * 1000,
-        },
-      };
-
-      const result = await subscriptions.updateOne(filter, updateDoc);
-      console.log(result.matchedCount > 0 ? "Subscription end date updated." : "No document matched for update.");
-    }
-  }
-
-  // Handling subscription cancellations or updates
-  if (event.type === "customer.subscription.updated") {
-    const subscription = event.data.object;
-    if (subscription.cancel_at_period_end) {
-      console.log(`Subscription ${subscription.id} set to cancel at period end.`);
-      // Update database status here if needed
-    } else {
-      console.log(`Subscription ${subscription.id} was renewed.`);
-    }
-  }
-
-  res.status(200).end();
 });
 
 // Close MongoDB connection on app termination
@@ -418,5 +556,6 @@ process.on("SIGINT", () => {
   });
 });
 
-module.exports = router;
 
+
+module.exports = router;

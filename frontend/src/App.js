@@ -12,7 +12,7 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Register from './components/Register';
 import ProductList from './components/ProductList';
-import SubscriptionList from './components/SubscriptionList';
+
 import Dashboard from './components/Dashboard';
 import AdminDashboard from './components/admin-components/AdminDashboard';
 import CartPage from './components/CartPage'; 
@@ -54,7 +54,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/products" element={<ProductList />} />
-            <Route path="/subscriptions" element={<SubscriptionList />} />
+            
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/cart" element={<CartPage />} />

@@ -11,6 +11,10 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     required: true, // Make name a required field
   },
+  lastname: {
+    type: String,
+    required: true, // Make name a required field
+  },
   totalAmount: {
     type: Number,
     required: true,
