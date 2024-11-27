@@ -149,7 +149,7 @@ const LandingPage = () => {
       <Button
         variant="contained"
         onClick={handleModalOpen}
-        sx={{ backgroundColor: '#FFDC7F', color: '#16325B', fontWeight: 'bold' }}
+        sx={{ backgroundColor: '#FFDC7F', color: '#16325B', fontWeight: 'bold',borderRadius: '50px' }}
       >
         Subscribe Now
       </Button>

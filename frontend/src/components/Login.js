@@ -3,15 +3,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
-  Box, TextField, Button, Checkbox, FormControlLabel, Typography, Dialog, DialogContent,
+  Box, TextField, Button, Checkbox, FormControlLabel, Typography, Dialog, DialogContent, IconButton, InputAdornment
 } from '@mui/material';
-
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const Login = ({ open, handleClose, openRegister }) => {  // Receive openRegister as a prop
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const savedEmail = localStorage.getItem('rememberedEmail');
     if (savedEmail) {
@@ -19,7 +21,9 @@ const Login = ({ open, handleClose, openRegister }) => {  // Receive openRegiste
       setRememberMe(true);
     }
   }, []);
-
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -100,13 +104,27 @@ const Login = ({ open, handleClose, openRegister }) => {  // Receive openRegiste
           />
           <TextField
             label="Password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
+            
             variant="outlined"
             fullWidth
             margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': { borderColor: '#fff' },

@@ -1,17 +1,42 @@
 // File: /src/components/Register.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Dialog, DialogContent, Box, TextField, Button, Typography } from '@mui/material';
-
+import { Dialog, DialogContent, Box, TextField, Button, Typography, IconButton, InputAdornment } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const Register = ({ open, handleClose, openLogin }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
 
+  const validatePassword = (password) => {
+    const regex = /^[A-Z][a-zA-Z]*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]{2}[a-zA-Z]*[A-Z]$/;
+    if (password.length < 8) {
+      return 'Password must be at least 8 characters long';
+    }
+    if (!regex.test(password)) {
+      return 'Password must start and end with an uppercase letter, and contain at least two characters in the middle';
+    }
+    return '';
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    const error = validatePassword(newPassword);
+    setPasswordError(error);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const error = validatePassword(password);
+    if (error) {
+      setPasswordError(error);
+      return;
+    }
     try {
       await axios.post('http://localhost:5005/api/auth/register', {
         firstName,
@@ -26,7 +51,9 @@ const Register = ({ open, handleClose, openLogin }) => {
       console.error('Registration failed:', error.response?.data || error.message);
     }
   };
-
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <Dialog
       open={open}
@@ -125,12 +152,10 @@ const Register = ({ open, handleClose, openLogin }) => {
           />
           <TextField
             label="Password"
-            type="password"
-            variant="outlined"
+            type={showPassword ? 'text' : 'password'}
             fullWidth
-            margin="normal"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             required
             sx={{
               '& .MuiOutlinedInput-root': {
@@ -139,6 +164,22 @@ const Register = ({ open, handleClose, openLogin }) => {
                 '&.Mui-focused fieldset': { borderColor: '#DFF6FF' },
               },
               '& .MuiInputLabel-outlined': { color: '#DFF6FF' },
+            }}
+
+            error={!!passwordError}
+            helperText={passwordError}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
           <Button

@@ -482,56 +482,246 @@
 // module.exports = router;
 
 
+// const express = require('express');
+// const Stripe = require('stripe');
+// const bodyParser = require('body-parser');
+// const cors = require('cors');
+// const { MongoClient } = require('mongodb');
+// require('dotenv').config(); // Load environment variables
+
+// const router = express.Router();
+// const app = express(); // Main app instance
+
+// // Middleware
+// app.use(cors()); // Allow cross-origin requests
+// app.use(bodyParser.json()); // Parse incoming JSON requests
+
+// // Initialize Stripe with your Secret Key
+// const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
+// // MongoDB connection
+// const uri = process.env.MONGODB_URI;
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+// async function connectToDatabase() {
+//   if (!client.isConnected()) {
+//     await client.connect();
+//   }
+//   return client.db('Cluster0'); // Replace with your actual database name
+// }
+
+// // Function to calculate the total price dynamically
+// const calculateTotalPrice = (formData) => {
+//   const prices = { '1 week': 1400, '1 month': 5000, '3 months': 14000, '6 months': 26000, '1 year': 50000 };
+//   const milkPricePerLiter = 200; // Cost per liter
+//   const totalLiters = formData.selectedDates.length * formData.quantity;
+//   return prices[formData.subscriptionPlan] + totalLiters * milkPricePerLiter;
+// };
+
+// // Route: Health Check
+// router.get('/', (req, res) => {
+//   res.send('Stripe backend is running');
+// });
+
+// // Route: Create Subscription
+// router.post('/create-subscription', async (req, res) => {
+//   const {
+//     token, email, subscriptionPlan, deliveryDays, deliveryTime, address, phone, quantity, selectedDates,
+//   } = req.body;
+
+//   try {
+//     // Calculate the total price dynamically
+//     const formData = { subscriptionPlan, quantity, selectedDates };
+//     const totalPrice = calculateTotalPrice(formData);
+//     const amountInCents = totalPrice * 100; // Convert to cents
+
+//     // Create a customer
+//     const customer = await stripe.customers.create({
+//       email: email,
+//       source: token.id, // Card token from the frontend
+//     });
+
+//     // Create a subscription
+//     const subscription = await stripe.subscriptions.create({
+//       customer: customer.id,
+//       items: [
+//         {
+//           price_data: {
+//             currency: 'lkr', // Update to your local currency
+//             product: 'prod_RHC5zz9WHmoAc6', // Replace with your Product ID in Stripe
+//             unit_amount: amountInCents,
+//             recurring: { interval: 'month' }, // Change based on your interval
+//           },
+//         },
+//       ],
+//       metadata: {
+//         deliveryDays,
+//         deliveryTime,
+//         address,
+//         phone,
+//         quantity,
+//       },
+//     });
+
+//     // Save subscription details to MongoDB
+//     const db = await connectToDatabase();
+//     const subscriptionsCollection = db.collection('subscriptions');
+//     await subscriptionsCollection.insertOne({
+//       customerId: customer.id,
+//       email,
+//       subscriptionId: subscription.id,
+//       subscriptionPlan,
+//       totalAmount: totalPrice,
+//       deliveryDays,
+//       deliveryTime,
+//       address,
+//       phone,
+//       quantity,
+//       createdAt: new Date(),
+//     });
+
+//     res.status(200).json({ subscription });
+//   } catch (error) {
+//     console.error('Error:', error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// // Close MongoDB connection on app termination
+// process.on('SIGINT', () => {
+//   client.close().then(() => {
+//     console.log('MongoDB disconnected on app termination');
+//     process.exit(0);
+//   });
+// });
+
+// // Export the router for use in the main app
+// module.exports = router;
+
+
+
 const express = require('express');
 const Stripe = require('stripe');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
+require('dotenv').config(); // Load environment variables
 
-// Load environment variables from a .env file
-require('dotenv').config();
-
-const router = express.Router(); // Initialize the router
-// Initialize Stripe with Secret Key
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-
-const app = express();
+const router = express.Router();
+const app = express(); // Main app instance
 
 // Middleware
-app.use(cors()); // Allow Cross-Origin Resource Sharing
+app.use(cors()); // Allow cross-origin requests
 app.use(bodyParser.json()); // Parse incoming JSON requests
+
+// Initialize Stripe with your Secret Key
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 // MongoDB connection
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+let database; // Global variable to store the database connection
+
 async function connectToDatabase() {
-  if (!client.isConnected()) {
-    await client.connect();
+  if (!database) {
+    try {
+      // Connect to the MongoDB client if not already connected
+      await client.connect();
+      database = client.db('test'); // Replace with your actual database name
+      console.log('Connected to MongoDB');
+    } catch (error) {
+      console.error('Error connecting to MongoDB:', error);
+      throw error; // Throw error if connection fails
+    }
   }
-  return client.db('your-database-name');
+  return database;
 }
 
+// Function to calculate the total price dynamically
+const calculateTotalPrice = (formData) => {
+  const prices = { '1 week': 1400, '1 month': 5000, '3 months': 14000, '6 months': 26000, '1 year': 50000 };
+  const milkPricePerLiter = 200; // Cost per liter
+  const totalLiters = formData.selectedDates.length * formData.quantity;
+  return prices[formData.subscriptionPlan] + totalLiters * milkPricePerLiter;
+};
+
 // Route: Health Check
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.send('Stripe backend is running');
+});
+// Route: Get All Subscriptions for Admin
+router.get('/admin/stripe-subscriptions', async (req, res) => {
+  try {
+    const db = await connectToDatabase();
+    const subscriptionsCollection = db.collection('subscriptions');
+    const subscriptions = await subscriptionsCollection.find().toArray();
+
+    // Map and format data for the frontend
+    const formattedSubscriptions = subscriptions.map((subscription) => ({
+      id: subscription.subscriptionId || subscription._id, // Unique identifier for DataGrid
+      _id: subscription._id, // MongoDB Object ID
+      customerId: subscription.customerId,
+      email: subscription.email,
+      subscriptionId: subscription.subscriptionId,
+      subscriptionPlan: subscription.subscriptionPlan,
+      totalAmount: subscription.totalAmount,
+      deliveryDays: subscription.deliveryDays,
+      deliveryTime: subscription.deliveryTime,
+      address: subscription.address,
+      phone: subscription.phone,
+      quantity: subscription.quantity,
+      createdAt: subscription.createdAt, // Original creation timestamp
+      status: subscription.status || 'active', // Default to 'active' if not present
+      currentPeriodEnd: subscription.currentPeriodEnd || 'N/A', // Add actual field if available
+      items: [
+        {
+          product: subscription.subscriptionPlan,
+          amount: subscription.totalAmount,
+          currency: 'LKR', // Default to your currency
+          interval: 'month', // Replace with actual interval
+        },
+      ],
+    }));
+
+    res.status(200).json(formattedSubscriptions);
+  } catch (error) {
+    console.error('Error fetching subscriptions:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // Route: Create Subscription
-app.post('/create-subscription', async (req, res) => {
-  const { token, email, subscriptionPlan, deliveryDays, deliveryTime, address, phone, quantity } = req.body;
+router.post('/create-subscription', async (req, res) => {
+  const {
+    token, email, subscriptionPlan, deliveryDays, deliveryTime, address, phone, quantity, selectedDates,
+  } = req.body;
 
   try {
+    // Calculate the total price dynamically
+    const formData = { subscriptionPlan, quantity, selectedDates };
+    const totalPrice = calculateTotalPrice(formData);
+    const amountInCents = totalPrice * 100; // Convert to cents
+
     // Create a customer
     const customer = await stripe.customers.create({
       email: email,
-      source: token.id,
+      source: token.id, // Card token from the frontend
     });
 
     // Create a subscription
     const subscription = await stripe.subscriptions.create({
       customer: customer.id,
-      items: [{ plan: subscriptionPlan }],
+      items: [
+        {
+          price_data: {
+            currency: 'lkr', // Update to your local currency
+            product: 'prod_RHC5zz9WHmoAc6', // Replace with your Product ID in Stripe
+            unit_amount: amountInCents,
+            recurring: { interval: 'month' }, // Change based on your interval
+          },
+        },
+      ],
       metadata: {
         deliveryDays,
         deliveryTime,
@@ -541,21 +731,123 @@ app.post('/create-subscription', async (req, res) => {
       },
     });
 
-    res.status(200).send(subscription);
+    // Save subscription details to MongoDB
+    const db = await connectToDatabase();
+    const subscriptionsCollection = db.collection('subscriptions');
+    await subscriptionsCollection.insertOne({
+      customerId: customer.id,
+      email,
+      subscriptionId: subscription.id,
+      subscriptionPlan,
+      totalAmount: totalPrice,
+      deliveryDays,
+      deliveryTime,
+      address,
+      phone,
+      quantity,
+      createdAt: new Date(),
+    });
+
+    res.status(200).json({ subscription });
   } catch (error) {
     console.error('Error:', error);
-    res.status(500).send({ error: error.message });
+    res.status(500).json({ error: error.message });
+  }
+});
+// Route: Cancel Subscription
+router.post('/cancel-subscription', async (req, res) => {
+  const { subscriptionId } = req.body;
+
+  try {
+    // Cancel the subscription via Stripe
+    const canceledSubscription = await stripe.subscriptions.del(subscriptionId);
+
+    // Update the subscription status in MongoDB
+    const db = await connectToDatabase();
+    const subscriptionsCollection = db.collection('subscriptions');
+    const result = await subscriptionsCollection.updateOne(
+      { subscriptionId },
+      { $set: { status: 'canceled', canceledAt: new Date() } }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'Subscription not found' });
+    }
+
+    res.status(200).json({ success: true, canceledSubscription });
+  } catch (error) {
+    console.error('Error canceling subscription:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+// Route: Update Subscription
+router.post('/update-subscription', async (req, res) => {
+  const { subscriptionId, subscriptionPlan, deliveryDays, deliveryTime, quantity, selectedDates } = req.body;
+
+  try {
+    // Recalculate the total price
+    const formData = { subscriptionPlan, quantity, selectedDates };
+    const totalPrice = calculateTotalPrice(formData);
+    const amountInCents = totalPrice * 100; // Convert to cents
+
+    // Update the subscription in Stripe
+    const updatedSubscription = await stripe.subscriptions.update(subscriptionId, {
+      items: [
+        {
+          price_data: {
+            currency: 'lkr',
+            product: 'prod_RHC5zz9WHmoAc6', // Replace with the correct product ID
+            unit_amount: amountInCents,
+            recurring: { interval: 'month' },
+          },
+        },
+      ],
+      metadata: {
+        deliveryDays,
+        deliveryTime,
+        quantity,
+      },
+    });
+
+    // Update subscription details in MongoDB
+    const db = await connectToDatabase();
+    const subscriptionsCollection = db.collection('subscriptions');
+    const result = await subscriptionsCollection.updateOne(
+      { subscriptionId },
+      {
+        $set: {
+          subscriptionPlan,
+          totalAmount: totalPrice,
+          deliveryDays,
+          deliveryTime,
+          quantity,
+          updatedAt: new Date(),
+        },
+      }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'Subscription not found' });
+    }
+
+    res.status(200).json({ success: true, updatedSubscription });
+  } catch (error) {
+    console.error('Error updating subscription:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
 // Close MongoDB connection on app termination
-process.on("SIGINT", () => {
-  client.close().then(() => {
-    console.log("MongoDB disconnected on app termination");
+process.on('SIGINT', async () => {
+  try {
+    await client.close();
+    console.log('MongoDB disconnected on app termination');
     process.exit(0);
-  });
+  } catch (error) {
+    console.error('Error closing MongoDB connection:', error);
+    process.exit(1);
+  }
 });
 
-
-
+// Export the router for use in the main app
 module.exports = router;

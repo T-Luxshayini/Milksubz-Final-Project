@@ -27,6 +27,7 @@ import RecommendedProducts from './components/RecommendedProducts';
 import BlogPage from './components/BlogSection';
 import AboutSection from './components/AboutSection';
 import AuthModal from './components/AuthModal';
+import Details from './components/Details';
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe('pk_test_51QCqZPFDU5aLIEJODMXZ1TrGjcmBHwEJGA5ADUyKW34FJPqWV6PmWQSssWKcxTUDLvXMkNPqO70W5331MkiJYlFt00RIvqYIJJ');
 
@@ -66,6 +67,7 @@ function App() {
             <Route path="/recommended-products" element={<RecommendedProducts />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/about" element={<AboutSection />} />
+            <Route path="/details" element={<Details />} />
             <Route 
               path="/payment" 
               element={

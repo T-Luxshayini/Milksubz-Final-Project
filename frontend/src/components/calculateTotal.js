@@ -1,11 +1,25 @@
 const calculateTotal = (formData) => {
-    const prices = { '1 week': 1400, '1 month': 5000, '3 months': 14000, '6 months': 26000, '1 year': 50000 };
-    const milkPricePerLiter = 200;
-    const totalLiters = formData.selectedDates.length * formData.quantity;
-    return prices[formData.subscriptionPlan] + totalLiters * milkPricePerLiter;
+  // Base prices for subscription plans
+  const prices = {
+    '1 week': 1400,
+    '1 month': 6000,
+    '3 months': 18000,
+    '6 months': 36000,
+    '1 year': 72000
   };
-  
-  export default calculateTotal;
+
+  // Calculate base subscription price multiplied by quantity
+  const subscriptionPrice = prices[formData.subscriptionPlan] * formData.quantity;
+
+  // Calculate additional cost for selected dates
+  const milkPricePerLiter = 200;
+  const totalLiters = formData.selectedDates.length * formData.quantity;
+  const additionalCost = totalLiters * milkPricePerLiter;
+
+  return subscriptionPrice + additionalCost;
+};
+
+export default calculateTotal;
   
 
 // const calculateTotal = (formData) => {

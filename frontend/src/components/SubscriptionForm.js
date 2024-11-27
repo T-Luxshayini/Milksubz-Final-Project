@@ -41,12 +41,34 @@ const SubscriptionForm = ({ onClose }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleStripePayment = (token) => {
-    console.log('Stripe Token:', token);
-    console.log('Form Data:', formData);
-
-    // Make backend API call here to complete the payment and subscription process
+  const handleStripePayment = async (token) => {
+    try {
+      // Prepare data for the backend API
+      const response = await fetch('http://localhost:5005/api/subscriptions/create-subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token, // Stripe token
+          ...formData, // Subscription form data
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        alert('Subscription successful! 🎉');
+         // Update subscription status to true
+        onClose(); // Close the subscription form
+      } else {
+        alert(`Error: ${data.error}`);
+        console.error('Error:', data);
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert('An error occurred during payment.');
+    }
   };
+  
 
   const totalAmount = calculateTotal(formData);
 
@@ -201,7 +223,8 @@ export default SubscriptionForm;
 //       basePrice: 1400,
 //       interval: 'week',
 //     },
-//     monthly: {
+//     monthly: {curl http://localhost:5005/
+
 //       id: 'price_1QOdhnFDU5aLIEJOFAahbuXG', // Replace with your Stripe Price ID
 //       name: '1 Month',
 //       basePrice: 5000,
@@ -418,6 +441,186 @@ export default SubscriptionForm;
 
 // export default SubscriptionForm;
 
+
+//new
+// import React, { useState } from 'react';
+// import {
+//   TextField,
+//   Box,
+//   Typography,
+//   MenuItem,
+//   Select,
+//   Button,
+//   FormControl,
+//   InputLabel,
+// } from '@mui/material';
+// import { DatePicker } from '@mui/x-date-pickers'; // Install @mui/x-date-pickers
+// import axios from 'axios';
+
+// const SubscriptionForm = ({ onClose }) => {
+//   const [formData, setFormData] = useState({
+//     name: '',
+//     address: '',
+//     email: '',
+//     phone: '',
+//     selectedDates: [],
+//     subscriptionPlan: '1 week',
+//     quantity: 1,
+//     deliveryDays: 'Weekdays',
+//     deliveryTime: 'Morning',
+//   });
+
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+
+//   const handleDateChange = (newDate) => {
+//     setFormData((prev) => ({
+//       ...prev,
+//       selectedDates: [...prev.selectedDates, newDate],
+//     }));
+//   };
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData((prev) => ({ ...prev, [name]: value }));
+//   };
+
+//   const handleSubmit = async () => {
+//     setIsSubmitting(true);
+
+//     try {
+//       const response = await axios.post('http://localhost:5005/api/subscriptions/create-subscription', {
+//         email: formData.email,
+//         token: {
+//           id: 'tok_visa', // Replace with actual Stripe token from the payment process
+//         },
+//         subscriptionPlan: formData.subscriptionPlan,
+//         deliveryDays: formData.deliveryDays,
+//         deliveryTime: formData.deliveryTime,
+//         address: formData.address,
+//         phone: formData.phone,
+//         quantity: formData.quantity,
+//         selectedDates: formData.selectedDates,
+//       });
+
+//       alert('Subscription created successfully!');
+//       console.log(response.data);
+//     } catch (error) {
+//       console.error('Error creating subscription:', error);
+//       alert('Failed to create subscription.');
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   return (
+//     <Box>
+//       <Typography variant="h6" sx={{ mb: 2 }}>
+//         Complete Your Subscription
+//       </Typography>
+//       <TextField
+//         label="Name"
+//         fullWidth
+//         name="name"
+//         value={formData.name}
+//         onChange={handleChange}
+//         sx={{ mb: 2 }}
+//       />
+//       <TextField
+//         label="Address"
+//         fullWidth
+//         name="address"
+//         value={formData.address}
+//         onChange={handleChange}
+//         sx={{ mb: 2 }}
+//       />
+//       <TextField
+//         label="Email"
+//         fullWidth
+//         name="email"
+//         value={formData.email}
+//         onChange={handleChange}
+//         sx={{ mb: 2 }}
+//       />
+//       <TextField
+//         label="Phone"
+//         fullWidth
+//         name="phone"
+//         value={formData.phone}
+//         onChange={handleChange}
+//         sx={{ mb: 2 }}
+//       />
+//       <DatePicker
+//         label="Select Dates"
+//         onChange={handleDateChange}
+//         renderInput={(params) => <TextField {...params} fullWidth sx={{ mb: 2 }} />}
+//       />
+//       <Typography variant="body2" sx={{ mb: 2 }}>
+//         Selected Dates: {formData.selectedDates.join(', ')}
+//       </Typography>
+//       <FormControl fullWidth sx={{ mb: 2 }}>
+//         <InputLabel>Subscription Plan</InputLabel>
+//         <Select
+//           name="subscriptionPlan"
+//           value={formData.subscriptionPlan}
+//           onChange={handleChange}
+//         >
+//           <MenuItem value="1 week">1 Week</MenuItem>
+//           <MenuItem value="1 month">1 Month</MenuItem>
+//           <MenuItem value="3 months">3 Months</MenuItem>
+//           <MenuItem value="6 months">6 Months</MenuItem>
+//           <MenuItem value="1 year">1 Year</MenuItem>
+//         </Select>
+//       </FormControl>
+//       <TextField
+//         label="Quantity (liters per day)"
+//         fullWidth
+//         type="number"
+//         name="quantity"
+//         value={formData.quantity}
+//         onChange={handleChange}
+//         sx={{ mb: 2 }}
+//       />
+//       <FormControl fullWidth sx={{ mb: 2 }}>
+//         <InputLabel>Delivery Days</InputLabel>
+//         <Select
+//           name="deliveryDays"
+//           value={formData.deliveryDays}
+//           onChange={handleChange}
+//         >
+//           <MenuItem value="Weekdays">Weekdays</MenuItem>
+//           <MenuItem value="Weekend">Weekend</MenuItem>
+//           <MenuItem value="All Days">All Days</MenuItem>
+//         </Select>
+//       </FormControl>
+//       <FormControl fullWidth sx={{ mb: 2 }}>
+//         <InputLabel>Delivery Time</InputLabel>
+//         <Select
+//           name="deliveryTime"
+//           value={formData.deliveryTime}
+//           onChange={handleChange}
+//         >
+//           <MenuItem value="Morning">Morning</MenuItem>
+//           <MenuItem value="Evening">Evening</MenuItem>
+//           <MenuItem value="Night">Night</MenuItem>
+//         </Select>
+//       </FormControl>
+//       <Button
+//         variant="contained"
+//         color="primary"
+//         onClick={handleSubmit}
+//         disabled={isSubmitting}
+//         sx={{ mt: 2 }}
+//       >
+//         {isSubmitting ? 'Submitting...' : 'Submit'}
+//       </Button>
+//       <Button variant="outlined" onClick={onClose} sx={{ mt: 2 }}>
+//         Cancel
+//       </Button>
+//     </Box>
+//   );
+// };
+
+// export default SubscriptionForm;
 
 
 
