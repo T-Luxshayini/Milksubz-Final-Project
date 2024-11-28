@@ -52,7 +52,7 @@ export const ContactUs = () => {
           fontSize: '2.5rem', // Increased font size
         }}
       >
-        Contact Us
+        ContactUs
       </Typography>
       <Paper
         elevation={5}
