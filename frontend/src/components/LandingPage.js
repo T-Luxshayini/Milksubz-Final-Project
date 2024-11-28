@@ -23,7 +23,7 @@ const recommendedProducts = [
   { id: 2, name: 'Paneer', price: 'Rs300', image: product1Image1 },
   { id: 3, name: 'Ghee', price: 'Rs280', image: product1Image2 },
   
-  { id: 4, name: 'Choco Milk', price: 'Rs120', image: product1Image4 }
+  { id: 4, name: 'Choco milk', price: 'Rs120', image: product1Image4 }
 ];
 
 // Define the keyframes for the neon border animation
