@@ -86,7 +86,7 @@ const Details = () => {
       });
 
       if (response.ok) {
-        const updatedData = await response.json();
+        // const updatedData = await response.json();
         setSubscription(prev => ({ ...prev, ...updateFormData }));
         setShowUpdateDialog(false);
       } else {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Link, useNavigate} from 'react-router-dom'; // Import useNavigate
-import { Box, Typography, Button, Container, Grid, Card, CardMedia, CardContent, CardActions, Paper, TextField } from '@mui/material';
+import { Box, Typography, Button, Container, Grid, Card, CardMedia, CardContent, CardActions, } from '@mui/material';
 import { keyframes } from '@mui/system'; // Import keyframes for the animation
 import SubscriptionModal from './SubscriptionModal';
 import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/milk_products_landscape_image.jpeg'; 

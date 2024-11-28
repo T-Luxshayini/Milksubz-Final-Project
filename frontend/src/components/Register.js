@@ -14,7 +14,7 @@ const Register = ({ open, handleClose, openLogin }) => {
   const [passwordError, setPasswordError] = useState('');
 
   const validatePassword = (password) => {
-    const regex = /^[A-Z][a-zA-Z]*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]{2}[a-zA-Z]*[A-Z]$/;
+    const regex = /^[A-Z][a-zA-Z]*[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]{2}[a-zA-Z]*[A-Z]$/;
     if (password.length < 8) {
       return 'Password must be at least 8 characters long';
     }

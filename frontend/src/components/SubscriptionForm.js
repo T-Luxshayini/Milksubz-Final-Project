@@ -8,8 +8,7 @@ import {
   Button,
   FormControl,
   InputLabel,
-  Checkbox,
-  FormControlLabel,
+ 
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers'; // Install @mui/x-date-pickers for date picker
 import StripeCheckout from 'react-stripe-checkout'; // Install react-stripe-checkout

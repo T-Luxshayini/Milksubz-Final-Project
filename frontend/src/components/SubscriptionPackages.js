@@ -182,7 +182,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 function Subscription() {
   const navigate = useNavigate();
-  const [planType, setPlanType] = useState("");
+  const [planType] = useState("");
 
   const getUserData = () => {
     const userData = localStorage.getItem("user");

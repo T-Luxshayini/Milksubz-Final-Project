@@ -4,14 +4,14 @@ import {
   ListItem, ListItemIcon, ListItemText, IconButton
 } from '@mui/material';
 import {
-  AccountCircle, Subscriptions, BarChart,
+  AccountCircle, Subscriptions,
   ChevronLeft, ChevronRight, Storefront
 } from '@mui/icons-material';
 import { MailOutline } from '@mui/icons-material';
 import ProductAddEdit from './ProductAddEdit';
 // import milkImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/splashmilk.jpeg';
 import UserDetails from './UserDetails';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AdminOrders from './AdminOrders';
 import SubscriptionDetails from './SubscriptionDetails';
@@ -23,7 +23,7 @@ const drawerWidthCollapsed = 70;
 function Dashboard() {
   const [selectedMenu, setSelectedMenu] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Toggle function for expanding/collapsing the sidebar
   const handleToggleDrawer = () => {

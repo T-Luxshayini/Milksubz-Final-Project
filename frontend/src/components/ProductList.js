@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Pagination, Snackbar, Alert, Box } from '@mui/material';
+import { Pagination, Snackbar, Alert, } from '@mui/material';
 import { Card, CardContent, CardMedia, Typography, Button as MuiButton } from '@mui/material';
 
 const GlobalStyle = createGlobalStyle`

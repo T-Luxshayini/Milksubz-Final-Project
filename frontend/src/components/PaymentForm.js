@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Box, Button, Typography, TextField } from '@mui/material';
 
 const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const location = useLocation();
-  const navigate = useNavigate();
-  const { clientSecret, totalAmount } = location.state || {};
+  // const navigate = useNavigate();
+  const { clientSecret } = location.state || {};
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);

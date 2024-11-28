@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Box, TextField, Button, Typography, Grid } from '@mui/material';
 import milkImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/best-and-worst-milk-for-heart-health-alt-1440x810.jpg'; // Update with correct path
-import { loadStripe } from '@stripe/stripe-js';
+// import { loadStripe } from '@stripe/stripe-js';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-const stripePromise = loadStripe('pk_test_51QCqZPFDU5aLIEJODMXZ1TrGjcmBHwEJGA5ADUyKW34FJPqWV6PmWQSssWKcxTUDLvXMkNPqO70W5331MkiJYlFt00RIvqYIJJ');
+// const stripePromise = loadStripe('pk_test_51QCqZPFDU5aLIEJODMXZ1TrGjcmBHwEJGA5ADUyKW34FJPqWV6PmWQSssWKcxTUDLvXMkNPqO70W5331MkiJYlFt00RIvqYIJJ');
 
 function PaymentPage() {
   const location = useLocation();
   const { cart, totalAmount } = location.state || {};
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
 

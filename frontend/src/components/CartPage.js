@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+// import axios from 'axios';
 
 // Wrapper for the whole cart page with background image and centered content
 const CartWrapper = styled.div`
@@ -110,8 +110,8 @@ const TotalAmount = styled.div`
 function CartPage() {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token'); // Retrieve token from localStorage
-  const [userId, setUserId] = useState(null);
+  // const token = localStorage.getItem('token'); // Retrieve token from localStorage
+  // const [userId, setUserId] = useState(null);
   
   useEffect(() => {
     // Optionally, you can fetch the cart data from the backend if needed when the component mounts

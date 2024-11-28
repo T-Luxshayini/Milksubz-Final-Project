@@ -167,9 +167,9 @@ const SubscriptionDetails = () => {
       });
   };
 
-  useEffect(() => {
-    fetchSubscriptions();
-  }, []);
+  // useEffect(() => {
+  //   fetchSubscriptions();
+  // }, []);
 
   const handleCancelClick = (subscription) => {
     setSelectedSubscription(subscription);
