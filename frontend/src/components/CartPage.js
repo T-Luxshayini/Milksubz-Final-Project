@@ -11,7 +11,7 @@ const CartWrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: url(${require('/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/vecteezy_ai-generated-dairy-variety-on-wooden-backdrop_40555158.jpg')});
+  background-image: url(${require('../../src/assets/images/vecteezy_ai-generated-dairy-variety-on-wooden-backdrop_40555158.jpg')});
   background-size: cover;
   background-position: center;
   padding: 20px;

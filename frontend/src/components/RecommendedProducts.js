@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { keyframes } from '@mui/system';
-import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/blue-bg.jpg'; // Import your background image
+import backgroundImage from '../../src/assets/images/blue-bg.jpg'; // Import your background image
 
 // Define the keyframes for the neon border animation
 const neonBorderAnimation = keyframes`

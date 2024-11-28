@@ -5,11 +5,11 @@ import { Box, Typography, Button, Container, Grid, Card, CardMedia, CardContent,
 import { keyframes } from '@mui/system'; // Import keyframes for the animation
 import SubscriptionModal from './SubscriptionModal';
 import backgroundImage from '../../src/assets/images/milk_products_landscape_image.jpeg'; 
-import product1Image from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/milk1.jpg';
-import product1Image1 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/paneer.jpeg';
-import product1Image2 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/ghee.jpeg';
+import product1Image from '../../src/assets/images/milk1.jpg';
+import product1Image1 from '../../src/assets/images/paneer.jpeg';
+import product1Image2 from '../../src/assets/images/ghee.jpeg';
 
-import product1Image4 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/choco milk.jpg';
+import product1Image4 from '../../src/assets/images/choco milk.jpg';
 
 import ContactUs from './ContactUs';
 import CustomerFeedbacks from '../components/customerFeedback';

@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaBars } from 'react-icons/fa';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import logo from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/milksubz-logo-lux.jpg';
+import logo from '../../src/assets/images/milksubz-logo-lux.jpg';
 import Login from './Login'; // Import the Login component
 
 

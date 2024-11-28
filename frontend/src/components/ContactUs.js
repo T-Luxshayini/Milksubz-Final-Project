@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { Box, Button, Container, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material';
-import vectorImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/5124556.jpg';
+import vectorImage from '../../src/assets/images/5124556.jpg';
 import axios from 'axios';
 
 export const ContactUs = () => {
