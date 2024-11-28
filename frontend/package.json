@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": "https://ThevapalanLuxshayini.github.io/Milksubz-Final-Project",
+  "homepage": "/",
   "private": true,
   "dependencies": {
     "@date-io/dayjs": "^3.0.0",

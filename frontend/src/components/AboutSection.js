@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Typography, Grid, Card, CardContent, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Milk, UtensilsCrossed, CheckCircle } from 'lucide-react';
-import image1 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/7d68c363abe3d046e9371fb39044e001.jpg';
-import image2 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/03cb8bcbfbcd8a5389638ffe005de8fd.jpg';
-import image3 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/vecteezy_realistic-photo-of-fresh-milk-close-up-food-photography_27812402.jpg';
-import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/blue-bg.jpg'; // Import your background image
+import image1 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/7d68c363abe3d046e9371fb39044e001.jpg';
+import image2 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/03cb8bcbfbcd8a5389638ffe005de8fd.jpg';
+import image3 from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/vecteezy_realistic-photo-of-fresh-milk-close-up-food-photography_27812402.jpg';
+import backgroundImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/blue-bg.jpg'; // Import your background image
 
 const AboutSection = () => {
   return (

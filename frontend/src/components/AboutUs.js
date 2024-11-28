@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
 import { LocalDrinkOutlined, FeedOutlined, ShieldOutlined } from '@mui/icons-material';
-import video from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/Blue and White Milk Product Promo Video .mp4';
+import video from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/Blue and White Milk Product Promo Video .mp4';
 
 const AboutUs = () => {
   return (

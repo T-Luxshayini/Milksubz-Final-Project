@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Box, TextField, Button, Typography, Grid } from '@mui/material';
-import milkImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/images/best-and-worst-milk-for-heart-health-alt-1440x810.jpg'; // Update with correct path
+import milkImage from '/home/uki-jaffna/Documents/Milksubz-Final-Project/frontend/src/assets/images/best-and-worst-milk-for-heart-health-alt-1440x810.jpg'; // Update with correct path
 import { loadStripe } from '@stripe/stripe-js';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
