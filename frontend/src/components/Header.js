@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import {
-  AppBar, Toolbar, IconButton, Badge, Button, Box, Container, Typography, Drawer, List, ListItem, ListItemText,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Badge,
+  Button,
+  Box,
+  Container,
+  Typography,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaBars } from 'react-icons/fa';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import logo from '../../src/assets/images/milksubz-logo-lux.jpg';
-import Login from './Login'; // Import the Login component
-
+import Login from './Login';
 
 const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false); // State for Login modal
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const navigate = useNavigate();
   const theme = useTheme();
 
-  // Media query for responsiveness (true for mobile)
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  // Media query for responsiveness
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Mobile screens
 
   useEffect(() => {
     const updateCartCount = () => {
@@ -56,18 +66,78 @@ const Header = () => {
     setIsLoginOpen(false);
   };
 
+  // Drawer content for mobile
   const drawerLinks = (
-    <List>
-      <ListItem button component={Link} to="/" onClick={toggleDrawer}>
-        <ListItemText primary="Home" />
-      </ListItem>
-      <ListItem button component={Link} to="/products" onClick={toggleDrawer}>
-        <ListItemText primary="Shop" />
-      </ListItem>
-      <ListItem button component={Link} to="/contactus" onClick={toggleDrawer}>
-        <ListItemText primary="Contact" />
-      </ListItem>
-    </List>
+    <Box
+      sx={{
+        width: 250,
+        padding: '20px',
+        backgroundColor: '#16325B',
+        color: '#fff',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <List>
+        <ListItem button component={Link} to="/" sx={{ color: 'white' }} onClick={toggleDrawer}>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button component={Link} to="/products" sx={{ color: 'white' }} onClick={toggleDrawer}>
+          <ListItemText primary="Shop" />
+        </ListItem>
+        <ListItem button component={Link} to="/about" sx={{ color: 'white' }} onClick={toggleDrawer}>
+          <ListItemText primary="About Us" />
+        </ListItem>
+        <ListItem button component={Link} to="/contactus" sx={{ color: 'white' }} onClick={toggleDrawer}>
+          <ListItemText primary="Contact" />
+        </ListItem>
+        <ListItem button component={Link} to="/details" sx={{ color: 'white' }} onClick={toggleDrawer}>
+          <ListItemText primary="Details" />
+        </ListItem>
+      </List>
+      <Box sx={{ padding: 2 }}>
+        <IconButton component={Link} to="/cart" color="inherit">
+          <Badge badgeContent={cartCount} color="success">
+            <FaShoppingCart color="white" />
+          </Badge>
+        </IconButton>
+        <Box sx={{ marginTop: 2 }}>
+          {!isLoggedIn ? (
+            <Button
+              onClick={handleLoginOpen}
+              variant="contained"
+              sx={{
+                textTransform: 'none',
+                fontWeight: 'bold',
+                borderRadius: '20px',
+                backgroundColor: '#FFDC7F',
+                color: '#16325B',
+                width: '100%',
+              }}
+            >
+              Login
+            </Button>
+          ) : (
+            <Button
+              onClick={handleLogout}
+              variant="contained"
+              sx={{
+                textTransform: 'none',
+                fontWeight: 'bold',
+                borderRadius: '20px',
+                backgroundColor: '#FFDC7F',
+                color: '#16325B',
+                width: '100%',
+              }}
+            >
+              Logout
+            </Button>
+          )}
+        </Box>
+      </Box>
+    </Box>
   );
 
   return (
@@ -75,7 +145,6 @@ const Header = () => {
       <AppBar position="fixed" elevation={4} sx={{ backgroundColor: '#16325B', color: '#fff', borderBottom: '1px solid #ddd' }}>
         <Container maxWidth="lg">
           <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-
             {/* Logo Section */}
             <Box
               component={Link}
@@ -85,28 +154,32 @@ const Header = () => {
                 alignItems: 'center',
                 textDecoration: 'none',
                 marginRight: isMobile ? '20px' : '60px',
-                marginLeft:'-220px'
+                marginLeft: isMobile ? '0' : '-220px',
               }}
             >
               <img
                 src={logo}
                 alt="MilkSubz Logo"
-                style={{ height: '85px', width: 'auto' }}
-              />
-              <Typography
-                variant="h6"
-                sx={{
-                  marginLeft: '10px',
-                  fontWeight: 'bold',
-                  color: '#FFF',
-                  textDecoration: 'none',
+                style={{
+                  height: isMobile ? '50px' : '85px',
+                  width: 'auto',
                 }}
-              >
-                MilkSubz
-              </Typography>
+              />
+              {!isMobile && (
+                <Typography
+                  variant="h6"
+                  sx={{
+                    marginLeft: '10px',
+                    fontWeight: 'bold',
+                    color: '#FFF',
+                  }}
+                >
+                  MilkSubz
+                </Typography>
+              )}
             </Box>
 
-            {/* Hamburger menu for mobile */}
+            {/* Hamburger Menu for Mobile */}
             {isMobile && (
               <IconButton
                 color="inherit"
@@ -117,29 +190,74 @@ const Header = () => {
               </IconButton>
             )}
 
-            {/* Navigation Links for larger screens */}
+            {/* Desktop Navigation Links */}
             {!isMobile && (
               <Box sx={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
-                <Button component={Link} to="/" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold', color: '#fff', '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' } }}>
+                <Button
+                  component={Link}
+                  to="/"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' },
+                  }}
+                >
                   Home
                 </Button>
-                <Button component={Link} to="/products" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold', color: '#fff', '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' } }}>
+                <Button
+                  component={Link}
+                  to="/products"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' },
+                  }}
+                >
                   Shop
                 </Button>
-                <Button component={Link} to="/about" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold', color: '#fff', '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' } }}>
+                <Button
+                  component={Link}
+                  to="/about"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' },
+                  }}
+                >
                   AboutUs
                 </Button>
-                <Button component={Link} to="/contactus" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold', color: '#fff', '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' } }}>
+                <Button
+                  component={Link}
+                  to="/contactus"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' },
+                  }}
+                >
                   ContactUs
                 </Button>
-                <Button component={Link} to="/details" color="inherit" sx={{ textTransform: 'none', fontWeight: 'bold', color: '#fff', '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' } }}>
+                <Button
+                  component={Link}
+                  to="/details"
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    '&:hover': { backgroundColor: '#FFDC7F', color: '#16325B' },
+                  }}
+                >
                   Details
                 </Button>
               </Box>
             )}
 
-            {/* Icons Section */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '20px' ,marginRight:'-220px'}}>
+            {/* Cart and Login/Logout Buttons */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '20px', marginRight: isMobile ? '0' : '-220px' }}>
               <IconButton component={Link} to="/cart" color="inherit">
                 <Badge badgeContent={cartCount} color="success">
                   <FaShoppingCart />
@@ -147,7 +265,7 @@ const Header = () => {
               </IconButton>
               {!isLoggedIn ? (
                 <Button
-                  onClick={handleLoginOpen} // Open the Login modal
+                  onClick={handleLoginOpen}
                   variant="contained"
                   sx={{
                     textTransform: 'none',
@@ -157,9 +275,7 @@ const Header = () => {
                     fontSize: isMobile ? '12px' : '16px',
                     backgroundColor: '#FFDC7F',
                     color: '#16325B',
-                    '&:hover': {
-                      backgroundColor: '#78B7D0',
-                    },
+                    '&:hover': { backgroundColor: '#78B7D0' },
                   }}
                 >
                   Login
@@ -176,9 +292,7 @@ const Header = () => {
                     fontSize: isMobile ? '12px' : '16px',
                     backgroundColor: '#FFDC7F',
                     color: '#16325B',
-                    '&:hover': {
-                      backgroundColor: '#FFDC7F',
-                    },
+                    '&:hover': { backgroundColor: '#FFDC7F' },
                   }}
                 >
                   Logout
@@ -189,29 +303,32 @@ const Header = () => {
         </Container>
       </AppBar>
 
-      <Box sx={{ paddingTop: '70px' }}>
-        {/* Other content goes here */}
-      </Box>
+      {/* Spacer for AppBar */}
+      <Box sx={{ paddingTop: isMobile ? '70px' : '85px' }} />
 
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
-        <Box
-          sx={{
-            width: 250,
-            padding: '20px',
+      {/* Drawer for Mobile Menu */}
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={toggleDrawer}
+        sx={{
+          '& .MuiDrawer-paper': {
             backgroundColor: '#16325B',
-            color: '#fff',
-          }}
-        >
-          {drawerLinks}
-        </Box>
+            color: 'white',
+          },
+        }}
+      >
+        {drawerLinks}
       </Drawer>
 
+      {/* Login Modal */}
       <Login open={isLoginOpen} handleClose={handleLoginClose} />
     </>
   );
 };
 
 export default Header;
+
 
 
 
