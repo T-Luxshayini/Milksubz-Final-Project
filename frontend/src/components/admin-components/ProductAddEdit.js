@@ -16,7 +16,7 @@ const ProductAddEdit = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:5005/api/products`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/products`)
       .then((response) => {
         const updatedRows = response.data.map(row => ({
           ...row,
@@ -36,14 +36,14 @@ const ProductAddEdit = () => {
 
     try {
       if (currentProduct) {
-        const response = await axios.patch(`http://localhost:5005/api/products/${currentProduct.id}`, newProduct, {
+        const response = await axios.patch(`${process.env.REACT_APP_API_URL}/api/products/${currentProduct.id}`, newProduct, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setRows((oldRows) =>
           oldRows.map((row) => (row.id === currentProduct.id ? { ...response.data, id: response.data._id } : row))
         );
       } else {
-        const response = await axios.post(`http://localhost:5005/api/products`, newProduct, {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/products`, newProduct, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const addedProduct = { ...response.data, id: response.data._id };
@@ -71,7 +71,7 @@ const ProductAddEdit = () => {
   const handleDeleteProduct = async (id) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:5005/api/products/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/products/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setRows((oldRows) => oldRows.filter((row) => row.id !== id));

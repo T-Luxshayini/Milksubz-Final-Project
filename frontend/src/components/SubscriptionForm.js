@@ -8,12 +8,13 @@ import {
   Button,
   FormControl,
   InputLabel,
- 
+  Grid,
+  Paper,
+  Container
 } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers'; // Install @mui/x-date-pickers for date picker
-import StripeCheckout from 'react-stripe-checkout'; // Install react-stripe-checkout
+import { DatePicker } from '@mui/x-date-pickers';
+import StripeCheckout from 'react-stripe-checkout';
 import calculateTotal from '../components/calculateTotal';
-
 
 const SubscriptionForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -42,22 +43,20 @@ const SubscriptionForm = ({ onClose }) => {
 
   const handleStripePayment = async (token) => {
     try {
-      // Prepare data for the backend API
-      const response = await fetch('http://localhost:5005/api/subscriptions/create-subscription', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscriptions/create-subscription`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          token, // Stripe token
-          ...formData, // Subscription form data
+          token,
+          ...formData,
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         alert('Subscription successful! 🎉');
-         // Update subscription status to true
-        onClose(); // Close the subscription form
+        onClose();
       } else {
         alert(`Error: ${data.error}`);
         console.error('Error:', data);
@@ -67,116 +66,228 @@ const SubscriptionForm = ({ onClose }) => {
       alert('An error occurred during payment.');
     }
   };
-  
 
   const totalAmount = calculateTotal(formData);
 
   return (
-    <Box>
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        Complete Your Subscription
-      </Typography>
-      <TextField
-        label="Name"
-        fullWidth
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        label="Address"
-        fullWidth
-        name="address"
-        value={formData.address}
-        onChange={handleChange}
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        label="Email"
-        fullWidth
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        label="Phone"
-        fullWidth
-        name="phone"
-        value={formData.phone}
-        onChange={handleChange}
-        sx={{ mb: 2 }}
-      />
-      <DatePicker
-        label="Select Dates"
-        onChange={handleDateChange}
-        renderInput={(params) => <TextField {...params} fullWidth sx={{ mb: 2 }} />}
-      />
-      <Typography variant="body2" sx={{ mb: 2 }}>
-        Selected Dates: {formData.selectedDates.join(', ')}
-      </Typography>
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Subscription Plan</InputLabel>
-        <Select
-          name="subscriptionPlan"
-          value={formData.subscriptionPlan}
-          onChange={handleChange}
+    <Container maxWidth="md" sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100%',
+      py: 4,
+    }}>
+      <Paper elevation={3} sx={{
+        width: '100%',
+        maxWidth: '600px', // Increased width
+        p: 4,
+        borderRadius: '20px',
+        background: 'linear-gradient(135deg, rgba(22, 50, 91, 0.7), rgba(120, 183, 208, 0.7))',
+        backdropFilter: 'blur(10px)',
+        color: '#fff',
+      }}>
+        <Typography
+          variant="h5"
+          align="center"
+          gutterBottom
+          sx={{
+            mb: 3,
+            fontWeight: 'bold',
+            color: '#fff',
+          }}
         >
-          <MenuItem value="1 week">1 Week</MenuItem>
-          <MenuItem value="1 month">1 Month</MenuItem>
-          <MenuItem value="3 months">3 Months</MenuItem>
-          <MenuItem value="6 months">6 Months</MenuItem>
-          <MenuItem value="1 year">1 Year</MenuItem>
-        </Select>
-      </FormControl>
-      <TextField
-        label="Quantity (liters per day)"
-        fullWidth
-        type="number"
-        name="quantity"
-        value={formData.quantity}
-        onChange={handleChange}
-        sx={{ mb: 2 }}
-      />
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Delivery Days</InputLabel>
-        <Select
-          name="deliveryDays"
-          value={formData.deliveryDays}
-          onChange={handleChange}
-        >
-          <MenuItem value="Weekdays">Weekdays</MenuItem>
-          <MenuItem value="Weekend">Weekend</MenuItem>
-          <MenuItem value="All Days">All Days</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Delivery Time</InputLabel>
-        <Select
-          name="deliveryTime"
-          value={formData.deliveryTime}
-          onChange={handleChange}
-        >
-          <MenuItem value="Morning">Morning</MenuItem>
-          <MenuItem value="Evening">Evening</MenuItem>
-          <MenuItem value="Night">Night</MenuItem>
-        </Select>
-      </FormControl>
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        Total Amount: Rs.{totalAmount}
-      </Typography>
-      <StripeCheckout
-        stripeKey="pk_test_51QCqZPFDU5aLIEJODMXZ1TrGjcmBHwEJGA5ADUyKW34FJPqWV6PmWQSssWKcxTUDLvXMkNPqO70W5331MkiJYlFt00RIvqYIJJ"
-        token={handleStripePayment}
-        name="MilkSubz Subscription"
-        amount={totalAmount * 100} // Stripe accepts amount in cents
-        currency="LKR"
-      />
-      <Button variant="outlined" onClick={onClose} sx={{ mt: 2 }}>
-        Cancel
-      </Button>
-    </Box>
+          Create Your Milk Subscription
+        </Typography>
+
+        <Grid container spacing={2}>
+          {/* Personal Information Column */}
+          <Grid item xs={12} md={6}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1.5,
+            }}>
+              <TextField
+                label="Name"
+                fullWidth
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                variant="outlined"
+                size="small"
+                inputProps={{ style: { color: '#fff' } }}
+                InputLabelProps={{ style: { color: '#DFF6FF' } }}
+              />
+              <TextField
+                label="Address"
+                fullWidth
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                variant="outlined"
+                size="small"
+                inputProps={{ style: { color: '#fff' } }}
+                InputLabelProps={{ style: { color: '#DFF6FF' } }}
+              />
+              <TextField
+                label="Email"
+                fullWidth
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                variant="outlined"
+                size="small"
+                inputProps={{ style: { color: '#fff' } }}
+                InputLabelProps={{ style: { color: '#DFF6FF' } }}
+              />
+              <TextField
+                label="Phone"
+                fullWidth
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                variant="outlined"
+                size="small"
+                inputProps={{ style: { color: '#fff' } }}
+                InputLabelProps={{ style: { color: '#DFF6FF' } }}
+              />
+            </Box>
+          </Grid>
+
+          {/* Subscription Details Column */}
+          <Grid item xs={12} md={6}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1.5,
+            }}>
+              <DatePicker
+                label="Select Dates"
+                onChange={handleDateChange}
+                slotProps={{
+                  textField: {
+                    variant: 'outlined',
+                    fullWidth: true,
+                    size: 'small',
+                    inputProps: { style: { color: '#fff' } },
+                    InputLabelProps: { style: { color: '#DFF6FF' } },
+                  }
+                }}
+              />
+              <Typography variant="body2" sx={{ mb: 1, color: '#DFF6FF' }}>
+                Selected Dates: {formData.selectedDates.join(', ')}
+              </Typography>
+
+              <FormControl fullWidth variant="outlined" size="small">
+                <InputLabel style={{ color: '#DFF6FF' }}>Subscription Plan</InputLabel>
+                <Select
+                  name="subscriptionPlan"
+                  value={formData.subscriptionPlan}
+                  onChange={handleChange}
+                  label="Subscription Plan"
+                  size="small"
+                  inputProps={{ style: { color: '#fff' } }}
+                >
+                  <MenuItem value="1 week" style={{ color: '#fff' }}>1 Week</MenuItem>
+                  <MenuItem value="1 month" style={{ color: '#fff' }}>1 Month</MenuItem>
+                  <MenuItem value="3 months" style={{ color: '#fff' }}>3 Months</MenuItem>
+                  <MenuItem value="6 months" style={{ color: '#fff' }}>6 Months</MenuItem>
+                  <MenuItem value="1 year" style={{ color: '#fff' }}>1 Year</MenuItem>
+                </Select>
+              </FormControl>
+
+              <TextField
+                label="Quantity (liters per day)"
+                fullWidth
+                type="number"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleChange}
+                variant="outlined"
+                size="small"
+                inputProps={{ style: { color: '#fff' } }}
+                InputLabelProps={{ style: { color: '#DFF6FF' } }}
+              />
+
+              <FormControl fullWidth variant="outlined" size="small">
+                <InputLabel style={{ color: '#DFF6FF' }}>Delivery Days</InputLabel>
+                <Select
+                  name="deliveryDays"
+                  value={formData.deliveryDays}
+                  onChange={handleChange}
+                  label="Delivery Days"
+                  size="small"
+                  inputProps={{ style: { color: '#fff' } }}
+                >
+                  <MenuItem value="Weekdays" style={{ color: '#fff' }}>Weekdays</MenuItem>
+                  <MenuItem value="Weekend" style={{ color: '#fff' }}>Weekend</MenuItem>
+                  <MenuItem value="All Days" style={{ color: '#fff' }}>All Days</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth variant="outlined" size="small">
+                <InputLabel style={{ color: '#DFF6FF' }}>Delivery Time</InputLabel>
+                <Select
+                  name="deliveryTime"
+                  value={formData.deliveryTime}
+                  onChange={handleChange}
+                  label="Delivery Time"
+                  size="small"
+                  inputProps={{ style: { color: '#fff' } }}
+                >
+                  <MenuItem value="Morning" style={{ color: '#fff' }}>Morning</MenuItem>
+                  <MenuItem value="Evening" style={{ color: '#fff' }}>Evening</MenuItem>
+                  <MenuItem value="Night" style={{ color: '#fff' }}>Night</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Grid>
+        </Grid>
+
+        {/* Payment Section */}
+        <Box sx={{
+          mt: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}>
+          <Typography variant="subtitle1" sx={{ mb: 1, color: '#DFF6FF' }}>
+            Total Amount: Rs.{totalAmount}
+          </Typography>
+
+          <Box sx={{
+            display: 'flex',
+            gap: 2,
+            justifyContent: 'center',
+          }}>
+            <StripeCheckout
+              stripeKey="pk_test_51QCqZPFDU5aLIEJODMXZ1TrGjcmBHwEJGA5ADUyKW34FJPqWV6PmWQSssWKcxTUDLvXMkNPqO70W5331MkiJYlFt00RIvqYIJJ"
+              token={handleStripePayment}
+              name="MilkSubz Subscription"
+              amount={totalAmount * 100}
+              currency="LKR"
+            />
+
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={onClose}
+              sx={{
+                color: '#fff',
+                borderColor: '#fff',
+                '&:hover': {
+                  backgroundColor: '#fff',
+                  color: '#16325B',
+                },
+              }}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 

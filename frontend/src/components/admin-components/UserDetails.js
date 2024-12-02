@@ -10,7 +10,7 @@ const UserDetails = () => {
   const [selectedRole, setSelectedRole] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5005/api/admin/users', {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/admin/users`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     })
       .then((response) => {
@@ -28,7 +28,7 @@ const UserDetails = () => {
 
   const handleRoleChange = async (id, newRole) => {
     try {
-      await axios.put(`http://localhost:5005/api/admin/users/${id}/role`, { role: newRole }, {
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/admin/users/${id}/role`, { role: newRole }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 

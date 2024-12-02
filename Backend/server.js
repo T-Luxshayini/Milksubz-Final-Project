@@ -88,7 +88,13 @@ app.use('/api/cart', (req, res, next) => {
   console.log('Cart route hit');
   next();
 }, cartRoutes);
-
+app.get('/', (req, res) => {
+  try {
+      res.json("Get Request")
+  } catch (error) {
+      res.json(error)
+  }
+})
 const PORT = process.env.PORT || 5005;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

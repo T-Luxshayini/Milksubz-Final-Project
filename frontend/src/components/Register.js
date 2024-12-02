@@ -38,7 +38,7 @@ const Register = ({ open, handleClose, openLogin }) => {
       return;
     }
     try {
-      await axios.post('http://localhost:5005/api/auth/register', {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
         firstName,
         lastName,
         username,

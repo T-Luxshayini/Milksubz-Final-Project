@@ -240,7 +240,7 @@ function Subscription() {
 
     try {
       const stripe = await stripePromise;
-      const response = await fetch("http://localhost:5005/api/subscriptions/create-stripe-session-subscription", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscriptions/create-stripe-session-subscription`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

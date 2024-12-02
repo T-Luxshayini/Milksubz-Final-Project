@@ -9,7 +9,7 @@ const OrderDetails = () => {
 
   // Fetch orders once on component mount
   useEffect(() => {
-    axios.get('http://localhost:5005/api/orders')
+    axios.get(`${process.env.REACT_APP_API_URL}/api/orders`)
       .then((response) => {
         setOrders(response.data);
       })

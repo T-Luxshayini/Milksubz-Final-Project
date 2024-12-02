@@ -141,7 +141,7 @@ const SubscriptionDetails = () => {
   });
 
   const fetchSubscriptions = () => {
-    axios.get('http://localhost:5005/api/subscriptions/admin/stripe-subscriptions')
+    axios.get(`${process.env.REACT_APP_API_URL}/api/subscriptions/admin/stripe-subscriptions`)
       .then((response) => {
         const transformedData = response.data.map((subscription, index) => ({
           ...subscription,
@@ -186,7 +186,7 @@ const SubscriptionDetails = () => {
 
   const handleCancelConfirm = async () => {
     try {
-      const response = await axios.post('http://localhost:5005/api/subscriptions/cancel-subscription', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/subscriptions/cancel-subscription`, {
         subscriptionId: selectedSubscription.subscriptionId
       });
 

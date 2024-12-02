@@ -18,7 +18,7 @@ const ContactMessages = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get('http://localhost:5005/api/contact')
+    axios.get(`${process.env.REACT_APP_API_URL}/api/contact`)
       .then((response) => {
         setMessages(response.data);
       })
@@ -46,7 +46,7 @@ const ContactMessages = () => {
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailParams, EMAILJS_PUBLIC_KEY);
       console.log('Reply sent via EmailJS');
 
-      const backendResponse = await axios.post('http://localhost:5005/api/contact/reply', emailParams);
+      const backendResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/contact/reply`, emailParams);
 
       if (backendResponse.data.success) {
         setReplyDialogOpen(false);

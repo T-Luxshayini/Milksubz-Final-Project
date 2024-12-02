@@ -52,7 +52,7 @@ function PaymentPage() {
         totalAmount: Math.round(totalAmount * 100), // Stripe requires amounts in cents
       };
 
-      const response = await axios.post('http://localhost:5005/api/stripe/create-payment-intent', orderData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/stripe/create-payment-intent`, orderData);
       const { clientSecret, paymentId } = response.data;
 
       // Handle Stripe payment confirmation

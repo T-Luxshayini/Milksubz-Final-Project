@@ -7,7 +7,7 @@ const OrderHistory = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await axios.get('http://localhost:5005/api/orders'); // Adjust endpoint as needed
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/orders`); // Adjust endpoint as needed
       setOrders(response.data);
     };
 

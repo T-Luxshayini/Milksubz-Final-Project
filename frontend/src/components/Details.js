@@ -37,7 +37,7 @@ const Details = () => {
 
   const fetchSubscriptionDetails = async () => {
     try {
-      const response = await fetch('http://localhost:5005/api/subscriptions/admin/stripe-subscriptions');
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscriptions/admin/stripe-subscriptions`);
       const data = await response.json();
       const latestSubscription = data[data.length - 1];
       setSubscription(latestSubscription);
@@ -57,7 +57,7 @@ const Details = () => {
 
   const handleCancel = async () => {
     try {
-      const response = await fetch('http://localhost:5005/api/subscriptions/cancel-subscription', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscriptions/cancel-subscription`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subscriptionId: subscription.subscriptionId })
@@ -76,7 +76,7 @@ const Details = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch('http://localhost:5005/api/subscriptions/update-subscription', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/subscriptions/update-subscription`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

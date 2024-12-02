@@ -14,7 +14,7 @@ export const ContactUs = () => {
     emailjs.sendForm('service_p9sy49m', 'template_8set0kq', form.current, 'IVJKCR1xxKLEeg7m5')
       .then(
         () => {
-          axios.post('http://localhost:5005/api/contact', {
+          axios.post(`${process.env.REACT_APP_API_URL}/api/contact`, {
             name: form.current.from_name.value,
             email: form.current.from_email.value,
             message: form.current.message.value,
